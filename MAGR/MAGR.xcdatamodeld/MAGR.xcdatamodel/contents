@@ -1,4 +1,23 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="1" systemVersion="11A491" minimumToolsVersion="Automatic" sourceLanguage="Swift" usedWithCloudKit="false" userDefinedModelVersionIdentifier="">
-    <elements/>
+<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="22225" systemVersion="23C71" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
+    <entity name="AnnouncementEntity" representedClassName="AnnouncementEntity" syncable="YES" codeGenerationType="class">
+        <attribute name="url" optional="YES" attributeType="String"/>
+    </entity>
+    <entity name="DailyPrayerEntity" representedClassName="DailyPrayerEntity" syncable="YES" codeGenerationType="class">
+        <attribute name="adhan" optional="YES" attributeType="String"/>
+        <attribute name="iqama" optional="YES" attributeType="String"/>
+        <attribute name="prayer" optional="YES" attributeType="String"/>
+    </entity>
+    <entity name="MonthlyPrayerEntity" representedClassName="MonthlyPrayerEntity" syncable="YES" codeGenerationType="class">
+        <attribute name="asr" optional="YES" attributeType="String"/>
+        <attribute name="date" optional="YES" attributeType="String"/>
+        <attribute name="dhuhr" optional="YES" attributeType="String"/>
+        <attribute name="fajr" optional="YES" attributeType="String"/>
+        <attribute name="isha" optional="YES" attributeType="String"/>
+        <attribute name="maghrib" optional="YES" attributeType="String"/>
+    </entity>
+    <entity name="NotificationEntity" representedClassName="NotificationEntity" syncable="YES" codeGenerationType="class">
+        <attribute name="prayer" optional="YES" attributeType="String"/>
+        <attribute name="status" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
+    </entity>
 </model>
