@@ -29,7 +29,7 @@ class PrayerManager {
             todayAdhanTimes[4] = TimeManager.convert24HrTimeTo12HrTime(todayPrayerTimesElement.isha!)
             
         } else {print("Failed to compare times")}
-        
+        print("Today's Date: \(DataManager.getTodaysDate())")
         return todayAdhanTimes
     }
     

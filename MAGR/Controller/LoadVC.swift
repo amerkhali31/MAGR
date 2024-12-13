@@ -16,7 +16,7 @@ class LoadVC: UIViewController {
     override func viewDidLoad() {
         
         setupScreen()        
-        
+        prepareApp()
         super.viewDidLoad()
 
     }
@@ -59,6 +59,27 @@ extension LoadVC {
 extension LoadVC {
     
     func prepareApp() {
+        do {
+            try DataManager.loadMonthlyPrayerEntities()
+            try DataManager.loadDailyPrayerEntities()
+            try DataManager.loadNotificationEntities()
+            
+            DataManager.setTodaysDate(TimeManager.getTodaysDate())
+            
+            Task {
+                async let announcements: () = DataManager.handleAnnouncements()
+                async let monthly: () = DataManager.handleMonthly()
+                
+                await announcements
+                await monthly
+                
+                await DataManager.handleDaily()
+                
+                print(DataManager.getFajrToday())
+            }
+            
+        }
+        catch {print("Error Preparing App: \(error)")}
         
     }
     

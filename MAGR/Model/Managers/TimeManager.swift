@@ -12,6 +12,15 @@ import Foundation
  */
 class TimeManager {
     
+    /// Get today's date in yyyy-MM-dd format
+    static func getTodaysDate() -> String {
+                
+        let formatter = DateFormatter()
+        formatter.dateFormat = "yyyy-MM-dd"
+        
+        return formatter.string(from: Date())
+    }
+    
     /// Takes a time string in military time and returns it as AM/PM time
     static func convert24HrTimeTo12HrTime(_ time: String) -> String {
         

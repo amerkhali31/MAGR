@@ -52,8 +52,11 @@ class DataManager {
     private static var monthlyPrayers: [FirebaseMonthlyPrayer] = []
     
     
-    
-    // MARK: Data Manager Operations - GET
+    private init() {}
+}
+
+// MARK: Data Manager Operations - GET
+extension DataManager {
     
     /// Grab urlList List of URLs from DataManager
     static func getUrlList() -> [URL] {return urlList}
@@ -96,9 +99,10 @@ class DataManager {
     
     /// Grab MonthlyPrayerEntites from DataManager to be used elsewhere in the app
     static func getMonthlyPrayerEntities() -> [MonthlyPrayerEntity] {return MonthlyPrayerEntities}
-    
-    
-    // MARK: Data Manager Operations - SET
+}
+
+// MARK: Data Manager Operations - SET
+extension DataManager {
     
     /// Set the value for urlList List of URLs from DataManager from given list of urls
     static func setUrlList(_ urls: [URL]) {urlList = urls}
@@ -151,9 +155,10 @@ class DataManager {
         userWantsNotifications = false
     }
     
-    
-    
-    // MARK: Persistent Storage Operations - CREATE
+}
+
+// MARK: Persistent Storage Operations - CREATE
+extension DataManager {
     
     /// Create a DateOfLastNetwork Date - save it to UserDefaults and DataManager
     static func createDateOfLastNetwork() {setDateOfLastNetwork(Calendar.current.date(from: DateComponents(year: 2024, month: 11, day: 9))!)}
@@ -196,14 +201,16 @@ class DataManager {
         return notificationEntity
     }
     
-    
-    
-    // MARK: Persistent Storage Operations - READ
+}
+
+// MARK: Persistent Storage Operations - READ
+extension DataManager {
     
     /// Grab dateOfLastNetwork from UserDefaults and create it if it doesnt exist. Get functions are UserDefaults, Load are Core Data
+    /// Come back to this and verify that this is actually what you want
     static func getDateofLastNetwork() -> Date {
         
-        if let safeDate = defaults.object(forKey: K.userDefaults.lastNetworkDate) as? Date {
+        if let _ = defaults.object(forKey: K.userDefaults.lastNetworkDate) as? Date {
             return dateOfLastNetwork
         }
         else {
@@ -215,7 +222,7 @@ class DataManager {
     /// Grab userWantsNotifications Bool from UserDefaults and create it if it doesnt exist.
     static func getUserWantsNotice() -> Bool {
         
-        if let safeData = defaults.object(forKey: K.userDefaults.userWantsNotitifications) as? Bool {
+        if let _ = defaults.object(forKey: K.userDefaults.userWantsNotitifications) as? Bool {
             return userWantsNotifications
         }
         else {
@@ -273,7 +280,10 @@ class DataManager {
         }
     }
     
-    // MARK: Persistent Storage Operations - UPDATE
+}
+
+// MARK: Persistent Storage Operations - UPDATE
+extension DataManager {
     
     /**
      Clears Monthly Adhans from Core Data and DataManager. And replaces with new values gotten from Firebase
@@ -339,9 +349,10 @@ class DataManager {
         
     }
     
+    /// Helper function to set the adhan times from MonthlyPrayerEntities by callling PrayerManager.getTodayAdhan()
     static func setTodayAdhanTimes() {
         let todayAdhanTimes = PrayerManager.getTodaysAdhanTimes()
-        
+        print(todayAdhanTimes)
         fajrToday.adhan = todayAdhanTimes[0]
         dhuhrToday.adhan = todayAdhanTimes[1]
         asrToday.adhan = todayAdhanTimes[2]
@@ -354,13 +365,8 @@ class DataManager {
      - Note: If fetching new values, will update monthly prayer times
      */
     static func handleMonthly() async {
-        
-        print("Handling Monthly\n")
-        
-        let currentMonth = TimeManager.getCurrentMonth()
-        
-        // situations where we will need to network
-        if MonthlyPrayerEntities.count == 0 || currentMonth != TimeManager.getMonthofAdhan(MonthlyPrayerEntities) {
+            
+        if MonthlyPrayerEntities.count == 0 || TimeManager.getCurrentMonth() != TimeManager.getMonthofAdhan(MonthlyPrayerEntities) {
             
             print("Need to Network for monthly prayers \n")
             
@@ -371,7 +377,10 @@ class DataManager {
             }
             catch{ print("Error handling Monthly: \(error)") }
 
-        } else { print("Do not need to network for monthly prayers\n")}
+        } else { 
+            print("Do not need to network for monthly prayers\n")
+            print(MonthlyPrayerEntities[0])
+        }
     }
     
     
@@ -384,7 +393,7 @@ class DataManager {
         //Situation where need to network
         if DailyPrayerEntities.count == 0 || !Calendar.current.isDate(dateOfLastNetwork, inSameDayAs: Date()) {
             
-            print("Need to Network for monthly prayers \n")
+            print("Need to Network for Daily prayers \n")
             
             do {
                 
@@ -394,7 +403,7 @@ class DataManager {
             } catch { print("Error Handling Dailies: \(error)")}
         }
         else {
-            
+            print("Do not need to Network for daily prayers \n")
             setTodayAdhanTimes()
             fajrToday.iqama = DailyPrayerEntities[K.FireStore.dailyPrayers.names.fajr]?.iqama ?? "22:22 AM"
             dhuhrToday.iqama = DailyPrayerEntities[K.FireStore.dailyPrayers.names.dhuhr]?.iqama ?? "22:22 AM"
@@ -427,8 +436,10 @@ class DataManager {
             
             } catch { print("Error during announcement handling: \(error)") }
     }
-    
-    // MARK: Persistent Storage Operations - DELETE
+}
+
+// MARK: Persistent Storage Operations - DELETE
+extension DataManager {
     
     static func saveDatabase() {
         do {
@@ -526,9 +537,6 @@ class DataManager {
             }
         }
     }
-    
-    
-    private init() {}
 }
 
 extension NSManagedObject {
