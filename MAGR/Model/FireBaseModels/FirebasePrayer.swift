@@ -9,7 +9,7 @@ import Foundation
 
 
 /**
- The basic structure that a single daily prayer is stored as in Firebase. Default Times to 99:99 AM and name to N/A.
+ The basic structure that a single daily prayer is stored as in Firebase. Default time 99:99 AM and name  N/A.
  
  - Note: Convert whatever comes from daily prayers Firebase collection to a FirebasePrayer object to be used in the app.
  - Note: Firebase currently ony stores name of the prayer and it's iqama time as "name" and "time" fields. Will probably be updated in the future.
@@ -17,19 +17,16 @@ import Foundation
  - Parameters:
     - name: Name of the prayer that was fetched from firebase
     - iqama: Time of the iqama fetched from firebase
-    - adhan: Adhan time gotten from monthly adhan times, not from dailyPrayers collection of firebase as of now.
  - Important: Similar structure to DailyPrayerEntity but not the same thing. Need to create that seperately.
  */
 struct FirebasePrayer {
     
     var name: String
-    var iqama: String
-    var adhan: String
+    var time: String
     
-    init(_ name: String = "N/A", _ iqama: String = "99:99 AM", _ adhan: String = "99:99 AM") {
+    init(_ name: String = "N/A", _ time: String = "99:99 AM") {
         
         self.name = name
-        self.iqama = iqama
-        self.adhan = adhan
+        self.time = time
     }
 }

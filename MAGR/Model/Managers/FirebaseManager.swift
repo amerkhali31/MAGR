@@ -8,21 +8,6 @@
 import Foundation
 import FirebaseFirestore
 
-protocol FirebaseManagerMonthlyDelegate {
-    func inFunc()
-    func aboutToFetch()
-    func fetched()
-}
-
-protocol FirebaseManagerDailyDelegate {
-    func inFunc()
-    func aboutToFetch()
-    func fetched()
-}
-
-protocol annDelegate {
-    func gotImages()
-}
 /**
  This class will be responsible for all operations involving networking - particularly fetching dat from Firebase
  
@@ -30,11 +15,7 @@ protocol annDelegate {
  ##Test Notes: All functions in this class have been unit tested and confirmed functional
  */
 class FirebaseManager {
-    
-    static var monthlyDelegate: FirebaseManagerMonthlyDelegate?
-    static var dailyDelegate: FirebaseManagerDailyDelegate?
-    static var annDelegate: annDelegate?
-    
+
     static let db = Firestore.firestore()
     
     
@@ -47,18 +28,12 @@ class FirebaseManager {
      ## Test Notes: Unit Tested and Functional Confirmed
      */
     static func fetchAdhanTimes() async throws -> [FirebaseMonthlyPrayer]{
-        
-        monthlyDelegate?.inFunc()
-        
+                
         var monthlyAdhan: [FirebaseMonthlyPrayer] = []
-        
-        monthlyDelegate?.aboutToFetch()
-        
+                
         let query = db.collection(K.FireStore.Collections.monthly_prayer_times)
         let raw_fetched_data = try await query.getDocuments()
-        
-        monthlyDelegate?.fetched()
-        
+                
         for doc in raw_fetched_data.documents {
             
             // Extract prayer times and date from the document
@@ -98,19 +73,13 @@ class FirebaseManager {
      - Important: Adhan will be initialized to 99:99 AM for each prayer
      ## Test Notes: Unit Tested and Functional Confirmed
      */
-    static func fetchIqamaTimes() async throws -> [String: FirebasePrayer]{
-        
-        dailyDelegate?.inFunc()
-        
+    static func fetchIqamaTimes() async throws -> [String: FirebasePrayer] {
+                
         var dailyPrayers: [String: FirebasePrayer] = [:]
-        
-        dailyDelegate?.aboutToFetch()
-        
+                
         let query = db.collection(K.FireStore.Collections.prayer_times)
         let raw_fetched_data = try await query.getDocuments()
-        
-        dailyDelegate?.fetched()
-        
+                
         for doc in raw_fetched_data.documents {
             
             let prayerName = doc.data()[K.FireStore.dailyPrayers.fields.name] as! String
@@ -118,6 +87,7 @@ class FirebaseManager {
             dailyPrayers[prayerName] = FirebasePrayer(prayerName, prayerIqama)
         }
         
+        DataManager.setDateOfLastNetwork(Date())
 
         return dailyPrayers
         
@@ -132,7 +102,7 @@ class FirebaseManager {
      - Important: Adhan will be initialized to 99:99 AM for each prayer
      ## Test Notes: Unit Tested and Functional Confirmed
      */
-    static func fetchUrl() async throws -> [String]{
+    static func fetchAnnouncementImageURLs() async throws -> [String]{
         
         
         var urlList: [String] = []
