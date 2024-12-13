@@ -56,10 +56,10 @@
             </objects>
             <point key="canvasLocation" x="308" y="1101"/>
         </scene>
-        <!--LoadVC-->
+        <!--SettingsVC-->
         <scene sceneID="kcQ-tf-oV8">
             <objects>
-                <viewController id="8L6-4I-s1y" customClass="LoadVC" customModule="MAGR" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="8L6-4I-s1y" customClass="SettingsVC" customModule="MAGR" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="YZu-cv-fA5">
                         <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>

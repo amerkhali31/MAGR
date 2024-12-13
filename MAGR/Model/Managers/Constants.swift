@@ -103,4 +103,9 @@ struct K {
         static let maghribNotice = "mn"
         static let ishaNotice = "in"
     }
+    
+    /// Names of images saved to assets
+    struct images {
+        static let logo = "magrImage"
+    }
 }

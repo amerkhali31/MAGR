@@ -14,6 +14,10 @@ import Foundation
  - Note: Convert whatever comes from daily prayers Firebase collection to a FirebasePrayer object to be used in the app.
  - Note: Firebase currently ony stores name of the prayer and it's iqama time as "name" and "time" fields. Will probably be updated in the future.
  - Note: Each of the 5 daily prayers as well as Jumaa Salah and Khutbah each have their own document in the dailyprayers collection which gets updated everyday at midnight by crontab.
+ - Parameters:
+    - name: Name of the prayer that was fetched from firebase
+    - iqama: Time of the iqama fetched from firebase
+    - adhan: Adhan time gotten from monthly adhan times, not from dailyPrayers collection of firebase as of now.
  - Important: Similar structure to DailyPrayerEntity but not the same thing. Need to create that seperately.
  */
 struct FirebasePrayer {

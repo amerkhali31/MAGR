@@ -13,7 +13,26 @@ class BaseBackgroundViewController: UIViewController {
         
         super.viewDidLoad()
         setupGradientBackground()
+        addLogo()
+    }
     
+    private func addLogo() {
+        
+        let loadingImageView = UIImageView()
+        let loadingImage = UIImage(named: K.images.logo)
+        
+        loadingImageView.image = loadingImage
+        loadingImageView.translatesAutoresizingMaskIntoConstraints = false
+        loadingImageView.contentMode = .scaleAspectFit
+        view.addSubview(loadingImageView)
+        
+        NSLayoutConstraint.activate([
+            loadingImageView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: -40),
+            loadingImageView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            loadingImageView.widthAnchor.constraint(equalToConstant: 50),
+            loadingImageView.heightAnchor.constraint(equalToConstant: 50)
+        ])
+        
     }
 
     private func setupGradientBackground() {

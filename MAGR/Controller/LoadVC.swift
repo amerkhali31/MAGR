@@ -8,22 +8,58 @@
 import UIKit
 
 class LoadVC: UIViewController {
+    
+    let loadingImageView = UIImageView()
+    let loadingImage = UIImage(named: K.images.logo)
+    let spinner = UIActivityIndicatorView(style: .large)
 
     override func viewDidLoad() {
+        
+        setupScreen()        
+        
         super.viewDidLoad()
 
-        // Do any additional setup after loading the view.
     }
     
 
-    /*
-    // MARK: - Navigation
+}
 
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
+//MARK: Set up the screen - Tested and functional.
+extension LoadVC {
+    
+    /// Spinner, background color, and logo on the screen
+    func setupScreen() {
+        
+        loadingImageView.image = loadingImage
+        loadingImageView.translatesAutoresizingMaskIntoConstraints = false
+        loadingImageView.contentMode = .scaleAspectFit
+        
+        view.backgroundColor = .MAGR_4
+        view.addSubview(loadingImageView)
+        
+        spinner.center = view.center
+        spinner.startAnimating()
+        spinner.color = .white
+        spinner.translatesAutoresizingMaskIntoConstraints = false
+        
+        view.addSubview(spinner)
+        
+        NSLayoutConstraint.activate([
+            loadingImageView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 0),
+            loadingImageView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: 0),
+            loadingImageView.topAnchor.constraint(equalTo: view.topAnchor, constant: 0),
+            loadingImageView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -150),
+            spinner.topAnchor.constraint(equalTo: loadingImageView.bottomAnchor, constant: 0),
+            spinner.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+        ])
     }
-    */
+}
 
+//MARK: Prepare the app by loading and networking. In Progress
+extension LoadVC {
+    
+    func prepareApp() {
+        
+    }
+    
 }
