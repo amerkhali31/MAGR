@@ -25,7 +25,7 @@ class BaseBackgroundViewController: UIViewController {
     
     private func addLogo() {
         
-        var topOfImage: CGFloat = 55
+        let topOfImage: CGFloat = 55
         let heightOfImage: CGFloat = 50
         bottomOfImage = topOfImage + heightOfImage
         

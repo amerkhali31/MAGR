@@ -291,9 +291,7 @@ extension DataManager {
      - Note: Adds to DataManager.MonthlyPrayerEntities then saves data
      */
     static func updateMonthlyAdhanStorage(_ prayers: [FirebaseMonthlyPrayer]) {
-        
-        print("Updating monthly\n")
-        
+                
         do {
             
             try clearMonthlyPrayerEntities()
@@ -304,7 +302,6 @@ extension DataManager {
             
             MonthlyPrayerEntities.sort {$0.date! < $1.date!}
             
-            print("Monthly Updated\n")
             saveDatabase()
             
         }
@@ -352,7 +349,6 @@ extension DataManager {
     /// Helper function to set the adhan times from MonthlyPrayerEntities by callling PrayerManager.getTodayAdhan()
     static func setTodayAdhanTimes() {
         let todayAdhanTimes = PrayerManager.getTodaysAdhanTimes()
-        print(todayAdhanTimes)
         fajrToday.adhan = todayAdhanTimes[0]
         dhuhrToday.adhan = todayAdhanTimes[1]
         asrToday.adhan = todayAdhanTimes[2]
@@ -367,9 +363,7 @@ extension DataManager {
     static func handleMonthly() async {
             
         if MonthlyPrayerEntities.count == 0 || TimeManager.getCurrentMonth() != TimeManager.getMonthofAdhan(MonthlyPrayerEntities) {
-            
-            print("Need to Network for monthly prayers \n")
-            
+                        
             do {
                 let monthlyTimes = try await FirebaseManager.fetchAdhanTimes()
                 updateMonthlyAdhanStorage(monthlyTimes)
@@ -377,10 +371,7 @@ extension DataManager {
             }
             catch{ print("Error handling Monthly: \(error)") }
 
-        } else { 
-            print("Do not need to network for monthly prayers\n")
-            print(MonthlyPrayerEntities[0])
-        }
+        } else {}
     }
     
     
@@ -392,9 +383,7 @@ extension DataManager {
         
         //Situation where need to network
         if DailyPrayerEntities.count == 0 || !Calendar.current.isDate(dateOfLastNetwork, inSameDayAs: Date()) {
-            
-            print("Need to Network for Daily prayers \n")
-            
+                        
             do {
                 
                 let iqamaTimes = try await FirebaseManager.fetchIqamaTimes()
@@ -403,7 +392,6 @@ extension DataManager {
             } catch { print("Error Handling Dailies: \(error)")}
         }
         else {
-            print("Do not need to Network for daily prayers \n")
             setTodayAdhanTimes()
             fajrToday.iqama = DailyPrayerEntities[K.FireStore.dailyPrayers.names.fajr]?.iqama ?? "22:22 AM"
             dhuhrToday.iqama = DailyPrayerEntities[K.FireStore.dailyPrayers.names.dhuhr]?.iqama ?? "22:22 AM"

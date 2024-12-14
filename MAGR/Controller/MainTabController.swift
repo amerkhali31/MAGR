@@ -15,7 +15,7 @@ import UIKit
  */
 class MainTabController: UITabBarController {
     
-    override func viewWillAppear(_ animated: Bool) {self.selectedIndex = 1}
+    override func viewWillAppear(_ animated: Bool) {self.selectedIndex = 0}
     /*
     override func viewDidLoad() {
         
