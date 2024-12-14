@@ -14,5 +14,27 @@ import UIKit
 
  */
 class MainTabController: UITabBarController {
+    
     override func viewWillAppear(_ animated: Bool) {self.selectedIndex = 1}
+    /*
+    override func viewDidLoad() {
+        
+        super.viewDidLoad()
+
+        let announcementVC = AnnouncementVC()
+        announcementVC.tabBarItem = UITabBarItem(title: "Announcements", image: UIImage(systemName: "megaphone"), tag: 0)
+
+        let prayerVc = PrayerTimeHomeVC()
+        announcementVC.tabBarItem = UITabBarItem(title: "Announcements", image: UIImage(systemName: "megaphone"), tag: 0)
+
+        let homeVc = HomeVC()
+        announcementVC.tabBarItem = UITabBarItem(title: "Announcements", image: UIImage(systemName: "megaphone"), tag: 0)
+        
+        let settingsVc = SettingsVC()
+        announcementVC.tabBarItem = UITabBarItem(title: "Announcements", image: UIImage(systemName: "megaphone"), tag: 0)
+        
+        viewControllers = [announcementVC, prayerVc, homeVc, settingsVc]
+        
+    }
+     */
 }

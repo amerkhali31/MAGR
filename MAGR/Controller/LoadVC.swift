@@ -28,7 +28,7 @@ class LoadVC: UIViewController {
 extension LoadVC {
     
     /// Spinner, background color, and logo on the screen
-    func setupScreen() {
+    private func setupScreen() {
         
         loadingImageView.image = loadingImage
         loadingImageView.translatesAutoresizingMaskIntoConstraints = false
@@ -58,7 +58,7 @@ extension LoadVC {
 //MARK: Prepare the app by loading and networking. In Progress
 extension LoadVC {
     
-    func prepareApp() {
+    private func prepareApp() {
         do {
             try DataManager.loadMonthlyPrayerEntities()
             try DataManager.loadDailyPrayerEntities()
@@ -75,7 +75,10 @@ extension LoadVC {
                 
                 await DataManager.handleDaily()
                 
-                print(DataManager.getFajrToday())
+                DispatchQueue.main.async {
+                    self.performSegue(withIdentifier: K.segues.loadSeque, sender: self)
+                    //self.goToMainScreen()
+                }
             }
             
         }
@@ -83,4 +86,10 @@ extension LoadVC {
         
     }
     
+    private func goToMainScreen() {
+        let mainScreen = MainTabController()
+        mainScreen.modalTransitionStyle = .crossDissolve
+        mainScreen.modalPresentationStyle = .fullScreen
+        self.present(mainScreen, animated: true, completion: nil)
+    }
 }

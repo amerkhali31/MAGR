@@ -8,15 +8,26 @@
 import UIKit
 
 class BaseBackgroundViewController: UIViewController {
+    
+    var bottomOfImage: CGFloat = 0
 
     override func viewDidLoad() {
         
         super.viewDidLoad()
+        if let gradientLayer = view.layer.sublayers?.first as? CAGradientLayer {
+            gradientLayer.frame = view.bounds
+        }
+        
         setupGradientBackground()
         addLogo()
+
     }
     
     private func addLogo() {
+        
+        var topOfImage: CGFloat = 55
+        let heightOfImage: CGFloat = 50
+        bottomOfImage = topOfImage + heightOfImage
         
         let loadingImageView = UIImageView()
         let loadingImage = UIImage(named: K.images.logo)
@@ -27,12 +38,11 @@ class BaseBackgroundViewController: UIViewController {
         view.addSubview(loadingImageView)
         
         NSLayoutConstraint.activate([
-            loadingImageView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: -40),
             loadingImageView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             loadingImageView.widthAnchor.constraint(equalToConstant: 50),
-            loadingImageView.heightAnchor.constraint(equalToConstant: 50)
-        ])
-        
+            loadingImageView.topAnchor.constraint(equalTo: view.topAnchor, constant: topOfImage),
+            loadingImageView.heightAnchor.constraint(equalToConstant: heightOfImage)
+        ])        
     }
 
     private func setupGradientBackground() {
@@ -40,12 +50,7 @@ class BaseBackgroundViewController: UIViewController {
         let gradientLayer = CAGradientLayer()
         
         gradientLayer.colors = [
-            UIColor.magr1.cgColor,    // Start color
-            UIColor.MAGR_2.cgColor,
-            UIColor.MAGR_2.cgColor,
-            UIColor.MAGR_3.cgColor,
-            UIColor.MAGR_3.cgColor,
-            UIColor.MAGR_4.cgColor,
+            UIColor.new.cgColor,    // Start color
             UIColor.MAGR_4.cgColor    // End color
         ]
         gradientLayer.startPoint = CGPoint(x: 0, y: 0) // Top-left
@@ -58,9 +63,7 @@ class BaseBackgroundViewController: UIViewController {
     override func viewDidLayoutSubviews() {
         
         super.viewDidLayoutSubviews()
-        if let gradientLayer = view.layer.sublayers?.first as? CAGradientLayer {
-            gradientLayer.frame = view.bounds
-        }
+       
     }
 
 }

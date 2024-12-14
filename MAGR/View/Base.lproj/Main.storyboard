@@ -19,6 +19,9 @@
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                     </view>
+                    <connections>
+                        <segue destination="CgP-WC-oXf" kind="presentation" identifier="loaded" modalPresentationStyle="fullScreen" id="TfK-hm-F6o"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
@@ -50,7 +53,9 @@
                         <viewLayoutGuide key="safeArea" id="XRh-vq-TTP"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                     </view>
-                    <navigationItem key="navigationItem" id="eAP-yx-Iy7"/>
+                    <navigationItem key="navigationItem" id="eAP-yx-Iy7">
+                        <barButtonItem key="backBarButtonItem" title="Back" id="Llp-mp-ibg"/>
+                    </navigationItem>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="3dB-tI-Aet" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
@@ -92,6 +97,7 @@
         <scene sceneID="98Y-v0-Xhf">
             <objects>
                 <tabBarController id="CgP-WC-oXf" customClass="MainTabController" customModule="MAGR" customModuleProvider="target" sceneMemberID="viewController">
+                    <navigationItem key="navigationItem" id="J97-vT-XY2"/>
                     <tabBar key="tabBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="fEH-V9-zSp">
                         <rect key="frame" x="0.0" y="0.0" width="393" height="49"/>
                         <autoresizingMask key="autoresizingMask"/>
@@ -117,7 +123,7 @@
                     <tabBarItem key="tabBarItem" title="Announcements" image="megaphone" catalog="system" selectedImage="megaphone" id="4LQ-Hy-Twt"/>
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="ogc-lo-BbQ">
-                        <rect key="frame" x="0.0" y="59" width="393" height="44"/>
+                        <rect key="frame" x="0.0" y="0.0" width="393" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
                     <nil name="viewControllers"/>
@@ -136,7 +142,7 @@
                     <tabBarItem key="tabBarItem" title="Prayer Times" image="clock" catalog="system" selectedImage="clock" id="DmY-Ge-hR9"/>
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="Z2a-xN-VE5">
-                        <rect key="frame" x="0.0" y="59" width="393" height="44"/>
+                        <rect key="frame" x="0.0" y="0.0" width="393" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
                     <nil name="viewControllers"/>
@@ -155,7 +161,7 @@
                     <tabBarItem key="tabBarItem" title="Home" image="house" catalog="system" selectedImage="house" id="cXx-c3-hxJ"/>
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="wTQ-QS-hyP">
-                        <rect key="frame" x="0.0" y="59" width="393" height="44"/>
+                        <rect key="frame" x="0.0" y="0.0" width="393" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
                     <nil name="viewControllers"/>
@@ -174,7 +180,7 @@
                     <tabBarItem key="tabBarItem" title="Settings" image="gearshape" catalog="system" selectedImage="gearshape" id="2BP-wW-eU1"/>
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="wBK-Z0-Bao">
-                        <rect key="frame" x="0.0" y="59" width="393" height="44"/>
+                        <rect key="frame" x="0.0" y="0.0" width="393" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
                     <nil name="viewControllers"/>
