@@ -238,7 +238,6 @@ extension DataManager {
         let dailyPrayerEntities = try context.fetch(request)
         
         for entity in dailyPrayerEntities {
-            
             guard let prayerName = entity.prayer else {continue}
             DailyPrayerEntities[prayerName] = entity
         }
@@ -311,6 +310,7 @@ extension DataManager {
     
     /**
      Clears Daily Prayer times from Core Data and DataManager and repopulates them with updated values gotten from Firebase
+     - Note: This is where Daily Prayers and Jumaa will be committed to memory
      - Important: Only works as intended if Monthly Times are properly loaded and have correct values
      */
     static func updateDailyPrayerStorage(_ prayers: [String : FirebasePrayer]) {
@@ -327,18 +327,24 @@ extension DataManager {
             asrToday.iqama = prayers[K.FireStore.dailyPrayers.names.asr]?.time ?? "00:00 AM"
             maghribToday.iqama = prayers[K.FireStore.dailyPrayers.names.maghrib]?.time ?? "00:00 AM"
             ishaToday.iqama = prayers[K.FireStore.dailyPrayers.names.isha]?.time ?? "00:00 AM"
+            jumaaToday.iqama = prayers[K.FireStore.dailyPrayers.names.jumaaSalah]?.time ?? "00:00 AM"
+            khutbaToday.iqama = prayers[K.FireStore.dailyPrayers.names.jumaaKhutba]?.time ?? "00:00 AM"
             
             fajrToday.iqama = PrayerManager.processIqama(fajrToday)
             dhuhrToday.iqama = PrayerManager.processIqama(dhuhrToday)
             asrToday.iqama = PrayerManager.processIqama(asrToday)
             maghribToday.iqama = PrayerManager.processIqama(maghribToday)
             ishaToday.iqama = PrayerManager.processIqama(ishaToday)
+            jumaaToday.iqama = PrayerManager.processIqama(jumaaToday)
+            khutbaToday.iqama = PrayerManager.processIqama(khutbaToday)
             
             DailyPrayerEntities[K.FireStore.dailyPrayers.names.fajr] = createDailyPrayerEntity(fajrToday)
             DailyPrayerEntities[K.FireStore.dailyPrayers.names.dhuhr] = createDailyPrayerEntity(dhuhrToday)
             DailyPrayerEntities[K.FireStore.dailyPrayers.names.asr] = createDailyPrayerEntity(asrToday)
             DailyPrayerEntities[K.FireStore.dailyPrayers.names.maghrib] = createDailyPrayerEntity(maghribToday)
             DailyPrayerEntities[K.FireStore.dailyPrayers.names.isha] = createDailyPrayerEntity(ishaToday)
+            DailyPrayerEntities[K.FireStore.dailyPrayers.names.jumaaSalah] = createDailyPrayerEntity(jumaaToday)
+            DailyPrayerEntities[K.FireStore.dailyPrayers.names.jumaaKhutba] = createDailyPrayerEntity(khutbaToday)
             
             saveDatabase()
             
@@ -354,6 +360,7 @@ extension DataManager {
         asrToday.adhan = todayAdhanTimes[2]
         maghribToday.adhan = todayAdhanTimes[3]
         ishaToday.adhan = todayAdhanTimes[4]
+
     }
 
     /**
@@ -398,7 +405,8 @@ extension DataManager {
             asrToday.iqama = DailyPrayerEntities[K.FireStore.dailyPrayers.names.asr]?.iqama ?? "22:22 AM"
             maghribToday.iqama = DailyPrayerEntities[K.FireStore.dailyPrayers.names.maghrib]?.iqama ?? "22:22 AM"
             ishaToday.iqama = DailyPrayerEntities[K.FireStore.dailyPrayers.names.isha]?.iqama ?? "22:22 AM"
-            
+            jumaaToday.iqama = DailyPrayerEntities[K.FireStore.dailyPrayers.names.jumaaSalah]?.iqama ?? "22:22 AM"
+            khutbaToday.iqama = DailyPrayerEntities[K.FireStore.dailyPrayers.names.jumaaKhutba]?.iqama ?? "22:22 AM"
         }
         
     }

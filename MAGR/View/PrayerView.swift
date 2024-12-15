@@ -115,13 +115,14 @@ class PrayerView: UIView {
         self.layer.borderColor = visible ? UIColor.black.cgColor : UIColor.clear.cgColor
     }
     
-    func attachTo(parentView: UIView, topAnchor: NSLayoutYAxisAnchor, topInset: CGFloat = 10, height: CGFloat = 60, inset: CGFloat = 10) {
+    func attachTo(parentView: UIView, topAnchor: NSLayoutYAxisAnchor, topInset: CGFloat = 10, height: CGFloat = 60, xInset: CGFloat = 10) {
         parentView.addSubview(self)
         NSLayoutConstraint.activate([
             self.topAnchor.constraint(equalTo: topAnchor, constant: topInset),
-            self.leadingAnchor.constraint(equalTo: parentView.leadingAnchor, constant: inset),
-            self.trailingAnchor.constraint(equalTo: parentView.trailingAnchor, constant: -inset),
-            self.heightAnchor.constraint(equalToConstant: height)
+            self.heightAnchor.constraint(equalToConstant: height),
+            self.leadingAnchor.constraint(equalTo: parentView.leadingAnchor, constant: xInset),
+            self.trailingAnchor.constraint(equalTo: parentView.trailingAnchor, constant: -xInset)
+            
         ])
     }
 }

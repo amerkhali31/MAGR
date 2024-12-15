@@ -45,7 +45,7 @@ class SettingsVC: BaseBackgroundViewController {
         
         // Create label-switch pairs for the prayers
         for (index, prayer) in prayers.enumerated() {
-            let (container, prayerSwitch) = createLabelSwitchPair(
+            let (container, _) = createLabelSwitchPair(
                 labelText: prayer,
                 switchName: "\(prayer.lowercased())Switch",
                 tag: index

@@ -57,5 +57,49 @@ class TimeManager {
         return dateFormatter.string(from: date)
     }
     
+    static func formatDateToReadable(_ dateString: String, _ includeYear: Bool) -> String? {
+        let inputFormatter = DateFormatter()
+        inputFormatter.dateFormat = "yyyy-MM-dd"
+
+        // Convert string to Date
+        guard let date = inputFormatter.date(from: dateString) else {
+            return nil
+        }
+
+        // Extract the day for suffix and year
+        let calendar = Calendar.current
+        guard let day = calendar.dateComponents([.day], from: date).day else {
+            return nil
+        }
+        let year = calendar.component(.year, from: date)
+
+        // Determine the suffix
+        let suffix: String
+        switch day {
+        case 11, 12, 13: suffix = "th" // Special cases
+        default:
+            switch day % 10 {
+            case 1: suffix = "st"
+            case 2: suffix = "nd"
+            case 3: suffix = "rd"
+            default: suffix = "th"
+            }
+        }
+
+        // Convert Date to desired format
+        let outputFormatter = DateFormatter()
+        outputFormatter.dateFormat = "MMMM d"
+        var formattedDate = outputFormatter.string(from: date)
+
+        // Add suffix and optionally the year
+        formattedDate += suffix
+        if includeYear {
+            formattedDate += ", \(year)"
+        }
+
+        return formattedDate
+    }
+
+    
     private init() {}
 }

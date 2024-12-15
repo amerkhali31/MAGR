@@ -206,7 +206,7 @@ class AnnouncementVC: BaseBackgroundViewController, UIScrollViewDelegate {
     // Delegate method for zooming
     func viewForZooming(in scrollView: UIScrollView) -> UIView? {
         // Return the image view inside the zoomable scroll view
-        if let index = zoomableScrollViews.firstIndex(of: scrollView) {
+        if let _ = zoomableScrollViews.firstIndex(of: scrollView) {
             return scrollView.subviews.first
         }
         return nil

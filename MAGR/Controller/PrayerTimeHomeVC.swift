@@ -7,15 +7,13 @@
 
 import UIKit
 
-import UIKit
-
 class PrayerTimeHomeVC: BaseBackgroundViewController {
     
     let todayView = UIView()
     let monthView = UIView()
     
-    let todayLabel = PrayerChoiceLabel(text: "Today", status: false)
-    let monthlyLabel = PrayerChoiceLabel(text: "Monthly", status: true)
+    let todayLabel = PrayerChoiceLabel(text: "Today", status: true)
+    let monthlyLabel = PrayerChoiceLabel(text: "Monthly", status: false)
     
     let fajrView = PrayerView()
     let dhuhrView = PrayerView()
@@ -44,8 +42,8 @@ class PrayerTimeHomeVC: BaseBackgroundViewController {
         todayLabel.onTap = {self.todayTapped()}
         monthlyLabel.attachTo(parentView: self.view, topAnchor: todayLabel.topAnchor, lead: todayLabel.trailingAnchor)
         monthlyLabel.onTap = {self.monthTapped()}
-        
-        todayView.isHidden = true
+        monthlyTable.backgroundColor = .red
+
         configureTodayView()
         configureMonthView()
     }
@@ -99,17 +97,18 @@ extension PrayerTimeHomeVC {
     
     func setupTopLabels() {
         
-        configureLabel(labelToConfigure: dateLabel, text: "Date")
+        configureLabel(labelToConfigure: dateLabel, text: TimeManager.formatDateToReadable(DataManager.getTodaysDate(), false) ?? "No Date", 100)
         dateLabel.leadingAnchor.constraint(equalTo: todayView.leadingAnchor, constant: 0).isActive = true
+        dateLabel.adjustsFontSizeToFitWidth = true
 
         configureLabel(labelToConfigure: adhanLabel, text: "Adhan")
         adhanLabel.centerXAnchor.constraint(equalTo: todayView.centerXAnchor).isActive = true
-        
-        configureLabel(labelToConfigure: iqamaLabel, text: "iqama")
-        iqamaLabel.trailingAnchor.constraint(equalTo: todayView.trailingAnchor, constant: 0).isActive = true
+
+        configureLabel(labelToConfigure: iqamaLabel, text: "Iqama")
+        iqamaLabel.trailingAnchor.constraint(equalTo: todayView.trailingAnchor, constant: -60).isActive = true
     }
     
-    func configureLabel(labelToConfigure label: UILabel, text: String) {
+    func configureLabel(labelToConfigure label: UILabel, text: String, _ width: CGFloat = 60) {
         
         label.translatesAutoresizingMaskIntoConstraints = false
         todayView.addSubview(label)
@@ -120,7 +119,7 @@ extension PrayerTimeHomeVC {
         label.font = UIFont.systemFont(ofSize: 17)
         
         NSLayoutConstraint.activate([
-            label.widthAnchor.constraint(equalToConstant: 60),
+            label.widthAnchor.constraint(equalToConstant: width),
             label.heightAnchor.constraint(equalToConstant: 21),
             label.topAnchor.constraint(equalTo: todayView.topAnchor, constant: 0)
         ])
@@ -161,14 +160,14 @@ extension PrayerTimeHomeVC {
         ishaView.attachTo(parentView: todayView, topAnchor: maghribView.bottomAnchor)
 
         khutbaView.configure(icon: UIImage(systemName: "music.mic"),
-                             prayer: "Khutba",
-                             adhan: DataManager.getKhutba().adhan,
+                             prayer: "Jumaa",
+                             adhan: "Khutba",
                              iqama:DataManager.getKhutba().iqama)
         khutbaView.attachTo(parentView: todayView, topAnchor: ishaView.bottomAnchor, topInset: 50)
         
         jumaaView.configure(icon: UIImage(systemName: "sun.max"),
-                            prayer: "Salah",
-                            adhan: DataManager.getJumaa().adhan,
+                            prayer: "Jumaa",
+                            adhan: "Salah",
                             iqama: DataManager.getJumaa().iqama)
         jumaaView.attachTo(parentView: todayView, topAnchor: khutbaView.bottomAnchor)
     }
@@ -179,10 +178,9 @@ extension PrayerTimeHomeVC {
     
     func configureMonthView() {
         
-        //monthView.isHidden = true
+        monthView.isHidden = true
         
-        // Add `todayView` to the parent view
-        monthView.backgroundColor = .blue
+        monthView.backgroundColor = .clear
         monthView.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(monthView)
         
@@ -201,31 +199,38 @@ extension PrayerTimeHomeVC {
     
     func setupMonthlyTable() {
         
+        monthlyTable.backgroundColor = .clear
+        monthlyTable.translatesAutoresizingMaskIntoConstraints = false
+        monthView.addSubview(monthlyTable)
         
-        monthlyTable.translatesAutoresizingMaskIntoConstraints = true
-        view.addSubview(monthlyTable)
+        monthlyTable.delegate = self
+        monthlyTable.dataSource = self
+        
+        monthlyTable.register(MonthlyPrayerCell.self, forCellReuseIdentifier: "MonthlyPrayerCell")
+        monthlyTable.rowHeight = 50
         
         NSLayoutConstraint.activate([
+            monthlyTable.topAnchor.constraint(equalTo: fajrLabel.bottomAnchor, constant: 5),
+            monthlyTable.leadingAnchor.constraint(equalTo: monthView.leadingAnchor),
+            monthlyTable.trailingAnchor.constraint(equalTo: monthView.trailingAnchor),
+            monthlyTable.bottomAnchor.constraint(equalTo: monthView.bottomAnchor)
         ])
-        
     }
     
     private func setupMonthlyLabels() {
         
         let labels = [TimeManager.getMonthName(DataManager.getTodaysDate()), "Fajr", "Dhuhr", "Asr", "Maghrib", "Isha"]
-        var labelViews: [UILabel] = []
+        let labelViews: [UILabel] = [monthlyDateLabel, fajrLabel, dhuhrLabel, asrLabel, maghribLabel, ishaLabel]
         
         for (index, labelText) in labels.enumerated() {
-            let label = UILabel()
+            let label = labelViews[index]
             label.text = labelText
             label.font = UIFont.systemFont(ofSize: 16)
             label.textAlignment = .center
             label.textColor = .white
             label.translatesAutoresizingMaskIntoConstraints = false
-            label.layer.borderColor = UIColor.black.cgColor
-            label.layer.borderWidth = 1
+
             monthView.addSubview(label)
-            labelViews.append(label)
             label.adjustsFontSizeToFitWidth = true
             
             // Set constraints
@@ -238,4 +243,36 @@ extension PrayerTimeHomeVC {
         }
     }
     
+}
+
+extension PrayerTimeHomeVC: UITableViewDelegate {
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 50
+    }
+    
+    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+            // Add green half-opaque background to every other row
+            if indexPath.row % 2 == 0 {
+                cell.backgroundColor = UIColor.MAGR_4.withAlphaComponent(0.5) // Green with 50% opacity
+            } else {
+                cell.backgroundColor = .clear // Default background for odd rows
+            }
+        }
+    
+}
+
+extension PrayerTimeHomeVC: UITableViewDataSource {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return DataManager.getMonthlyPrayerEntities().count
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: "MonthlyPrayerCell", for: indexPath) as? MonthlyPrayerCell else {
+            return UITableViewCell() }
+        
+        let data = DataManager.getMonthlyPrayerEntities()[indexPath.row]
+        //cell.backgroundColor = .clear
+        cell.configure(with: data)
+        return cell
+    }
 }
