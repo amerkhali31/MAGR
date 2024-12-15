@@ -100,6 +100,81 @@ class TimeManager {
         return formattedDate
     }
 
+    /// Get the given time string as secons passed since midnight.
+    /// - Note: Helper function for getCurrentTimeAsSecondsFromMidnight
+    static func convertTimeToSeconds(_ timeString: String) -> Int {
+        
+        // convert given 12Hr time string To Int seconds from midnight
+        
+        // Initialize time variables
+        var totalSeconds: Int = 0
+        var hours = 0
+        var minutes = 0
+        var seconds = 0
+        
+        // Separate the number from the AM/PM sign
+        let components = timeString.split(separator: " ")
+        
+        // Check if timeString was actually safe to split and process
+        if components.count != 2 { return 0}
+        
+        // Get the number and sign individually
+        let timeComponent = components[0]
+        let ampm = components[1]
+        
+        // Break the time into hours, minutes, seconds
+        let timeComponents = timeComponent.split(separator: ":")
+        
+        // Get the hours, minutes, and seconds components individually
+        hours = Int(timeComponents[0]) ?? 0
+        minutes = Int(timeComponents[1]) ?? 0
+        if timeComponents.count == 3 {seconds = Int(timeComponents[2]) ?? 0}
+        
+        // Process the hours
+        if ampm == "PM" && hours != 12 {hours += 12}
+        else if ampm == "AM" && hours == 12 {hours = 0}
+        
+        // Calculate the total time
+        totalSeconds = seconds + (60 * minutes) + (3600 * hours)
+        return totalSeconds
+    }
+    
+    /// Used for getting current prayer.
+    static func getCurrentTimeAsSecondsFromMidnight() -> Int {
+        
+        let formatter = DateFormatter()
+        formatter.dateFormat = "h:mm:ss a"
+        
+        let dateAsTime = convertTimeToSeconds(formatter.string(from: Date()))
+        
+        return dateAsTime
+    }
+    
+    ///Get the date on the islamic calendar system
+    static func convertToIslamicDate(from gregorianDate: Date) -> String? {
+        // Define the Islamic (Hijri) calendar
+        let islamicCalendar = Calendar(identifier: .islamicUmmAlQura)
+
+        // Extract Islamic date components
+        let islamicComponents = islamicCalendar.dateComponents([.year, .month, .day], from: gregorianDate)
+
+        // Format the date in Islamic calendar
+        if let year = islamicComponents.year, let month = islamicComponents.month, let day = islamicComponents.day {
+            let formatter = DateFormatter()
+            formatter.calendar = islamicCalendar
+            formatter.dateFormat = "MMMM d, yyyy" // Customize format as needed
+            
+            // Convert the components back into a Date object
+            if let hijriDate = islamicCalendar.date(from: islamicComponents) {
+                return formatter.string(from: hijriDate)
+            } else {
+                return "\(day) \(month) \(year)"
+            }
+        }
+
+        return nil
+    }
+
     
     private init() {}
 }

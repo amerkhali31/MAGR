@@ -56,6 +56,9 @@
                     <navigationItem key="navigationItem" id="eAP-yx-Iy7">
                         <barButtonItem key="backBarButtonItem" title="Back" id="Llp-mp-ibg"/>
                     </navigationItem>
+                    <connections>
+                        <segue destination="qao-Yk-8j7" kind="show" identifier="Announcements" id="rxF-Gz-3em"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="3dB-tI-Aet" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
@@ -91,7 +94,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="SB0-iq-sSu" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-1202" y="1101"/>
+            <point key="canvasLocation" x="308" y="1875"/>
         </scene>
         <!--Main Tab Controller-->
         <scene sceneID="98Y-v0-Xhf">
@@ -106,34 +109,13 @@
                         <color key="selectedImageTintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     </tabBar>
                     <connections>
-                        <segue destination="7qC-Vv-1lG" kind="relationship" relationship="viewControllers" id="NG5-3Y-ykq"/>
                         <segue destination="BNu-LY-fEc" kind="relationship" relationship="viewControllers" id="vHd-xA-ZnV"/>
                         <segue destination="nfs-LR-qm6" kind="relationship" relationship="viewControllers" id="IAO-qH-OZ6"/>
-                        <segue destination="ECd-eA-ZRV" kind="relationship" relationship="viewControllers" id="oOC-5p-11h"/>
                     </connections>
                 </tabBarController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="1Sq-us-sJF" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="-86" y="-335"/>
-        </scene>
-        <!--Announcements-->
-        <scene sceneID="NbJ-cm-xBX">
-            <objects>
-                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="7qC-Vv-1lG" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="Announcements" image="megaphone" catalog="system" selectedImage="megaphone" id="4LQ-Hy-Twt"/>
-                    <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="ogc-lo-BbQ">
-                        <rect key="frame" x="0.0" y="0.0" width="393" height="44"/>
-                        <autoresizingMask key="autoresizingMask"/>
-                    </navigationBar>
-                    <nil name="viewControllers"/>
-                    <connections>
-                        <segue destination="qao-Yk-8j7" kind="relationship" relationship="rootViewController" id="TRG-5p-M7r"/>
-                    </connections>
-                </navigationController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="K9i-OA-SEZ" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="-1202" y="396"/>
         </scene>
         <!--Prayer Times-->
         <scene sceneID="naF-hT-7i2">
@@ -180,7 +162,7 @@
                     <tabBarItem key="tabBarItem" title="Settings" image="gearshape" catalog="system" selectedImage="gearshape" id="2BP-wW-eU1"/>
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="wBK-Z0-Bao">
-                        <rect key="frame" x="0.0" y="0.0" width="393" height="44"/>
+                        <rect key="frame" x="0.0" y="59" width="393" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
                     <nil name="viewControllers"/>
@@ -190,14 +172,13 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Ihb-1j-mIn" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1035.8778625954199" y="395.77464788732397"/>
+            <point key="canvasLocation" x="1036" y="226"/>
         </scene>
     </scenes>
     <resources>
         <image name="clock" catalog="system" width="128" height="123"/>
         <image name="gearshape" catalog="system" width="128" height="123"/>
         <image name="house" catalog="system" width="128" height="104"/>
-        <image name="megaphone" catalog="system" width="128" height="112"/>
         <namedColor name="MAGR2">
             <color red="0.15999999642372131" green="0.33700001239776611" blue="0.18500000238418579" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>

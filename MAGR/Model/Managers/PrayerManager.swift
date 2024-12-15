@@ -57,7 +57,45 @@ class PrayerManager {
         return "00:00 AM"
     }
     
+    /// Find the name of the current Prayer
+    static func findCurrentPrayer() -> String {
+        
+        var tempPrayerTimes: [String: Int] = [:]
+        
+        tempPrayerTimes[K.FireStore.dailyPrayers.names.fajr] = TimeManager.convertTimeToSeconds(DataManager.getFajrToday().adhan)
+        tempPrayerTimes[K.FireStore.dailyPrayers.names.dhuhr] = TimeManager.convertTimeToSeconds(DataManager.getDhuhrToday().adhan)
+        tempPrayerTimes[K.FireStore.dailyPrayers.names.asr] = TimeManager.convertTimeToSeconds(DataManager.getAsrToday().adhan)
+        tempPrayerTimes[K.FireStore.dailyPrayers.names.maghrib] = TimeManager.convertTimeToSeconds(DataManager.getMaghribToday().adhan)
+        tempPrayerTimes[K.FireStore.dailyPrayers.names.isha] = TimeManager.convertTimeToSeconds(DataManager.getIshaToday().adhan)
+        
+        let currentTime = TimeManager.getCurrentTimeAsSecondsFromMidnight()
+        
+        if currentTime > tempPrayerTimes[K.FireStore.dailyPrayers.names.isha]! || currentTime < tempPrayerTimes[K.FireStore.dailyPrayers.names.fajr]! {return K.FireStore.dailyPrayers.names.isha}
+        else if currentTime > tempPrayerTimes[K.FireStore.dailyPrayers.names.maghrib]! {
+            return K.FireStore.dailyPrayers.names.maghrib}
+        else if currentTime > tempPrayerTimes[K.FireStore.dailyPrayers.names.asr]! {
+            return K.FireStore.dailyPrayers.names.asr}
+        else if currentTime > tempPrayerTimes[K.FireStore.dailyPrayers.names.dhuhr]! {
+            return K.FireStore.dailyPrayers.names.dhuhr}
+        else {return K.FireStore.dailyPrayers.names.fajr}
+
+    }
     
+    /// Find the name of the next Prayer
+    static func getNextPrayer(_ currentPrayer: String) -> String {
+        
+        switch currentPrayer {
+            
+        case "Fajr": return"Dhuhr"
+        case "Dhuhr": return "Asr"
+        case "Asr": return "Maghrib"
+        case "Maghrib": return "Isha"
+        case "Isha": return "Fajr"
+        default: return "No Prayer"
+            
+        }
+        
+    }
     
     private init() {}
 }

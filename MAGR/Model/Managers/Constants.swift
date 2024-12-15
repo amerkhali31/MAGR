@@ -90,6 +90,7 @@ struct K {
     struct segues {
         
         static let loadSeque = "loaded"
+        static let announceSegue = "Announcements"
     }
     
     /// Names of different values stored in UserDefaults

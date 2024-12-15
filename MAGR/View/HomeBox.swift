@@ -8,6 +8,9 @@
 import UIKit
 
 class HomeBox: UIView {
+    
+    var onTouch: (() -> Void)?
+    
     // MARK: - UI Elements
     private let iconView = UIImageView()
     private let topLabel = UILabel()
@@ -33,7 +36,33 @@ class HomeBox: UIView {
         self.backgroundColor = .black
         self.layer.cornerRadius = 20
         self.translatesAutoresizingMaskIntoConstraints = false
+        self.isUserInteractionEnabled = true
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(handleTap))
+        addGestureRecognizer(tapGesture)
+        
+        let touchGesture = UILongPressGestureRecognizer(target: self, action: #selector(handleTapGesture(_:)))
+        touchGesture.minimumPressDuration = 0 // Detects a press immediately
+        addGestureRecognizer(touchGesture)
     }
+    
+    @objc private func handleTap() {
+            onTouch?() // Call the closure when tapped
+    }
+    
+    @objc private func handleTapGesture(_ gesture: UILongPressGestureRecognizer) {
+            switch gesture.state {
+            case .began:
+                // Change to gray when touch begins
+                backgroundColor = .gray
+            case .ended, .cancelled:
+                // Restore original color when touch ends
+                backgroundColor = .black
+                // Trigger the onTouch action
+                onTouch?()
+            default:
+                break
+            }
+        }
 
     private func setupIcon() {
         iconView.contentMode = .scaleAspectFit

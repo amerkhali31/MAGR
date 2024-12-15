@@ -9,12 +9,14 @@ import UIKit
 
 class PrayerTimeHomeVC: BaseBackgroundViewController {
     
+    // Complete View
     let todayView = UIView()
     let monthView = UIView()
     
     let todayLabel = PrayerChoiceLabel(text: "Today", status: true)
     let monthlyLabel = PrayerChoiceLabel(text: "Monthly", status: false)
     
+    // Today View
     let fajrView = PrayerView()
     let dhuhrView = PrayerView()
     let asrView = PrayerView()
@@ -27,6 +29,9 @@ class PrayerTimeHomeVC: BaseBackgroundViewController {
     let adhanLabel = UILabel()
     let iqamaLabel = UILabel()
     
+    var currentPrayer = "Fajr"
+    
+    // Month View
     let monthlyDateLabel = UILabel()
     let monthlyTable = UITableView()
     let fajrLabel = UILabel()
@@ -36,13 +41,16 @@ class PrayerTimeHomeVC: BaseBackgroundViewController {
     let ishaLabel = UILabel()
     
     override func viewDidLoad() {
+        
         super.viewDidLoad()
+        
+        currentPrayer = PrayerManager.findCurrentPrayer()
         
         todayLabel.attachTo(parentView: view, topAnchor: view.topAnchor, topInset: bottomOfImage + 10, lead: view.leadingAnchor)
         todayLabel.onTap = {self.todayTapped()}
+        
         monthlyLabel.attachTo(parentView: self.view, topAnchor: todayLabel.topAnchor, lead: todayLabel.trailingAnchor)
         monthlyLabel.onTap = {self.monthTapped()}
-        monthlyTable.backgroundColor = .red
 
         configureTodayView()
         configureMonthView()
@@ -133,7 +141,6 @@ extension PrayerTimeHomeVC {
                            adhan: DataManager.getFajrToday().adhan,
                            iqama: DataManager.getFajrToday().iqama)
         fajrView.attachTo(parentView: todayView, topAnchor: adhanLabel.bottomAnchor, topInset: 10)
-        fajrView.layer.borderColor = UIColor.white.cgColor
         
         dhuhrView.configure(icon: UIImage(systemName: "sun.max"),
                             prayer: "Dhuhr",
@@ -170,6 +177,19 @@ extension PrayerTimeHomeVC {
                             adhan: "Salah",
                             iqama: DataManager.getJumaa().iqama)
         jumaaView.attachTo(parentView: todayView, topAnchor: khutbaView.bottomAnchor)
+        
+        highlightCurrentPrayer()
+    }
+    
+    func highlightCurrentPrayer() {
+        switch currentPrayer {
+        case K.FireStore.dailyPrayers.names.fajr: fajrView.layer.borderColor = UIColor.white.cgColor
+        case K.FireStore.dailyPrayers.names.dhuhr: dhuhrView.layer.borderColor = UIColor.white.cgColor
+        case K.FireStore.dailyPrayers.names.asr: asrView.layer.borderColor = UIColor.white.cgColor
+        case K.FireStore.dailyPrayers.names.maghrib: maghribView.layer.borderColor = UIColor.white.cgColor
+        case K.FireStore.dailyPrayers.names.isha: ishaView.layer.borderColor = UIColor.white.cgColor
+        default: fajrView.layer.borderColor = UIColor.white.cgColor
+        }
     }
 }
 

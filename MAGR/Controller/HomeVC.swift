@@ -84,8 +84,8 @@ extension HomeVC {
     
     func setupLabels() {
         
-        dateLabel.text = "December 1st 1999"
-        arabDateLabel.text = "Some Lunar Calendar Date"
+        dateLabel.text = TimeManager.formatDateToReadable(DataManager.getTodaysDate(), true)
+        arabDateLabel.text = TimeManager.convertToIslamicDate(from: Date())
         
         dateLabel.translatesAutoresizingMaskIntoConstraints = false
         arabDateLabel.translatesAutoresizingMaskIntoConstraints = false
@@ -119,7 +119,7 @@ extension HomeVC {
     
         announcementBox.configure(icon: UIImage(systemName: "bell"), topText: "Announcements", bottomText: "Stay up to date with MAGR news")
         announcementBox.attachTo(parentView: contentView, topAnchor: prayerBox.bottomAnchor, topInset: standardSpace, xInset: standardXinset)
-    
+        announcementBox.onTouch = {self.announceTouched()}
         verseBox.configure(icon: UIImage(systemName: "book"), topText: "Verse of the Day", bottomText: "Reflect on the wisdom of the Quran")
         verseBox.attachTo(parentView: contentView, topAnchor: announcementBox.bottomAnchor, topInset: standardSpace, xInset: standardXinset)
     
@@ -133,4 +133,12 @@ extension HomeVC {
         
     }
     
+}
+
+// MARK: Handling Touch Events
+extension HomeVC {
+    
+    func announceTouched() {
+        self.performSegue(withIdentifier: K.segues.announceSegue, sender: self)
+    }
 }
