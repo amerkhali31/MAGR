@@ -32,6 +32,8 @@
 		867706402D0BC84C00E6A89B /* DailyPrayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8677063F2D0BC84C00E6A89B /* DailyPrayer.swift */; };
 		868C822A2D0C99CA00D4DA3F /* HomeBox.swift in Sources */ = {isa = PBXBuildFile; fileRef = 868C82292D0C99CA00D4DA3F /* HomeBox.swift */; };
 		868C822C2D0CA9B100D4DA3F /* PrayerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 868C822B2D0CA9B100D4DA3F /* PrayerView.swift */; };
+		869AF3072D0E4CA700B323FD /* PrayerChoiceLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 869AF3062D0E4CA700B323FD /* PrayerChoiceLabel.swift */; };
+		869AF3092D0E64A700B323FD /* MonthlyTimesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 869AF3082D0E64A700B323FD /* MonthlyTimesView.swift */; };
 		86BC00D72D0B594800F361D9 /* MainTabController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86BC00D62D0B594800F361D9 /* MainTabController.swift */; };
 		86BC00D92D0B59DC00F361D9 /* adhan.wav in Resources */ = {isa = PBXBuildFile; fileRef = 86BC00D82D0B59DC00F361D9 /* adhan.wav */; };
 		86FF4EE52D0B5BC000C67719 /* BaseBackgroundViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86FF4EE42D0B5BC000C67719 /* BaseBackgroundViewController.swift */; };
@@ -86,6 +88,8 @@
 		8677063F2D0BC84C00E6A89B /* DailyPrayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DailyPrayer.swift; sourceTree = "<group>"; };
 		868C82292D0C99CA00D4DA3F /* HomeBox.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeBox.swift; sourceTree = "<group>"; };
 		868C822B2D0CA9B100D4DA3F /* PrayerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrayerView.swift; sourceTree = "<group>"; };
+		869AF3062D0E4CA700B323FD /* PrayerChoiceLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrayerChoiceLabel.swift; sourceTree = "<group>"; };
+		869AF3082D0E64A700B323FD /* MonthlyTimesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MonthlyTimesView.swift; sourceTree = "<group>"; };
 		86BC00D62D0B594800F361D9 /* MainTabController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTabController.swift; sourceTree = "<group>"; };
 		86BC00D82D0B59DC00F361D9 /* adhan.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = adhan.wav; sourceTree = "<group>"; };
 		86FF4EE42D0B5BC000C67719 /* BaseBackgroundViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseBackgroundViewController.swift; sourceTree = "<group>"; };
@@ -147,6 +151,8 @@
 				8667011B2D0A4DA900D19EAD /* Main.storyboard */,
 				868C82292D0C99CA00D4DA3F /* HomeBox.swift */,
 				868C822B2D0CA9B100D4DA3F /* PrayerView.swift */,
+				869AF3062D0E4CA700B323FD /* PrayerChoiceLabel.swift */,
+				869AF3082D0E64A700B323FD /* MonthlyTimesView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -394,6 +400,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				86FF4EE92D0B5D1400C67719 /* PrayerTimeHomeVC.swift in Sources */,
+				869AF3092D0E64A700B323FD /* MonthlyTimesView.swift in Sources */,
 				8677063A2D0B68DC00E6A89B /* NotificationManager.swift in Sources */,
 				867706362D0B68BB00E6A89B /* DataManager.swift in Sources */,
 				867706302D0B646F00E6A89B /* FirebaseAnnouncement.swift in Sources */,
@@ -411,6 +418,7 @@
 				86BC00D72D0B594800F361D9 /* MainTabController.swift in Sources */,
 				867706382D0B68C400E6A89B /* FirebaseManager.swift in Sources */,
 				867706342D0B68B000E6A89B /* Constants.swift in Sources */,
+				869AF3072D0E4CA700B323FD /* PrayerChoiceLabel.swift in Sources */,
 				866701182D0A4DA900D19EAD /* SceneDelegate.swift in Sources */,
 				86FF4EED2D0B5D3200C67719 /* SettingsVC.swift in Sources */,
 				868C822A2D0C99CA00D4DA3F /* HomeBox.swift in Sources */,

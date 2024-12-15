@@ -45,5 +45,17 @@ class TimeManager {
         return String(Calendar.current.component(.month, from: Date()))
     }
     
+    static func getMonthName(_ dateString: String) -> String {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "yyyy-MM-dd"
+        
+        guard let date = dateFormatter.date(from: dateString) else {
+            return "Invalid Date"
+        }
+        
+        dateFormatter.dateFormat = "MMMM"
+        return dateFormatter.string(from: date)
+    }
+    
     private init() {}
 }
