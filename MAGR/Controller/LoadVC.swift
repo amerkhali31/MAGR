@@ -16,9 +16,9 @@ class LoadVC: UIViewController {
     override func viewDidLoad() {
         
         setupScreen()
-        
+
         NotificationManager.requestNotificationPermission()
-        NotificationManager.printScheduledNotifications()
+        //NotificationManager.printScheduledNotifications()
         
         prepareApp()
         

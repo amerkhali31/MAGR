@@ -248,7 +248,6 @@ extension PrayerTimeHomeVC {
     func fajrTouch() {
         handlePrayerTouch() {
             self.fajrView.alarmToggle(DataManager.getFajrToday())
-            print(self.fajrView.status)
         }
     }
 

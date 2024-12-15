@@ -46,7 +46,6 @@ class NotificationManager {
     static func scheduleNotification(at date: Date?, _ title: String, _ noticeIdentifier: String) {
         
         if let safeDate = date {
-            print("Date is Safe")
             
             // Define the content of the notification
             let content = UNMutableNotificationContent()
@@ -66,7 +65,7 @@ class NotificationManager {
                 if let error = error {
                     print("Error scheduling notification: \(error.localizedDescription)")
                 } else {
-                    print("Notification scheduled successfully.")
+                    print("\(title) Notification scheduled successfully for \(triggerDate).")
                 }
             }
         }
@@ -91,6 +90,7 @@ class NotificationManager {
             
             // If the given prayer has notifications turned on
             if prayerNotification.value.status {
+                print("From ScheduleAllNotifications:")
                 
                 // Assign notification per prayer name
                 switch prayerNotification.value.prayer! {
@@ -99,27 +99,27 @@ class NotificationManager {
                     
                     let date = TimeManager.createDateFromTime(DataManager.getFajrToday().adhan)
                     scheduleNotification(at: date, "Fajr", K.AdhanNotifications.fajrNotice)
-                    print("Rescheduled \(prayerNotification.value.prayer!) for \(date!)")
+
                 case K.FireStore.dailyPrayers.names.dhuhr:
                     
                     let date = TimeManager.createDateFromTime(DataManager.getDhuhrToday().adhan)
                     scheduleNotification(at: date, "Zuhr", K.AdhanNotifications.dhuhrNotice)
-                    print("Rescheduled \(prayerNotification.value.prayer!) for \(date!)")
+
                 case K.FireStore.dailyPrayers.names.asr:
                     
                     let date = TimeManager.createDateFromTime(DataManager.getAsrToday().adhan)
                     scheduleNotification(at: date, "Asr", K.AdhanNotifications.asrNotice)
-                    print("Rescheduled \(prayerNotification.value.prayer!) for \(date!)")
+
                 case K.FireStore.dailyPrayers.names.maghrib:
                     
                     let date = TimeManager.createDateFromTime(DataManager.getMaghribToday().adhan)
                     scheduleNotification(at: date, "Maghrib", K.AdhanNotifications.maghribNotice)
-                    print("Rescheduled \(prayerNotification.value.prayer!) for \(date!)")
+
                 case K.FireStore.dailyPrayers.names.isha:
                     
                     let date = TimeManager.createDateFromTime(DataManager.getIshaToday().adhan)
                     scheduleNotification(at: date, "Isha", K.AdhanNotifications.ishaNotice)
-                    print("Rescheduled \(prayerNotification.value.prayer!) for \(date!)")
+
                 default: print("Prayer name not found when making a Notification")
                     
                 }
