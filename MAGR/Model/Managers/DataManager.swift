@@ -25,7 +25,7 @@ class DataManager {
     private static let persistentContianer = (UIApplication.shared.delegate as! AppDelegate).persistentContainer
     private static let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
     
-    private static var NotificationEntities: [String : NotificationEntity] = [:]
+    static var NotificationEntities: [String : NotificationEntity] = [:]
     private static var DailyPrayerEntities: [String: DailyPrayerEntity] = [:]
     private static var MonthlyPrayerEntities: [MonthlyPrayerEntity] = []
     
@@ -258,7 +258,7 @@ extension DataManager {
     }
     
     /** Grab NotificationEntities from Core Data and populate DataManager NotificiationEntities dict
-     - Note: If empty, create Notification Entities initialized to false for each of the 5 daily prayers
+     - Note: If empty, create Notification Entities initialized to false for each of the 5 daily prayers using K.firestore.names
      */
     static func loadNotificationEntities() throws {
         
@@ -440,7 +440,6 @@ extension DataManager {
     static func saveDatabase() {
         do {
             try context.save()
-            print("Saved Database")
         }
         catch {print("Error saving context: \(error)")}
     }

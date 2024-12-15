@@ -15,8 +15,13 @@ class LoadVC: UIViewController {
 
     override func viewDidLoad() {
         
-        setupScreen()        
+        setupScreen()
+        
+        NotificationManager.requestNotificationPermission()
+        NotificationManager.printScheduledNotifications()
+        
         prepareApp()
+        
         super.viewDidLoad()
 
     }
@@ -60,10 +65,13 @@ extension LoadVC {
     
     private func prepareApp() {
         do {
+            
+            // Load From Memory
             try DataManager.loadMonthlyPrayerEntities()
             try DataManager.loadDailyPrayerEntities()
             try DataManager.loadNotificationEntities()
-            
+        
+            // Get the date before networking in case we need todays date for data processing
             DataManager.setTodaysDate(TimeManager.getTodaysDate())
             
             Task {
@@ -75,6 +83,14 @@ extension LoadVC {
                 
                 await DataManager.handleDaily()
                 
+                // Once Prayer times are gotten, assign current and next prayer
+                DataManager.setCurrentPrayer(PrayerManager.findCurrentPrayer())
+                DataManager.setNextPrayer(PrayerManager.getNextPrayer())
+                
+                // With updated times, schedule notifications
+                NotificationManager.scheduleAllDailyNotifications()
+                
+                // Go into the actual app
                 DispatchQueue.main.async {
                     self.performSegue(withIdentifier: K.segues.loadSeque, sender: self)
                     //self.goToMainScreen()

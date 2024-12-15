@@ -78,12 +78,13 @@ struct K {
     }
     
     ///Store the names given to each notification so they can later be referenced for deletion and scheduling.
+    /// - IMPORTANT: NEEDS TO REMAIN COUPLED WITH Firestore.dailyprayers.names
     struct AdhanNotifications {
-        static let fajrNotice = "Fajr"
-        static let dhuhrNotice = "Zuhr"
-        static let asrNotice = "Asr"
-        static let maghribNotice = "Maghrib"
-        static let ishaNotice = "Isha"
+        static let fajrNotice = FireStore.dailyPrayers.names.fajr
+        static let dhuhrNotice = FireStore.dailyPrayers.names.dhuhr
+        static let asrNotice = FireStore.dailyPrayers.names.asr
+        static let maghribNotice = FireStore.dailyPrayers.names.maghrib
+        static let ishaNotice = FireStore.dailyPrayers.names.isha
     }
     
     /// Segue Names

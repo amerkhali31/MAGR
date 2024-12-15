@@ -8,12 +8,16 @@
 import UIKit
 
 class PrayerView: UIView {
+    
+    var onTouch: (() -> Void)?
+    
     // MARK: - UI Elements
     private let iconView = UIImageView()  // Left icon
     private let prayerLabel = UILabel()  // Left label
     private let adhanLabel = UILabel()   // Center label
     private let iqamaLabel = UILabel()   // Right label
     private let alarmIconView = UIImageView() // Alarm symbol on the right of iqamaLabel
+    var status = false
     
     // MARK: - Initializers
     override init(frame: CGRect) {
@@ -43,7 +47,14 @@ class PrayerView: UIView {
         self.layer.borderColor = UIColor.black.cgColor
         self.backgroundColor = .clear
         self.translatesAutoresizingMaskIntoConstraints = false
+        
+        self.isUserInteractionEnabled = true
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(handleTap))
+        addGestureRecognizer(tapGesture)
+        
     }
+    
+    @objc private func handleTap() {onTouch?()}
     
     private func setupIcon() {
         iconView.contentMode = .scaleAspectFit
@@ -124,5 +135,29 @@ class PrayerView: UIView {
             self.trailingAnchor.constraint(equalTo: parentView.trailingAnchor, constant: -xInset)
             
         ])
+    }
+    
+    func alarmToggle(_ prayer: DailyPrayer) {
+        status = !status
+        
+        DataManager.NotificationEntities[prayer.name]?.status = status
+        NotificationManager.deleteNotification(prayer.name)
+        
+        if status {
+            alarmIconView.tintColor = .white
+            let date = TimeManager.createDateFromTime(prayer.adhan)
+            NotificationManager.scheduleNotification(at: date, prayer.name, prayer.name)
+        }
+        else {
+            alarmIconView.tintColor = .gray
+        }
+        
+        DataManager.saveDatabase()
+
+    }
+    
+    func setAlarmStatus(to entityStatus: Bool) {
+        status = entityStatus
+        if status {alarmIconView.tintColor = .white}
     }
 }

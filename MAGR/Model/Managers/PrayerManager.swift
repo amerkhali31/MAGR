@@ -58,7 +58,7 @@ class PrayerManager {
     }
     
     /// Find the name of the current Prayer
-    static func findCurrentPrayer() -> String {
+    static func findCurrentPrayer() -> DailyPrayer {
         
         var tempPrayerTimes: [String: Int] = [:]
         
@@ -70,31 +70,48 @@ class PrayerManager {
         
         let currentTime = TimeManager.getCurrentTimeAsSecondsFromMidnight()
         
-        if currentTime > tempPrayerTimes[K.FireStore.dailyPrayers.names.isha]! || currentTime < tempPrayerTimes[K.FireStore.dailyPrayers.names.fajr]! {return K.FireStore.dailyPrayers.names.isha}
+        if currentTime > tempPrayerTimes[K.FireStore.dailyPrayers.names.isha]! 
+            || currentTime < tempPrayerTimes[K.FireStore.dailyPrayers.names.fajr]! {
+            return DataManager.getIshaToday()}
         else if currentTime > tempPrayerTimes[K.FireStore.dailyPrayers.names.maghrib]! {
-            return K.FireStore.dailyPrayers.names.maghrib}
+            return DataManager.getMaghribToday()}
         else if currentTime > tempPrayerTimes[K.FireStore.dailyPrayers.names.asr]! {
-            return K.FireStore.dailyPrayers.names.asr}
+            return DataManager.getAsrToday()}
         else if currentTime > tempPrayerTimes[K.FireStore.dailyPrayers.names.dhuhr]! {
-            return K.FireStore.dailyPrayers.names.dhuhr}
-        else {return K.FireStore.dailyPrayers.names.fajr}
+            return DataManager.getDhuhrToday()}
+        else {return DataManager.getFajrToday()}
 
     }
     
     /// Find the name of the next Prayer
-    static func getNextPrayer(_ currentPrayer: String) -> String {
+    static func getNextPrayer() -> DailyPrayer {
         
-        switch currentPrayer {
+        switch DataManager.getCurrentPrayer().name {
             
-        case "Fajr": return"Dhuhr"
-        case "Dhuhr": return "Asr"
-        case "Asr": return "Maghrib"
-        case "Maghrib": return "Isha"
-        case "Isha": return "Fajr"
-        default: return "No Prayer"
+        case K.FireStore.dailyPrayers.names.fajr: return DataManager.getDhuhrToday()
+        case K.FireStore.dailyPrayers.names.dhuhr: return DataManager.getAsrToday()
+        case K.FireStore.dailyPrayers.names.asr: return DataManager.getMaghribToday()
+        case K.FireStore.dailyPrayers.names.maghrib: return DataManager.getIshaToday()
+        case K.FireStore.dailyPrayers.names.isha: return DataManager.getFajrToday()
+        default: return DataManager.getFajrToday()
             
         }
         
+    }
+    
+    /// Get time until next prayer in seconds
+    static func getTimeUntilNextPrayer()  -> Int {
+        
+        let currentPrayer = DataManager.getCurrentPrayer()
+        let nextPrayer = DataManager.getNextPrayer()
+        
+        if currentPrayer.name == "Isha" &&
+            TimeManager.getCurrentTimeAsSecondsFromMidnight() > TimeManager.convertTimeToSeconds(nextPrayer.adhan) {
+            return TimeManager.convertTimeToSeconds(nextPrayer.adhan) + ((24 * 3600) - TimeManager.getCurrentTimeAsSecondsFromMidnight())
+        }
+        else {
+            return TimeManager.convertTimeToSeconds(DataManager.getNextPrayer().adhan) - TimeManager.getCurrentTimeAsSecondsFromMidnight()
+        }
     }
     
     private init() {}

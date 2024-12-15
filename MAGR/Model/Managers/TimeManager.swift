@@ -100,8 +100,8 @@ class TimeManager {
         return formattedDate
     }
 
-    /// Get the given time string as secons passed since midnight.
-    /// - Note: Helper function for getCurrentTimeAsSecondsFromMidnight
+    /// Get the given 12hr time string as secons passed since midnight.
+    /// - Note: Helper function for getCurrentTimeAsSecondsFromMidnight as well as time until next prayer
     static func convertTimeToSeconds(_ timeString: String) -> Int {
         
         // convert given 12Hr time string To Int seconds from midnight
@@ -174,7 +174,40 @@ class TimeManager {
 
         return nil
     }
-
+    
+    /// Convert seconds to Hours:Minutes:seconds
+   static func convertSecondsToTime(_ totalSeconds: Int) -> (hours: Int, minutes: Int, seconds: Int) {
+        let hours = totalSeconds / 3600 // Takes int/int so returns int whole number
+        let minutes = (totalSeconds % 3600) / 60 // %3600 gets the number of seconds left after removing all hours. then divide by 60 to get the whole number of minutes
+        let seconds = totalSeconds % 60
+        return (hours, minutes, seconds)
+    }
+    
+    /// Helper function for Schedulting All Notifications. Takes input string time of desired notification returns date
+    static func createDateFromTime(_ timeString: String) -> Date? {
+        
+        // Get Current Date
+        let calendar = Calendar.current
+        let now = Date()
+        
+        // Parse the Time String
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "h:mm a"
+        guard let timeDate = dateFormatter.date(from: timeString) else {return nil}
+        
+        // Extract hours and minutes from parsed time string
+        let timeComponents = calendar.dateComponents([.hour, .minute], from: timeDate)
+        
+        // Get todays date
+        var components = calendar.dateComponents([.year, .month, .day], from: now)
+        
+        // Set the desired time to parsed time string on today
+        components.hour = timeComponents.hour
+        components.minute = timeComponents.minute
+        components.second = 0
+        
+        return calendar.date(from: components)
+    }
     
     private init() {}
 }

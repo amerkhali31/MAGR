@@ -12,9 +12,9 @@ class HomeBox: UIView {
     var onTouch: (() -> Void)?
     
     // MARK: - UI Elements
-    private let iconView = UIImageView()
-    private let topLabel = UILabel()
-    private let bottomLabel = UILabel()
+    let iconView = UIImageView()
+    let topLabel = UILabel()
+    let bottomLabel = UILabel()
 
     // MARK: - Initializer
     override init(frame: CGRect) {
@@ -39,31 +39,12 @@ class HomeBox: UIView {
         self.isUserInteractionEnabled = true
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(handleTap))
         addGestureRecognizer(tapGesture)
-        
-        let touchGesture = UILongPressGestureRecognizer(target: self, action: #selector(handleTapGesture(_:)))
-        touchGesture.minimumPressDuration = 0 // Detects a press immediately
-        addGestureRecognizer(touchGesture)
     }
     
     @objc private func handleTap() {
             onTouch?() // Call the closure when tapped
     }
     
-    @objc private func handleTapGesture(_ gesture: UILongPressGestureRecognizer) {
-            switch gesture.state {
-            case .began:
-                // Change to gray when touch begins
-                backgroundColor = .gray
-            case .ended, .cancelled:
-                // Restore original color when touch ends
-                backgroundColor = .black
-                // Trigger the onTouch action
-                onTouch?()
-            default:
-                break
-            }
-        }
-
     private func setupIcon() {
         iconView.contentMode = .scaleAspectFit
         iconView.tintColor = .systemGreen
@@ -120,10 +101,13 @@ class HomeBox: UIView {
 }
 
 class PrayerBox: UIView {
+    
+    var onTouch: (() -> Void)?
+    
     // MARK: - UI Elements
     private let iconView = UIImageView()
-    private let topLabel = UILabel()
-    private let countdownLabel = UILabel()
+    let topLabel = UILabel()
+    let countdownLabel = UILabel()
 
     // MARK: - Initializer
     override init(frame: CGRect) {
@@ -145,7 +129,16 @@ class PrayerBox: UIView {
         self.backgroundColor = .black
         self.layer.cornerRadius = 20
         self.translatesAutoresizingMaskIntoConstraints = false
+        
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(handleTap))
+        addGestureRecognizer(tapGesture)
+        
     }
+    
+    @objc private func handleTap() {
+            onTouch?() // Call the closure when tapped
+    }
+
 
     private func setupIcon() {
         iconView.contentMode = .scaleAspectFit

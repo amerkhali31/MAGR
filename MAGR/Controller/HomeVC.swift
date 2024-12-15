@@ -17,9 +17,14 @@ class HomeVC: BaseBackgroundViewController {
     // Content
     let standardSpace: CGFloat = 10
     let standardXinset: CGFloat = 10
+    
     let dateLabel = UILabel()
     let arabDateLabel = UILabel()
+    
     let prayerBox = PrayerBox()
+    var timeUntilNextPrayer: Int = 0
+    var nextPrayer = ""
+    
     let announcementBox = HomeBox()
     let verseBox = HomeBox()
     let contactBox = HomeBox()
@@ -114,23 +119,48 @@ extension HomeVC {
         
         setupLabels()
         
-        prayerBox.configure(icon: UIImage(systemName: "moon.stars"), topText: "Next Prayer", countdownText: "05:49:10")
+        prayerBox.configure(icon: UIImage(systemName: "moon"), topText: "Next Prayer: \(DataManager.getNextPrayer().name)", countdownText: "")
         prayerBox.attachTo(parentView: contentView, topAnchor: arabDateLabel.bottomAnchor, topInset: standardSpace, xInset: standardXinset, height: 150)
-    
+        prayerBox.topLabel.adjustsFontSizeToFitWidth = true
+        updateTimer() // call once to initialize it and not have to wait 1 second for it to start displaying
+        Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(updateTimer), userInfo: nil, repeats: true)
+        prayerBox.onTouch = {self.prayerTouched()}
+        
         announcementBox.configure(icon: UIImage(systemName: "bell"), topText: "Announcements", bottomText: "Stay up to date with MAGR news")
         announcementBox.attachTo(parentView: contentView, topAnchor: prayerBox.bottomAnchor, topInset: standardSpace, xInset: standardXinset)
         announcementBox.onTouch = {self.announceTouched()}
+        
         verseBox.configure(icon: UIImage(systemName: "book"), topText: "Verse of the Day", bottomText: "Reflect on the wisdom of the Quran")
         verseBox.attachTo(parentView: contentView, topAnchor: announcementBox.bottomAnchor, topInset: standardSpace, xInset: standardXinset)
-    
+        verseBox.onTouch = {self.verseTouched()}
+        
         contactBox.configure(icon: UIImage(systemName: "phone"), topText: "Contact Us", bottomText: "Find all of our contact information")
         contactBox.attachTo(parentView: contentView, topAnchor: verseBox.bottomAnchor, topInset: standardSpace, xInset: standardXinset)
+        contactBox.onTouch = {self.contactTouched()}
         
         donationBox.configure(icon: UIImage(systemName: "dollarsign.circle"), topText: "Donate", bottomText: "Increase in charity")
         donationBox.attachTo(parentView: contentView, topAnchor: contactBox.bottomAnchor, topInset: standardSpace, xInset: standardXinset)
-        
+        donationBox.onTouch = {self.donateTouched()}
         donationBox.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -10).isActive = true
         
+    }
+    
+    /// Will be used to update the label for the prayer time
+    @objc func updateTimer() {
+        var timeUntilNextPrayer = PrayerManager.getTimeUntilNextPrayer()
+        let time = TimeManager.convertSecondsToTime(timeUntilNextPrayer)
+        
+        if timeUntilNextPrayer > 0 {
+            timeUntilNextPrayer -= 1
+            
+            let formattedHours = String(format: "%02d", time.hours)
+            let formattedMinutes = String(format: "%02d", time.minutes)
+            let formattedSeconds = String(format: "%02d", time.seconds)
+            let formattedTime = "\(formattedHours):\(formattedMinutes):\(formattedSeconds)"
+            
+            prayerBox.countdownLabel.text = "\(formattedTime)"
+            
+        }
     }
     
 }
@@ -141,4 +171,23 @@ extension HomeVC {
     func announceTouched() {
         self.performSegue(withIdentifier: K.segues.announceSegue, sender: self)
     }
+    
+    func prayerTouched() {
+        if let tabBarController = self.tabBarController {
+            tabBarController.selectedIndex = 0
+        }
+    }
+    
+    func verseTouched() {
+        
+    }
+    
+    func contactTouched() {
+        
+    }
+    
+    func donateTouched() {
+        
+    }
+    
 }
