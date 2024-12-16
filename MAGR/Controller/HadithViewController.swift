@@ -7,6 +7,9 @@
 
 import UIKit
 
+/**
+ The View Controller that should pop up when you click verse of the day. Displays the results of hadith api
+ */
 class HadithViewController: BaseBackgroundViewController {
     
     var apiResponse: APIResponse?

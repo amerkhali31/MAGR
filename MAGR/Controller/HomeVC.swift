@@ -200,11 +200,23 @@ extension HomeVC {
     }
     
     func contactTouched() {
+                
+        DispatchQueue.main.async { [weak self] in
+            self?.present(ContactUsViewController(), animated: true, completion: nil)
+        }
         
     }
     
     func donateTouched() {
+
+        guard let url = URL(string: "https://magr.org/donate/") else {return}
+        
+        if UIApplication.shared.canOpenURL(url) { UIApplication.shared.open(url, options: [:]) }
+    }
+    
+    func qiblaTouched() {
         
     }
     
 }
+

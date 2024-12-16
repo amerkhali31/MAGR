@@ -38,6 +38,7 @@
 		86A2AB272D0FDD5300288EFF /* HadithApiManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86A2AB262D0FDD5300288EFF /* HadithApiManager.swift */; };
 		86A2AB292D0FDE3F00288EFF /* apiKeys.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86A2AB282D0FDE3F00288EFF /* apiKeys.swift */; };
 		86A2AB2D2D0FE84E00288EFF /* HadithViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86A2AB2C2D0FE84E00288EFF /* HadithViewController.swift */; };
+		86A2AB2F2D0FF8A100288EFF /* ContactUsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86A2AB2E2D0FF8A100288EFF /* ContactUsViewController.swift */; };
 		86BC00D72D0B594800F361D9 /* MainTabController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86BC00D62D0B594800F361D9 /* MainTabController.swift */; };
 		86BC00D92D0B59DC00F361D9 /* adhan.wav in Resources */ = {isa = PBXBuildFile; fileRef = 86BC00D82D0B59DC00F361D9 /* adhan.wav */; };
 		86FF4EE52D0B5BC000C67719 /* BaseBackgroundViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86FF4EE42D0B5BC000C67719 /* BaseBackgroundViewController.swift */; };
@@ -98,6 +99,7 @@
 		86A2AB262D0FDD5300288EFF /* HadithApiManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HadithApiManager.swift; sourceTree = "<group>"; };
 		86A2AB282D0FDE3F00288EFF /* apiKeys.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = apiKeys.swift; sourceTree = "<group>"; };
 		86A2AB2C2D0FE84E00288EFF /* HadithViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HadithViewController.swift; sourceTree = "<group>"; };
+		86A2AB2E2D0FF8A100288EFF /* ContactUsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactUsViewController.swift; sourceTree = "<group>"; };
 		86BC00D62D0B594800F361D9 /* MainTabController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTabController.swift; sourceTree = "<group>"; };
 		86BC00D82D0B59DC00F361D9 /* adhan.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = adhan.wav; sourceTree = "<group>"; };
 		86FF4EE42D0B5BC000C67719 /* BaseBackgroundViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseBackgroundViewController.swift; sourceTree = "<group>"; };
@@ -147,6 +149,7 @@
 				86A2AB2C2D0FE84E00288EFF /* HadithViewController.swift */,
 				86FF4EEC2D0B5D3200C67719 /* SettingsVC.swift */,
 				86FF4EEE2D0B5D3C00C67719 /* LoadVC.swift */,
+				86A2AB2E2D0FF8A100288EFF /* ContactUsViewController.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -436,6 +439,7 @@
 				869AF3072D0E4CA700B323FD /* PrayerChoiceLabel.swift in Sources */,
 				86A2AB292D0FDE3F00288EFF /* apiKeys.swift in Sources */,
 				866701182D0A4DA900D19EAD /* SceneDelegate.swift in Sources */,
+				86A2AB2F2D0FF8A100288EFF /* ContactUsViewController.swift in Sources */,
 				86FF4EED2D0B5D3200C67719 /* SettingsVC.swift in Sources */,
 				868C822A2D0C99CA00D4DA3F /* HomeBox.swift in Sources */,
 				8677063E2D0B68EF00E6A89B /* TimeManager.swift in Sources */,

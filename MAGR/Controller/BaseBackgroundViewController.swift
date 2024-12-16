@@ -7,6 +7,11 @@
 
 import UIKit
 
+/**
+ The View Controller the entire app uses
+ - Note: Provides consistent look and feel with gradient background and logo at the top of each page
+ - Note: Provides location of bottom of logo image so pages can accurately place their objects without interference
+ */
 class BaseBackgroundViewController: UIViewController {
     
     var bottomOfImage: CGFloat = 0
