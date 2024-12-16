@@ -133,8 +133,11 @@ extension HomeVC {
         
         verseBox.configure(icon: UIImage(systemName: "book"), topText: "Verse of the Day", bottomText: "Reflect on the wisdom of the Quran")
         verseBox.attachTo(parentView: contentView, topAnchor: announcementBox.bottomAnchor, topInset: standardSpace, xInset: standardXinset)
-        verseBox.onTouch = {self.verseTouched()}
-        
+        verseBox.onTouch = {
+            Task {
+                await self.verseTouched()
+            }
+        }
         contactBox.configure(icon: UIImage(systemName: "phone"), topText: "Contact Us", bottomText: "Find all of our contact information")
         contactBox.attachTo(parentView: contentView, topAnchor: verseBox.bottomAnchor, topInset: standardSpace, xInset: standardXinset)
         contactBox.onTouch = {self.contactTouched()}
@@ -183,8 +186,17 @@ extension HomeVC {
         }
     }
     
-    func verseTouched() {
-        
+    func verseTouched() async {
+        // Fetch hadiths data
+        let apiResponse = await HadithApiManager.fetchHadiths()
+
+        let hadithVC = HadithViewController()
+        hadithVC.apiResponse = apiResponse
+
+        // Present the modal view controller
+        DispatchQueue.main.async { [weak self] in
+            self?.present(hadithVC, animated: true, completion: nil)
+        }
     }
     
     func contactTouched() {
