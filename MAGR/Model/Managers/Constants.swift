@@ -110,4 +110,9 @@ struct K {
     struct images {
         static let logo = "magrImage"
     }
+    
+    struct hadith {
+        static let api = "$2y$10$hJuYljk4wifEuQti194lu02ZOzw4fzHbJQVP1gTNS9FTuqBkdmm"
+    }
 }
+

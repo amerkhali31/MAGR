@@ -29,6 +29,7 @@ class HomeVC: BaseBackgroundViewController {
     let verseBox = HomeBox()
     let contactBox = HomeBox()
     let donationBox = HomeBox()
+    let qiblaBox = HomeBox()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -141,7 +142,11 @@ extension HomeVC {
         donationBox.configure(icon: UIImage(systemName: "dollarsign.circle"), topText: "Donate", bottomText: "Increase in charity")
         donationBox.attachTo(parentView: contentView, topAnchor: contactBox.bottomAnchor, topInset: standardSpace, xInset: standardXinset)
         donationBox.onTouch = {self.donateTouched()}
-        donationBox.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -10).isActive = true
+        
+        qiblaBox.configure(icon: UIImage(systemName: "safari"), topText: "Qibla Finder", bottomText: "Get the correct prayer direction wherever you are")
+        qiblaBox.attachTo(parentView: contentView, topAnchor: donationBox.bottomAnchor, topInset: standardSpace, xInset: standardXinset)
+        qiblaBox.onTouch = {self.donateTouched()}
+        qiblaBox.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -10).isActive = true
         
     }
     
