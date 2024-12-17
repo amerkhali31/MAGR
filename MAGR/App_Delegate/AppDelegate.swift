@@ -38,8 +38,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
     
     
     func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
-        print("DidRegisterForRemoteNotificationsWithDeviceToken")
-        print(deviceToken)
+        //print("DidRegisterForRemoteNotificationsWithDeviceToken")
+        //print(deviceToken)
         
         // Send the device token to Firebase
         Messaging.messaging().apnsToken = deviceToken
@@ -47,7 +47,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         // Retrieve FCM token for testing/debuggin
         Messaging.messaging().token { token, error in
             if let error = error { print("Error fetching FCM registration token: \(error)") }
-            else if let token = token { print("FCM registration token: \(token)") }
+            else if let token = token {print("FCM registration token: \(token)") }
         }
         
         
@@ -59,7 +59,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
     
     func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable: Any], fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
         print("Silent push notification received: \(userInfo)")
-        
+        let count = DataManager.getPushNotificationCount() + 1
+        DataManager.setPushNoticeTest(count: count)
         // Perform your background task here
         runBackgroundTask()
 
@@ -67,10 +68,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
     }
     
     private func runBackgroundTask() {
-        print("Successfully Running Background task from Received Push Notification")
+        
     }
     
     // MARK: UISceneSession Lifecycle
+    
+    func applicationWillTerminate(_ application: UIApplication) {
+        NotificationManager.scheduleAllDailyNotifications()
+        //NotificationManager.printScheduledNotifications()
+    }
 
     func application(_ application: UIApplication, configurationForConnecting connectingSceneSession: UISceneSession, options: UIScene.ConnectionOptions) -> UISceneConfiguration {
         // Called when a new scene session is being created.

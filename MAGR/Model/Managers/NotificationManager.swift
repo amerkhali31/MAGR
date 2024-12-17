@@ -72,7 +72,7 @@ class NotificationManager {
                 if let error = error {
                     print("Error scheduling notification: \(error.localizedDescription)")
                 } else {
-                    print("\(title) Notification scheduled successfully for \(triggerDate).")
+                    //print("\(title) Notice: \(triggerDate).")
                 }
             }
         }
@@ -86,56 +86,64 @@ class NotificationManager {
         return settings.authorizationStatus == .authorized || settings.authorizationStatus == .provisional
     }
     
-    /// Clear all sceduled notifications and schedule new ones on top of them
+    /// Clear all sceduled notifications and schedule new ones on top of them up to 64 notifications. app needs to open and be closed for this to work
+    /// Clear all scheduled notifications and schedule new ones on top of them
     static func scheduleAllDailyNotifications() {
         
-        // Get rid of the old notifications in notification center to avoid conflicts with new ones
+        // Clear all pending notifications to avoid duplication
         deleteAllNotifications()
         
-        // Iterate all saved Notifications
-        for prayerNotification in DataManager.NotificationEntities{
+        // Get all prayers with notifications enabled
+        let enabledPrayers = DataManager.NotificationEntities.filter { $0.value.status }
+        
+        // Calculate the max number of days for notifications per prayer
+        let maxNotifications = 64
+        let daysPerPrayer = maxNotifications / max(1, enabledPrayers.count) // Avoid division by zero
+        
+        print("Scheduling notifications for \(enabledPrayers.count) enabled prayers, \(daysPerPrayer) days each.")
+        
+        // Iterate over each enabled prayer
+        for prayerNotification in enabledPrayers {
+            guard let prayerName = prayerNotification.value.prayer else { continue }
             
-            // If the given prayer has notifications turned on
-            if prayerNotification.value.status {
-                print("From ScheduleAllNotifications:")
+            for dayOffset in 0..<daysPerPrayer {
+                let date: Date?
+                let dayAdjustment = TimeInterval(dayOffset * 24 * 60 * 60) // Increment by day
                 
-                // Assign notification per prayer name
-                switch prayerNotification.value.prayer! {
-                    
+                // Calculate the date for the specific prayer and day
+                switch prayerName {
                 case K.FireStore.dailyPrayers.names.fajr:
+                    date = TimeManager.createDateFromTime(DataManager.getFajrToday().adhan)?.addingTimeInterval(dayAdjustment)
+                    scheduleNotification(at: date, "Fajr", "\(K.AdhanNotifications.fajrNotice)-\(dayOffset)")
                     
-                    let date = TimeManager.createDateFromTime(DataManager.getFajrToday().adhan)
-                    scheduleNotification(at: date, "Fajr", K.AdhanNotifications.fajrNotice)
-
                 case K.FireStore.dailyPrayers.names.dhuhr:
+                    date = TimeManager.createDateFromTime(DataManager.getDhuhrToday().adhan)?.addingTimeInterval(dayAdjustment)
+                    scheduleNotification(at: date, "Zuhr", "\(K.AdhanNotifications.dhuhrNotice)-\(dayOffset)")
                     
-                    let date = TimeManager.createDateFromTime(DataManager.getDhuhrToday().adhan)
-                    scheduleNotification(at: date, "Zuhr", K.AdhanNotifications.dhuhrNotice)
-
                 case K.FireStore.dailyPrayers.names.asr:
+                    date = TimeManager.createDateFromTime(DataManager.getAsrToday().adhan)?.addingTimeInterval(dayAdjustment)
+                    scheduleNotification(at: date, "Asr", "\(K.AdhanNotifications.asrNotice)-\(dayOffset)")
                     
-                    let date = TimeManager.createDateFromTime(DataManager.getAsrToday().adhan)
-                    scheduleNotification(at: date, "Asr", K.AdhanNotifications.asrNotice)
-
                 case K.FireStore.dailyPrayers.names.maghrib:
+                    date = TimeManager.createDateFromTime(DataManager.getMaghribToday().adhan)?.addingTimeInterval(dayAdjustment)
+                    scheduleNotification(at: date, "Maghrib", "\(K.AdhanNotifications.maghribNotice)-\(dayOffset)")
                     
-                    let date = TimeManager.createDateFromTime(DataManager.getMaghribToday().adhan)
-                    scheduleNotification(at: date, "Maghrib", K.AdhanNotifications.maghribNotice)
-
                 case K.FireStore.dailyPrayers.names.isha:
+                    date = TimeManager.createDateFromTime(DataManager.getIshaToday().adhan)?.addingTimeInterval(dayAdjustment)
+                    scheduleNotification(at: date, "Isha", "\(K.AdhanNotifications.ishaNotice)-\(dayOffset)")
                     
-                    let date = TimeManager.createDateFromTime(DataManager.getIshaToday().adhan)
-                    scheduleNotification(at: date, "Isha", K.AdhanNotifications.ishaNotice)
-
-                default: print("Prayer name not found when making a Notification")
-                    
+                default:
+                    print("Prayer name \(prayerName) not found when making a Notification")
+                    continue
                 }
             }
         }
     }
+
     
     /// Display all scheduled notifications and their details
     static func printScheduledNotifications() {
+        //print("In printscheduled function")
         UNUserNotificationCenter.current().getPendingNotificationRequests { requests in
             if requests.count == 0 {print("No Notifications Pending")}
             for request in requests {

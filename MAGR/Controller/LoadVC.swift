@@ -14,14 +14,11 @@ class LoadVC: UIViewController {
     let spinner = UIActivityIndicatorView(style: .large)
 
     override func viewDidLoad() {
-        
+        //let x = DataManager.getPushNotificationCount()
+        //print(x)
         setupScreen()
-
-        NotificationManager.requestNotificationPermission()
-        //NotificationManager.printScheduledNotifications()
-        
+        //NotificationManager.deleteAllNotifications()
         prepareApp()
-        
         super.viewDidLoad()
 
     }

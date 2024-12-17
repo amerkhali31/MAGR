@@ -20,6 +20,7 @@ class DataManager {
     private static let defaults = UserDefaults.standard
     private static var dateOfLastNetwork = Date()
     private static var userWantsNotifications = false
+    static var gotPushNoticeCounter: Int = 0
     
     // MARK: Setting Up Persistent Storage
     private static let persistentContianer = (UIApplication.shared.delegate as! AppDelegate).persistentContainer
@@ -144,27 +145,27 @@ extension DataManager {
     static func setMonthlyTimes(_ prayers: [FirebaseMonthlyPrayer]) {monthlyPrayers = prayers}
     
     /// Save the given Date to UserDefaults and DataManager dateOfLastNetwork
-    static func setDateOfLastNetwork(_ date: Date) {
+    static func setDateOfLastNetwork(_ date: Date = Calendar.current.date(from: DateComponents(year: 2024, month: 11, day: 9))!) {
         defaults.set(date, forKey: K.userDefaults.lastNetworkDate)
         dateOfLastNetwork = date
     }
     
     /// Save the given Bool to UserDefaults and DataManager UserWantsNotifications
-    static func setUserWantsNotifications(_ status: Bool) {
+    static func setUserWantsNotifications(_ status: Bool = false) {
         defaults.set(status, forKey: K.userDefaults.userWantsNotitifications)
-        userWantsNotifications = false
+        userWantsNotifications = status
+    }
+    
+    /// Test
+    static func setPushNoticeTest(count: Int = 0) {
+        defaults.set(count, forKey: K.userDefaults.pushNoticeTest)
+        gotPushNoticeCounter = count
     }
     
 }
 
 // MARK: Persistent Storage Operations - CREATE
 extension DataManager {
-    
-    /// Create a DateOfLastNetwork Date - save it to UserDefaults and DataManager
-    static func createDateOfLastNetwork() {setDateOfLastNetwork(Calendar.current.date(from: DateComponents(year: 2024, month: 11, day: 9))!)}
-    
-    /// Create a UserWantsNotice Bool - save it to UserDefaults and DataManager
-    static func createUserWantsNotice() {setUserWantsNotifications(false)}
     
     /// Create and return a DailyPrayerEntity from a ``DailyPrayer`` Object
     static func createDailyPrayerEntity(_ prayer: DailyPrayer) -> DailyPrayerEntity {
@@ -206,29 +207,28 @@ extension DataManager {
 // MARK: Persistent Storage Operations - READ
 extension DataManager {
     
-    /// Grab dateOfLastNetwork from UserDefaults and create it if it doesnt exist. Get functions are UserDefaults, Load are Core Data
+    /// Test
+    static func getPushNotificationCount() -> Int {
+        if let count = defaults.object(forKey: K.userDefaults.pushNoticeTest) as? Int {gotPushNoticeCounter = count}
+        else {setPushNoticeTest()}
+        return gotPushNoticeCounter
+    }
+    
+    /// Grab dateOfLastNetwork from UserDefaults and create it if it doesnt exist. Then assign it to DataManager.dateOfLastNetwork
     /// Come back to this and verify that this is actually what you want
     static func getDateofLastNetwork() -> Date {
         
-        if let _ = defaults.object(forKey: K.userDefaults.lastNetworkDate) as? Date {
-            return dateOfLastNetwork
-        }
-        else {
-            createDateOfLastNetwork()
-            return dateOfLastNetwork
-        }
+        if let day = defaults.object(forKey: K.userDefaults.lastNetworkDate) as? Date {dateOfLastNetwork = day}
+        else {setDateOfLastNetwork()}
+        return dateOfLastNetwork
     }
     
-    /// Grab userWantsNotifications Bool from UserDefaults and create it if it doesnt exist.
+    /// Grab userWantsNotifications Bool from UserDefaults and create it if it doesnt exist. Then assign it to DataManager.userWantsNotifications
     static func getUserWantsNotice() -> Bool {
         
-        if let _ = defaults.object(forKey: K.userDefaults.userWantsNotitifications) as? Bool {
-            return userWantsNotifications
-        }
-        else {
-            
-            return userWantsNotifications
-        }
+        if let status = defaults.object(forKey: K.userDefaults.userWantsNotitifications) as? Bool {userWantsNotifications = status}
+        else {setUserWantsNotifications()}
+        return userWantsNotifications
     }
     
     /// Grab DailyPrayerEntities from Core Data and populate DataManager DailyPrayerEntities dict

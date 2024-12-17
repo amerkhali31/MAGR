@@ -104,6 +104,7 @@ struct K {
         static let asrNotice = "an"
         static let maghribNotice = "mn"
         static let ishaNotice = "in"
+        static let pushNoticeTest = "pushTest"
     }
     
     /// Names of images saved to assets
