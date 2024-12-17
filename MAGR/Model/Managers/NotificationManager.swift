@@ -22,9 +22,16 @@ import CoreData
  */
 class NotificationManager {
     
+    
+    
     private static let center = UNUserNotificationCenter.current()
     
     static func requestNotificationPermission() {
+        
+        UNUserNotificationCenter.current().requestAuthorization(
+          options: [.alert, .sound, .badge],
+          completionHandler: { _, _ in } )
+        
         let center = UNUserNotificationCenter.current()
         center.requestAuthorization(options: [.alert, .sound, .badge]) { granted, error in
             if granted {

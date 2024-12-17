@@ -196,11 +196,3 @@ class ContactUsViewController: BaseBackgroundViewController {
 }
 
 private var actionKey: UInt8 = 0
-
-
-    
-    
-
-
-
-

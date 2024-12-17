@@ -7,7 +7,7 @@
 		<key>MAGR.xcscheme_^#shared#^_</key>
 		<dict>
 			<key>orderHint</key>
-			<integer>0</integer>
+			<integer>1</integer>
 		</dict>
 		<key>Promises (Playground) 1.xcscheme</key>
 		<dict>
@@ -29,6 +29,24 @@
 			<false/>
 			<key>orderHint</key>
 			<integer>0</integer>
+		</dict>
+	</dict>
+	<key>SuppressBuildableAutocreation</key>
+	<dict>
+		<key>866701112D0A4DA900D19EAD</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>8667012A2D0A4DAA00D19EAD</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>866701342D0A4DAA00D19EAD</key>
+		<dict>
+			<key>primary</key>
+			<true/>
 		</dict>
 	</dict>
 </dict>

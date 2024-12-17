@@ -8,19 +8,68 @@
 import UIKit
 import CoreData
 import FirebaseCore
+import FirebaseMessaging
 
 @main
-class AppDelegate: UIResponder, UIApplicationDelegate {
+class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterDelegate {
 
 
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         
+        // Configure Firebase
         FirebaseApp.configure()
         
+        // Register for remote notifications
+        UNUserNotificationCenter.current().delegate = self
+        
+        UNUserNotificationCenter.current().requestAuthorization(
+          options: [.alert, .sound, .badge],
+          completionHandler: { _, _ in } )
+        
+        application.registerForRemoteNotifications()
+                
         return true
     }
+    
+    
+    // MARK: Push Notice
+    
+    
+    
+    func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
+        print("DidRegisterForRemoteNotificationsWithDeviceToken")
+        print(deviceToken)
+        
+        // Send the device token to Firebase
+        Messaging.messaging().apnsToken = deviceToken
+        
+        // Retrieve FCM token for testing/debuggin
+        Messaging.messaging().token { token, error in
+            if let error = error { print("Error fetching FCM registration token: \(error)") }
+            else if let token = token { print("FCM registration token: \(token)") }
+        }
+        
+        
+    }
+    
+    func application(_ application: UIApplication, didFailToRegisterForRemoteNotificationsWithError error: Error) {
+        print("Failed to register for remote notifications: \(error.localizedDescription)")
+    }
+    
+    func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable: Any], fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
+        print("Silent push notification received: \(userInfo)")
+        
+        // Perform your background task here
+        runBackgroundTask()
 
+        completionHandler(.newData)
+    }
+    
+    private func runBackgroundTask() {
+        print("Successfully Running Background task from Received Push Notification")
+    }
+    
     // MARK: UISceneSession Lifecycle
 
     func application(_ application: UIApplication, configurationForConnecting connectingSceneSession: UISceneSession, options: UIScene.ConnectionOptions) -> UISceneConfiguration {
@@ -35,6 +84,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Use this method to release any resources that were specific to the discarded scenes, as they will not return.
     }
 
+    
     // MARK: - Core Data stack
 
     lazy var persistentContainer: NSPersistentContainer = {
@@ -81,4 +131,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
 
 }
+
+
 

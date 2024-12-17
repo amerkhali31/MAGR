@@ -146,9 +146,9 @@ extension HomeVC {
         donationBox.attachTo(parentView: contentView, topAnchor: contactBox.bottomAnchor, topInset: standardSpace, xInset: standardXinset)
         donationBox.onTouch = {self.donateTouched()}
         
-        qiblaBox.configure(icon: UIImage(systemName: "safari"), topText: "Qibla Finder", bottomText: "Get the correct prayer direction wherever you are")
+        qiblaBox.configure(icon: UIImage(systemName: "safari"), topText: "Qibla Finder", bottomText: "Get the qibla direction from anywhere")
         qiblaBox.attachTo(parentView: contentView, topAnchor: donationBox.bottomAnchor, topInset: standardSpace, xInset: standardXinset)
-        qiblaBox.onTouch = {self.donateTouched()}
+        qiblaBox.onTouch = {self.qiblaTouched()}
         qiblaBox.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -10).isActive = true
         
     }
@@ -215,6 +215,10 @@ extension HomeVC {
     }
     
     func qiblaTouched() {
+        
+        DispatchQueue.main.async { [weak self] in
+            self?.present(QiblaFinderViewController(), animated: true, completion: nil)
+        }
         
     }
     
