@@ -45,6 +45,12 @@ class TimeManager {
         return String(Calendar.current.component(.month, from: Date()))
     }
     
+    /// Get the day of the month
+    static func getDayOfMonth() -> Int{
+        return Calendar.current.component(.day, from: Date())
+    }
+    
+    /// Get the string name of the month
     static func getMonthName(_ dateString: String) -> String {
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "yyyy-MM-dd"
@@ -57,6 +63,7 @@ class TimeManager {
         return dateFormatter.string(from: date)
     }
     
+    /// Convert a date in yyyy-MM-dd to the english version of that date with option to include the year
     static func formatDateToReadable(_ dateString: String, _ includeYear: Bool) -> String? {
         let inputFormatter = DateFormatter()
         inputFormatter.dateFormat = "yyyy-MM-dd"
@@ -183,7 +190,7 @@ class TimeManager {
         return (hours, minutes, seconds)
     }
     
-    /// Helper function for Schedulting All Notifications. Takes input string time of desired notification returns date
+    /// Helper function for Schedulting All Notifications. Takes input string time in hours minutes seconds (not day) of desired notification returns date
     static func createDateFromTime(_ timeString: String) -> Date? {
         
         // Get Current Date
@@ -207,6 +214,29 @@ class TimeManager {
         components.second = 0
         
         return calendar.date(from: components)
+    }
+    
+    /**
+     Updated version of createDateFromTime. Give it a time and a date as a string and it will give you the date and time as a Date object. used for schedul all notifications
+     */
+    static func createDateFromDateAndTime(_ timeString: String, _ dateString: String) -> Date? {
+        
+        let timeFormatter = DateFormatter()
+        timeFormatter.dateFormat = "h:mm a"
+        guard let time = timeFormatter.date(from: timeString) else {return nil}
+        
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "yyyy-MM-dd"
+        dateFormatter.locale = Locale(identifier: "en_US_POSIX")
+        guard let date = dateFormatter.date(from: dateString) else {return nil}
+        
+        let timeComponents = Calendar.current.dateComponents([.hour, .minute], from: time)
+        var Datecomponents = Calendar.current.dateComponents([.year, .month, .day], from: date)
+        
+        Datecomponents.hour = timeComponents.hour
+        Datecomponents.minute = timeComponents.minute
+        
+        return Calendar.current.date(from: Datecomponents)
     }
     
     private init() {}

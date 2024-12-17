@@ -138,20 +138,16 @@ class PrayerView: UIView {
     }
     
     func alarmToggle(_ prayer: DailyPrayer) {
+        
         status = !status
         
         DataManager.NotificationEntities[prayer.name]?.status = status
         NotificationManager.deleteNotification(prayer.name)
         
-        if status {
-            alarmIconView.tintColor = .white
-            let date = TimeManager.createDateFromTime(prayer.adhan)
-            NotificationManager.scheduleNotification(at: date, prayer.name, prayer.name)
-        }
-        else {
-            alarmIconView.tintColor = .gray
-        }
+        if status {alarmIconView.tintColor = .white}
+        else {alarmIconView.tintColor = .gray}
         
+        NotificationManager.scheduleAllDailyNotifications()
         DataManager.saveDatabase()
 
     }

@@ -72,7 +72,7 @@ class NotificationManager {
                 if let error = error {
                     print("Error scheduling notification: \(error.localizedDescription)")
                 } else {
-                    //print("\(title) Notice: \(triggerDate).")
+                    print("\(title) Notice: \(triggerDate).")
                 }
             }
         }
@@ -97,45 +97,56 @@ class NotificationManager {
         let enabledPrayers = DataManager.NotificationEntities.filter { $0.value.status }
         
         // Calculate the max number of days for notifications per prayer
-        let maxNotifications = 64
-        let daysPerPrayer = maxNotifications / max(1, enabledPrayers.count) // Avoid division by zero
+        let day = TimeManager.getDayOfMonth()
+        let monthlyEntities = DataManager.getMonthlyPrayerEntities()
+        let daysLeftInMonthlyEntity = 1 + monthlyEntities.count - day
         
-        print("Scheduling notifications for \(enabledPrayers.count) enabled prayers, \(daysPerPrayer) days each.")
+        let maxNotifications = 64
+        let maxDaysPerPrayer = maxNotifications / max(1, enabledPrayers.count) // Avoid division by zero
+        
+        let numberOfDaysForNotification = min(daysLeftInMonthlyEntity,maxDaysPerPrayer)
+        
+        print("Scheduling notifications for \(enabledPrayers.count) daily prayers, \(numberOfDaysForNotification) days each.")
         
         // Iterate over each enabled prayer
         for prayerNotification in enabledPrayers {
-            guard let prayerName = prayerNotification.value.prayer else { continue }
             
-            for dayOffset in 0..<daysPerPrayer {
-                let date: Date?
-                let dayAdjustment = TimeInterval(dayOffset * 24 * 60 * 60) // Increment by day
+            guard let prayerName = prayerNotification.value.prayer else { print("Problem"); continue }
+            
+            for monthlyEntity in DataManager.getMonthlyPrayerEntities()[day-1..<day-1+numberOfDaysForNotification] {
                 
-                // Calculate the date for the specific prayer and day
                 switch prayerName {
+                    
                 case K.FireStore.dailyPrayers.names.fajr:
-                    date = TimeManager.createDateFromTime(DataManager.getFajrToday().adhan)?.addingTimeInterval(dayAdjustment)
-                    scheduleNotification(at: date, "Fajr", "\(K.AdhanNotifications.fajrNotice)-\(dayOffset)")
+                    if let date = TimeManager.createDateFromDateAndTime(TimeManager.convert24HrTimeTo12HrTime(monthlyEntity.fajr ?? "00:00 AM"), monthlyEntity.date ?? "1999-09-27") {
+                        scheduleNotification(at: date, "Fajr", "\(K.AdhanNotifications.fajrNotice)-\(day)")
+                    }
                     
                 case K.FireStore.dailyPrayers.names.dhuhr:
-                    date = TimeManager.createDateFromTime(DataManager.getDhuhrToday().adhan)?.addingTimeInterval(dayAdjustment)
-                    scheduleNotification(at: date, "Zuhr", "\(K.AdhanNotifications.dhuhrNotice)-\(dayOffset)")
+                    if let date = TimeManager.createDateFromDateAndTime(TimeManager.convert24HrTimeTo12HrTime(monthlyEntity.dhuhr ?? "00:00 AM"), monthlyEntity.date ?? "1999-09-27") {
+                        scheduleNotification(at: date, "Dhuhr", "\(K.AdhanNotifications.dhuhrNotice)-\(day)")
+                    }
                     
                 case K.FireStore.dailyPrayers.names.asr:
-                    date = TimeManager.createDateFromTime(DataManager.getAsrToday().adhan)?.addingTimeInterval(dayAdjustment)
-                    scheduleNotification(at: date, "Asr", "\(K.AdhanNotifications.asrNotice)-\(dayOffset)")
+                    if let date = TimeManager.createDateFromDateAndTime(TimeManager.convert24HrTimeTo12HrTime(monthlyEntity.asr ?? "00:00 AM"), monthlyEntity.date ?? "1999-09-27") {
+                        scheduleNotification(at: date, "Asr", "\(K.AdhanNotifications.asrNotice)-\(day)")
+                    }
                     
                 case K.FireStore.dailyPrayers.names.maghrib:
-                    date = TimeManager.createDateFromTime(DataManager.getMaghribToday().adhan)?.addingTimeInterval(dayAdjustment)
-                    scheduleNotification(at: date, "Maghrib", "\(K.AdhanNotifications.maghribNotice)-\(dayOffset)")
+                    if let date = TimeManager.createDateFromDateAndTime(TimeManager.convert24HrTimeTo12HrTime(monthlyEntity.maghrib ?? "00:00 AM"), monthlyEntity.date ?? "1999-09-27") {
+                        scheduleNotification(at: date, "Maghrib", "\(K.AdhanNotifications.maghribNotice)-\(day)")
+                    }
                     
                 case K.FireStore.dailyPrayers.names.isha:
-                    date = TimeManager.createDateFromTime(DataManager.getIshaToday().adhan)?.addingTimeInterval(dayAdjustment)
-                    scheduleNotification(at: date, "Isha", "\(K.AdhanNotifications.ishaNotice)-\(dayOffset)")
+                    if let date = TimeManager.createDateFromDateAndTime(TimeManager.convert24HrTimeTo12HrTime(monthlyEntity.isha ?? "00:00 AM"), monthlyEntity.date ?? "1999-09-27") {
+                        scheduleNotification(at: date, "Isha", "\(K.AdhanNotifications.ishaNotice)-\(day)")
+                    }
                     
                 default:
                     print("Prayer name \(prayerName) not found when making a Notification")
                     continue
                 }
+                
             }
         }
     }
@@ -155,6 +166,7 @@ class NotificationManager {
     /// Delete all scheduled notifications from notification center
     static func deleteAllNotifications() {
         UNUserNotificationCenter.current().removeAllPendingNotificationRequests()
+        print("Cleared all Scheduled Notifications")
     }
     
     static func deleteNotification( _ noticeIdentifier: String) {

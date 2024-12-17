@@ -74,7 +74,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
     // MARK: UISceneSession Lifecycle
     
     func applicationWillTerminate(_ application: UIApplication) {
-        NotificationManager.scheduleAllDailyNotifications()
+        //NotificationManager.scheduleAllDailyNotifications()
         //NotificationManager.printScheduledNotifications()
     }
 
