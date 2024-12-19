@@ -247,32 +247,32 @@ extension PrayerTimeHomeVC {
     /// Example: Fajr Touch
     func fajrTouch() {
         handlePrayerTouch() {
-            self.fajrView.alarmToggle(DataManager.getFajrToday())
+            self.fajrView.alarmToggle(DataManager.getFajrToday(), self)
         }
     }
 
     /// Example: Other Prayer Touches
     func dhuhrTouch() {
         handlePrayerTouch() {
-            self.dhuhrView.alarmToggle(DataManager.getDhuhrToday())
+            self.dhuhrView.alarmToggle(DataManager.getDhuhrToday(), self)
         }
     }
 
     func asrTouch() {
         handlePrayerTouch() {
-            self.asrView.alarmToggle(DataManager.getAsrToday())
+            self.asrView.alarmToggle(DataManager.getAsrToday(), self)
         }
     }
 
     func maghribTouch() {
         handlePrayerTouch() {
-            self.maghribView.alarmToggle(DataManager.getMaghribToday())
+            self.maghribView.alarmToggle(DataManager.getMaghribToday(), self)
         }
     }
 
     func ishaTouch() {
         handlePrayerTouch() {
-            self.ishaView.alarmToggle(DataManager.getIshaToday())
+            self.ishaView.alarmToggle(DataManager.getIshaToday(), self)
         }
     }
     
@@ -303,23 +303,6 @@ extension PrayerTimeHomeVC {
         }
     }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 // MARK: - Month View Configuration

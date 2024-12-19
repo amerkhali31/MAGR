@@ -137,23 +137,57 @@ class PrayerView: UIView {
         ])
     }
     
-    func alarmToggle(_ prayer: DailyPrayer) {
+    /// Function to call when alarm button is pressed
+    func alarmToggle(_ prayer: DailyPrayer, _ vc: UIViewController) {
         
         status = !status
         
         DataManager.NotificationEntities[prayer.name]?.status = status
-        NotificationManager.deleteNotification(prayer.name)
+        //NotificationManager.deleteNotification(prayer.name)
         
         if status {alarmIconView.tintColor = .white}
         else {alarmIconView.tintColor = .gray}
+        
+        // Prepare the alert message
+        let statusMessage = status ? "Turned On" : "Turned Off"
+        let alertMessage = "The alarm for \(prayer.name) has been \(statusMessage)."
+        
+        // Create the alert controller
+        let alertController = UIAlertController(title: "Adhan Notification", message: alertMessage, preferredStyle: .alert)
+        
+        // Add an OK action to dismiss the alert
+        let okAction = UIAlertAction(title: "OK", style: .default, handler: nil)
+        alertController.addAction(okAction)
+        
+        // Present the alert
+        vc.present(alertController, animated: true, completion: nil)
         
         NotificationManager.scheduleAllDailyNotifications()
         DataManager.saveDatabase()
 
     }
     
+    /// Function to initialize state of alarm colors when the view loads up
     func setAlarmStatus(to entityStatus: Bool) {
         status = entityStatus
         if status {alarmIconView.tintColor = .white}
     }
+    
+    private func showPrayerScheduledAlert(prayerName: String, isScheduled: Bool, vc: UIViewController) {
+        // Prepare the alert message
+        let statusMessage = isScheduled ? "Turned On" : "Turned Off"
+        let alertMessage = "The alarm for \(prayerName) has been \(statusMessage)."
+        
+        // Create the alert controller
+        let alertController = UIAlertController(title: "Adhan Notification", message: alertMessage, preferredStyle: .alert)
+        
+        // Add an OK action to dismiss the alert
+        let okAction = UIAlertAction(title: "OK", style: .default, handler: nil)
+        alertController.addAction(okAction)
+        
+        // Present the alert
+        vc.present(alertController, animated: true, completion: nil)
+        
+    }
+    
 }

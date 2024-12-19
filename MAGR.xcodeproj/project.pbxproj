@@ -144,15 +144,15 @@
 		864F84702D0B561400FDD081 /* Controller */ = {
 			isa = PBXGroup;
 			children = (
-				86BC00D62D0B594800F361D9 /* MainTabController.swift */,
-				86FF4EE42D0B5BC000C67719 /* BaseBackgroundViewController.swift */,
 				86FF4EE62D0B5D0700C67719 /* AnnouncementVC.swift */,
-				86FF4EE82D0B5D1400C67719 /* PrayerTimeHomeVC.swift */,
-				86FF4EEA2D0B5D2200C67719 /* HomeVC.swift */,
-				86A2AB2C2D0FE84E00288EFF /* HadithViewController.swift */,
-				86FF4EEC2D0B5D3200C67719 /* SettingsVC.swift */,
-				86FF4EEE2D0B5D3C00C67719 /* LoadVC.swift */,
+				86FF4EE42D0B5BC000C67719 /* BaseBackgroundViewController.swift */,
 				86A2AB2E2D0FF8A100288EFF /* ContactUsViewController.swift */,
+				86A2AB2C2D0FE84E00288EFF /* HadithViewController.swift */,
+				86FF4EEA2D0B5D2200C67719 /* HomeVC.swift */,
+				86FF4EEE2D0B5D3C00C67719 /* LoadVC.swift */,
+				86BC00D62D0B594800F361D9 /* MainTabController.swift */,
+				86FF4EE82D0B5D1400C67719 /* PrayerTimeHomeVC.swift */,
+				86FF4EEC2D0B5D3200C67719 /* SettingsVC.swift */,
 				86A2AB302D1005B600288EFF /* QiblaFinderViewController.swift */,
 			);
 			path = Controller;

@@ -20,6 +20,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         // Configure Firebase
         FirebaseApp.configure()
         
+        /*
         // Register for remote notifications
         UNUserNotificationCenter.current().delegate = self
         
@@ -28,7 +29,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
           completionHandler: { _, _ in } )
         
         application.registerForRemoteNotifications()
-                
+        */
         return true
     }
     
@@ -36,7 +37,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
     // MARK: Push Notice
     
     
-    
+    /*
     func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
         //print("DidRegisterForRemoteNotificationsWithDeviceToken")
         //print(deviceToken)
@@ -70,6 +71,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
     private func runBackgroundTask() {
         
     }
+    */
     
     // MARK: UISceneSession Lifecycle
     

@@ -131,7 +131,7 @@ extension HomeVC {
         announcementBox.attachTo(parentView: contentView, topAnchor: prayerBox.bottomAnchor, topInset: standardSpace, xInset: standardXinset)
         announcementBox.onTouch = {self.announceTouched()}
         
-        verseBox.configure(icon: UIImage(systemName: "book"), topText: "Verse of the Day", bottomText: "Reflect on the wisdom of the Quran")
+        verseBox.configure(icon: UIImage(systemName: "book"), topText: "Verse of the Day", bottomText: "Reflect on the wisdom of Hadith")
         verseBox.attachTo(parentView: contentView, topAnchor: announcementBox.bottomAnchor, topInset: standardSpace, xInset: standardXinset)
         verseBox.onTouch = {
             Task {
@@ -187,13 +187,30 @@ extension HomeVC {
     }
     
     func verseTouched() async {
+        // Create and configure the loading indicator
+        let loadingIndicator = UIActivityIndicatorView(style: .large)
+        loadingIndicator.center = view.center
+        loadingIndicator.color = .white
+        loadingIndicator.alpha = 1.0
+        loadingIndicator.startAnimating()
+        
+        // Add the loading indicator to the view
+        DispatchQueue.main.async { [weak self] in
+            self?.view.addSubview(loadingIndicator)
+        }
+        
         // Fetch hadiths data
         let apiResponse = await HadithApiManager.fetchHadiths()
+        
+        // Remove the loading indicator once the data is fetched
+        DispatchQueue.main.async { [] in
+            loadingIndicator.removeFromSuperview()
+        }
 
+        // Prepare and present the Hadith view controller
         let hadithVC = HadithViewController()
         hadithVC.apiResponse = apiResponse
-
-        // Present the modal view controller
+        
         DispatchQueue.main.async { [weak self] in
             self?.present(hadithVC, animated: true, completion: nil)
         }

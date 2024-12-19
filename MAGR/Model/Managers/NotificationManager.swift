@@ -72,7 +72,7 @@ class NotificationManager {
                 if let error = error {
                     print("Error scheduling notification: \(error.localizedDescription)")
                 } else {
-                    print("\(title) Notice: \(triggerDate).")
+                    print("\(title) Sceduled Notice: \(triggerDate). ID: \(noticeIdentifier)")
                 }
             }
         }
@@ -113,33 +113,33 @@ class NotificationManager {
             
             guard let prayerName = prayerNotification.value.prayer else { print("Problem"); continue }
             
-            for monthlyEntity in DataManager.getMonthlyPrayerEntities()[day-1..<day-1+numberOfDaysForNotification] {
+            for (index,monthlyEntity) in DataManager.getMonthlyPrayerEntities()[day-1..<day-1+numberOfDaysForNotification].enumerated() {
                 
                 switch prayerName {
                     
                 case K.FireStore.dailyPrayers.names.fajr:
                     if let date = TimeManager.createDateFromDateAndTime(TimeManager.convert24HrTimeTo12HrTime(monthlyEntity.fajr ?? "00:00 AM"), monthlyEntity.date ?? "1999-09-27") {
-                        scheduleNotification(at: date, "Fajr", "\(K.AdhanNotifications.fajrNotice)-\(day)")
+                        scheduleNotification(at: date, "Fajr", "\(K.AdhanNotifications.fajrNotice)-\(day+index)")
                     }
                     
                 case K.FireStore.dailyPrayers.names.dhuhr:
                     if let date = TimeManager.createDateFromDateAndTime(TimeManager.convert24HrTimeTo12HrTime(monthlyEntity.dhuhr ?? "00:00 AM"), monthlyEntity.date ?? "1999-09-27") {
-                        scheduleNotification(at: date, "Dhuhr", "\(K.AdhanNotifications.dhuhrNotice)-\(day)")
+                        scheduleNotification(at: date, "Dhuhr", "\(K.AdhanNotifications.dhuhrNotice)-\(day+index)")
                     }
                     
                 case K.FireStore.dailyPrayers.names.asr:
                     if let date = TimeManager.createDateFromDateAndTime(TimeManager.convert24HrTimeTo12HrTime(monthlyEntity.asr ?? "00:00 AM"), monthlyEntity.date ?? "1999-09-27") {
-                        scheduleNotification(at: date, "Asr", "\(K.AdhanNotifications.asrNotice)-\(day)")
+                        scheduleNotification(at: date, "Asr", "\(K.AdhanNotifications.asrNotice)-\(day+index)")
                     }
                     
                 case K.FireStore.dailyPrayers.names.maghrib:
                     if let date = TimeManager.createDateFromDateAndTime(TimeManager.convert24HrTimeTo12HrTime(monthlyEntity.maghrib ?? "00:00 AM"), monthlyEntity.date ?? "1999-09-27") {
-                        scheduleNotification(at: date, "Maghrib", "\(K.AdhanNotifications.maghribNotice)-\(day)")
+                        scheduleNotification(at: date, "Maghrib", "\(K.AdhanNotifications.maghribNotice)-\(day+index)")
                     }
                     
                 case K.FireStore.dailyPrayers.names.isha:
                     if let date = TimeManager.createDateFromDateAndTime(TimeManager.convert24HrTimeTo12HrTime(monthlyEntity.isha ?? "00:00 AM"), monthlyEntity.date ?? "1999-09-27") {
-                        scheduleNotification(at: date, "Isha", "\(K.AdhanNotifications.ishaNotice)-\(day)")
+                        scheduleNotification(at: date, "Isha", "\(K.AdhanNotifications.ishaNotice)-\(day+index)")
                     }
                     
                 default:

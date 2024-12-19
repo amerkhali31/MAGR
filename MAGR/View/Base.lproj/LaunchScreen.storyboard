@@ -17,16 +17,16 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="magrImage" translatesAutoresizingMaskIntoConstraints="NO" id="7Sv-gB-Ejd">
-                                <rect key="frame" x="0.0" y="59" width="393" height="759"/>
+                                <rect key="frame" x="50" y="259" width="293" height="359"/>
                             </imageView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
-                        <color key="backgroundColor" name="MAGR4"/>
+                        <color key="backgroundColor" name="MAGR5"/>
                         <constraints>
-                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="7Sv-gB-Ejd" secondAttribute="bottom" id="JuA-E5-kPq"/>
-                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="7Sv-gB-Ejd" secondAttribute="trailing" id="NBu-mZ-rsv"/>
-                            <constraint firstItem="7Sv-gB-Ejd" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="QR1-Ag-0pC"/>
-                            <constraint firstItem="7Sv-gB-Ejd" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" id="vMh-xl-hdw"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="7Sv-gB-Ejd" secondAttribute="bottom" constant="200" id="JuA-E5-kPq"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="7Sv-gB-Ejd" secondAttribute="trailing" constant="50" id="NBu-mZ-rsv"/>
+                            <constraint firstItem="7Sv-gB-Ejd" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="50" id="QR1-Ag-0pC"/>
+                            <constraint firstItem="7Sv-gB-Ejd" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="200" id="vMh-xl-hdw"/>
                         </constraints>
                     </view>
                 </viewController>
@@ -37,8 +37,8 @@
     </scenes>
     <resources>
         <image name="magrImage" width="225" height="225"/>
-        <namedColor name="MAGR4">
-            <color red="0.15800000727176666" green="0.34999999403953552" blue="0.19200000166893005" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+        <namedColor name="MAGR5">
+            <color red="0.15849882360000001" green="0.34991666669999999" blue="0.19160547850000001" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
         </namedColor>
     </resources>
 </document>

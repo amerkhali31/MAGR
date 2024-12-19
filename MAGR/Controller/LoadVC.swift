@@ -18,6 +18,7 @@ class LoadVC: UIViewController {
         //print(x)
         setupScreen()
         //NotificationManager.deleteAllNotifications()
+        NotificationManager.printScheduledNotifications()
         prepareApp()
         super.viewDidLoad()
 
@@ -36,7 +37,7 @@ extension LoadVC {
         loadingImageView.translatesAutoresizingMaskIntoConstraints = false
         loadingImageView.contentMode = .scaleAspectFit
         
-        view.backgroundColor = .MAGR_4
+        view.backgroundColor = .MAGR_5
         view.addSubview(loadingImageView)
         
         spinner.center = view.center
@@ -47,10 +48,10 @@ extension LoadVC {
         view.addSubview(spinner)
         
         NSLayoutConstraint.activate([
-            loadingImageView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 0),
-            loadingImageView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: 0),
-            loadingImageView.topAnchor.constraint(equalTo: view.topAnchor, constant: 0),
-            loadingImageView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -150),
+            loadingImageView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 50),
+            loadingImageView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -50),
+            loadingImageView.topAnchor.constraint(equalTo: view.topAnchor, constant: 200),
+            loadingImageView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -200),
             spinner.topAnchor.constraint(equalTo: loadingImageView.bottomAnchor, constant: 0),
             spinner.centerXAnchor.constraint(equalTo: view.centerXAnchor),
         ])
@@ -90,7 +91,6 @@ extension LoadVC {
                 // Go into the actual app
                 DispatchQueue.main.async {
                     self.performSegue(withIdentifier: K.segues.loadSeque, sender: self)
-                    //self.goToMainScreen()
                 }
             }
             
