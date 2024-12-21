@@ -69,11 +69,11 @@ class NotificationManager {
 
             // Add the request to the notification center
             center.add(request) { error in
-                if let error = error {
-                    print("Error scheduling notification: \(error.localizedDescription)")
-                } else {
-                    print("\(title) Sceduled Notice: \(triggerDate). ID: \(noticeIdentifier)")
-                }
+//                if let error = error {
+//                    //print("Error scheduling notification: \(error.localizedDescription)")
+//                } else {
+//                    //print("\(title) Sceduled Notice: \(triggerDate). ID: \(noticeIdentifier)")
+//                }
             }
         }
         else {print("Bad Date")}
@@ -106,7 +106,7 @@ class NotificationManager {
         
         let numberOfDaysForNotification = min(daysLeftInMonthlyEntity,maxDaysPerPrayer)
         
-        print("Scheduling notifications for \(enabledPrayers.count) daily prayers, \(numberOfDaysForNotification) days each.")
+       // print("Scheduling notifications for \(enabledPrayers.count) daily prayers, \(numberOfDaysForNotification) days each.")
         
         // Iterate over each enabled prayer
         for prayerNotification in enabledPrayers {
@@ -143,7 +143,7 @@ class NotificationManager {
                     }
                     
                 default:
-                    print("Prayer name \(prayerName) not found when making a Notification")
+                    //print("Prayer name \(prayerName) not found when making a Notification")
                     continue
                 }
                 
@@ -166,7 +166,7 @@ class NotificationManager {
     /// Delete all scheduled notifications from notification center
     static func deleteAllNotifications() {
         UNUserNotificationCenter.current().removeAllPendingNotificationRequests()
-        print("Cleared all Scheduled Notifications")
+        //print("Cleared all Scheduled Notifications")
     }
     
     static func deleteNotification( _ noticeIdentifier: String) {

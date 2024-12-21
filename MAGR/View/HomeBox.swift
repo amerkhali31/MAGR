@@ -87,9 +87,10 @@ class HomeBox: UIView {
         iconView.image = icon
         topLabel.text = topText
         bottomLabel.text = bottomText
+        
     }
     
-    func attachTo(parentView: UIView, topAnchor: NSLayoutYAxisAnchor, topInset: CGFloat = 10, xInset: CGFloat = 10, height: CGFloat = 100) {
+    func attachTo(parentView: UIView, topAnchor: NSLayoutYAxisAnchor, topInset: CGFloat = 10, xInset: CGFloat = 10, height: CGFloat = 95) {
         parentView.addSubview(self)
         NSLayoutConstraint.activate([
             self.topAnchor.constraint(equalTo: topAnchor, constant: topInset),

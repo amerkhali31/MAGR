@@ -64,22 +64,6 @@
             </objects>
             <point key="canvasLocation" x="308" y="1101"/>
         </scene>
-        <!--SettingsVC-->
-        <scene sceneID="kcQ-tf-oV8">
-            <objects>
-                <viewController id="8L6-4I-s1y" customClass="SettingsVC" customModule="MAGR" customModuleProvider="target" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="YZu-cv-fA5">
-                        <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <viewLayoutGuide key="safeArea" id="LbV-6b-SNn"/>
-                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
-                    </view>
-                    <navigationItem key="navigationItem" id="EAK-dk-qdb"/>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="q7E-A4-gLV" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="1036" y="1101"/>
-        </scene>
         <!--AnnouncementVC-->
         <scene sceneID="Jsu-hj-HTK">
             <objects>
@@ -155,29 +139,9 @@
             </objects>
             <point key="canvasLocation" x="308" y="396"/>
         </scene>
-        <!--Settings-->
-        <scene sceneID="CDi-H9-ZiI">
-            <objects>
-                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="ECd-eA-ZRV" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="Settings" image="gearshape" catalog="system" selectedImage="gearshape" id="2BP-wW-eU1"/>
-                    <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="wBK-Z0-Bao">
-                        <rect key="frame" x="0.0" y="59" width="393" height="44"/>
-                        <autoresizingMask key="autoresizingMask"/>
-                    </navigationBar>
-                    <nil name="viewControllers"/>
-                    <connections>
-                        <segue destination="8L6-4I-s1y" kind="relationship" relationship="rootViewController" id="Tjs-BK-xCZ"/>
-                    </connections>
-                </navigationController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="Ihb-1j-mIn" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="1036" y="226"/>
-        </scene>
     </scenes>
     <resources>
         <image name="clock" catalog="system" width="128" height="123"/>
-        <image name="gearshape" catalog="system" width="128" height="123"/>
         <image name="house" catalog="system" width="128" height="104"/>
         <namedColor name="MAGR2">
             <color red="0.15999999642372131" green="0.33700001239776611" blue="0.18500000238418579" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>

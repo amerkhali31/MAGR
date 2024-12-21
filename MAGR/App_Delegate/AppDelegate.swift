@@ -18,18 +18,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         
         // Configure Firebase
+        setenv("GRPC_VERBOSITY", "NONE", 1)
+        setenv("GRPC_TRACE", "NONE", 1)
+        FirebaseConfiguration.shared.setLoggerLevel(.error)
         FirebaseApp.configure()
         
-        /*
-        // Register for remote notifications
-        UNUserNotificationCenter.current().delegate = self
-        
-        UNUserNotificationCenter.current().requestAuthorization(
-          options: [.alert, .sound, .badge],
-          completionHandler: { _, _ in } )
-        
-        application.registerForRemoteNotifications()
-        */
+
         return true
     }
     
@@ -38,6 +32,18 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
     
     
     /*
+     
+     /*
+     // Register for remote notifications
+     UNUserNotificationCenter.current().delegate = self
+     
+     UNUserNotificationCenter.current().requestAuthorization(
+       options: [.alert, .sound, .badge],
+       completionHandler: { _, _ in } )
+     
+     application.registerForRemoteNotifications()
+     */
+     
     func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
         //print("DidRegisterForRemoteNotificationsWithDeviceToken")
         //print(deviceToken)

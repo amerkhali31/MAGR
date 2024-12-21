@@ -145,11 +145,12 @@ extension HomeVC {
         donationBox.configure(icon: UIImage(systemName: "dollarsign.circle"), topText: "Donate", bottomText: "Increase in charity")
         donationBox.attachTo(parentView: contentView, topAnchor: contactBox.bottomAnchor, topInset: standardSpace, xInset: standardXinset)
         donationBox.onTouch = {self.donateTouched()}
+        donationBox.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -1).isActive = true
         
-        qiblaBox.configure(icon: UIImage(systemName: "safari"), topText: "Qibla Finder", bottomText: "Get the qibla direction from anywhere")
-        qiblaBox.attachTo(parentView: contentView, topAnchor: donationBox.bottomAnchor, topInset: standardSpace, xInset: standardXinset)
-        qiblaBox.onTouch = {self.qiblaTouched()}
-        qiblaBox.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -10).isActive = true
+        //qiblaBox.configure(icon: UIImage(systemName: "safari"), topText: "Qibla Finder", bottomText: "Get the qibla direction from anywhere")
+        //qiblaBox.attachTo(parentView: contentView, topAnchor: donationBox.bottomAnchor, topInset: standardSpace, xInset: standardXinset)
+        //qiblaBox.onTouch = {self.qiblaTouched()}
+        //qiblaBox.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -10).isActive = true
         
     }
     
@@ -187,6 +188,11 @@ extension HomeVC {
     }
     
     func verseTouched() async {
+        
+        let overlayView = UIView(frame: view.bounds)
+            overlayView.backgroundColor = UIColor.black.withAlphaComponent(0.5)
+            overlayView.isUserInteractionEnabled = true
+        view.addSubview(overlayView)
         // Create and configure the loading indicator
         let loadingIndicator = UIActivityIndicatorView(style: .large)
         loadingIndicator.center = view.center
@@ -196,6 +202,7 @@ extension HomeVC {
         
         // Add the loading indicator to the view
         DispatchQueue.main.async { [weak self] in
+            
             self?.view.addSubview(loadingIndicator)
         }
         
@@ -205,6 +212,7 @@ extension HomeVC {
         // Remove the loading indicator once the data is fetched
         DispatchQueue.main.async { [] in
             loadingIndicator.removeFromSuperview()
+            overlayView.removeFromSuperview()
         }
 
         // Prepare and present the Hadith view controller

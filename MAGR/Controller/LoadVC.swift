@@ -14,12 +14,10 @@ class LoadVC: UIViewController {
     let spinner = UIActivityIndicatorView(style: .large)
 
     override func viewDidLoad() {
-        //let x = DataManager.getPushNotificationCount()
-        //print(x)
+
         setupScreen()
-        //NotificationManager.deleteAllNotifications()
-        NotificationManager.printScheduledNotifications()
         prepareApp()
+        
         super.viewDidLoad()
 
     }
@@ -75,11 +73,13 @@ extension LoadVC {
             Task {
                 async let announcements: () = DataManager.handleAnnouncements()
                 async let monthly: () = DataManager.handleMonthly()
+                //async let checkUpdate: () = self.checkForUpdate()
                 
                 await announcements
                 await monthly
                 
                 await DataManager.handleDaily()
+                //await checkUpdate
                 
                 // Once Prayer times are gotten, assign current and next prayer
                 DataManager.setCurrentPrayer(PrayerManager.findCurrentPrayer())
@@ -97,12 +97,5 @@ extension LoadVC {
         }
         catch {print("Error Preparing App: \(error)")}
         
-    }
-    
-    private func goToMainScreen() {
-        let mainScreen = MainTabController()
-        mainScreen.modalTransitionStyle = .crossDissolve
-        mainScreen.modalPresentationStyle = .fullScreen
-        self.present(mainScreen, animated: true, completion: nil)
     }
 }

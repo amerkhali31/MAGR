@@ -99,7 +99,7 @@ class AnnouncementVC: BaseBackgroundViewController, UIScrollViewDelegate {
                 height: pageHeight
             ))
             zoomableScrollView.minimumZoomScale = 1.0
-            zoomableScrollView.maximumZoomScale = 3.0
+            zoomableScrollView.maximumZoomScale = 1.0
             zoomableScrollView.delegate = self
 
             // Add the zoomable scroll view to the main scroll view
@@ -128,6 +128,7 @@ class AnnouncementVC: BaseBackgroundViewController, UIScrollViewDelegate {
         pageControl.currentPage = 0
         pageControl.pageIndicatorTintColor = .lightGray
         pageControl.currentPageIndicatorTintColor = .white
+        pageControl.isUserInteractionEnabled = false
         view.addSubview(pageControl)
 
         NSLayoutConstraint.activate([

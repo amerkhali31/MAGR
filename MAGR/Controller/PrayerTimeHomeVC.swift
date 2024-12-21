@@ -41,6 +41,14 @@ class PrayerTimeHomeVC: BaseBackgroundViewController {
     override func viewDidLoad() {
         
         super.viewDidLoad()
+        
+        let rightSwipe = UISwipeGestureRecognizer(target: self, action: #selector(handleSwipe(_:)))
+                rightSwipe.direction = .right
+                view.addGestureRecognizer(rightSwipe)
+        
+        let leftSwipe = UISwipeGestureRecognizer(target: self, action: #selector(handleSwipe(_:)))
+                leftSwipe.direction = .left
+                view.addGestureRecognizer(leftSwipe)
                 
         todayLabel.attachTo(parentView: view, topAnchor: view.topAnchor, topInset: bottomOfImage + 10, lead: view.leadingAnchor)
         todayLabel.onTap = {self.todayTapped()}
@@ -56,6 +64,19 @@ class PrayerTimeHomeVC: BaseBackgroundViewController {
 
 // MARK: Major Labels
 extension PrayerTimeHomeVC {
+    
+    @objc func handleSwipe(_ gesture: UISwipeGestureRecognizer) {
+        switch gesture.direction {
+        case .right:
+            print("Swiped Right!")
+            monthTapped()
+        case .left:
+            print("Swiped Left!")
+            todayTapped()
+        default:
+            break
+        }
+    }
     
     func todayTapped() {
         
@@ -171,13 +192,15 @@ extension PrayerTimeHomeVC {
         khutbaView.configure(icon: UIImage(systemName: "music.mic"),
                              prayer: "Jumaa",
                              adhan: "Khutba",
-                             iqama:DataManager.getKhutba().iqama)
+                             iqama:DataManager.getKhutba().iqama,
+                             show: false)
         khutbaView.attachTo(parentView: todayView, topAnchor: ishaView.bottomAnchor, topInset: 50)
         
         jumaaView.configure(icon: UIImage(systemName: "sun.max"),
                             prayer: "Jumaa",
                             adhan: "Salah",
-                            iqama: DataManager.getJumaa().iqama)
+                            iqama: DataManager.getJumaa().iqama,
+                            show: false)
         jumaaView.attachTo(parentView: todayView, topAnchor: khutbaView.bottomAnchor)
         
         highlightCurrentPrayer()
@@ -405,6 +428,7 @@ extension PrayerTimeHomeVC: UITableViewDataSource {
         let data = DataManager.getMonthlyPrayerEntities()[indexPath.row]
         //cell.backgroundColor = .clear
         cell.configure(with: data)
+        cell.isUserInteractionEnabled = false
         return cell
     }
 }

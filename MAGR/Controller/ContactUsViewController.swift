@@ -99,22 +99,19 @@ class ContactUsViewController: BaseBackgroundViewController {
     func makeUnderlinedText(_ text: String) -> NSAttributedString {
         return NSAttributedString(
             string: text,
-            attributes: [
-                .underlineStyle: NSUnderlineStyle.single.rawValue
-            ]
+            attributes: [:]
         )
     }
     
     func configureStackView(_ stackView: UIStackView, icon: UIImage, text: String, color: UIColor = .tintColor, action: @escaping () -> Void) {
-        //stackView.backgroundColor = .white
-        
         let imageView = UIImageView(image: icon)
         imageView.contentMode = .scaleAspectFit
         imageView.translatesAutoresizingMaskIntoConstraints = false
         imageView.widthAnchor.constraint(equalToConstant: 48).isActive = true
         imageView.heightAnchor.constraint(equalToConstant: 48).isActive = true
-        //imageView.backgroundColor = .white
-        if color != UIColor.tintColor {imageView.tintColor = color}
+        if color != UIColor.tintColor {
+            imageView.tintColor = color
+        }
         
         let label = UILabel()
         label.attributedText = makeUnderlinedText(text)
@@ -126,16 +123,39 @@ class ContactUsViewController: BaseBackgroundViewController {
         // Add tap gesture to label
         addTapGesture(to: label, action: action)
         
+        let linkIconView = UIImageView(image: UIImage(systemName: "link"))
+        linkIconView.contentMode = .scaleAspectFit
+        linkIconView.translatesAutoresizingMaskIntoConstraints = false
+        linkIconView.tintColor = .blue
+        linkIconView.widthAnchor.constraint(equalToConstant: 24).isActive = true
+        linkIconView.heightAnchor.constraint(equalToConstant: 24).isActive = true
+        
+        // Wrap the link icon in a container view for padding
+        let linkIconContainer = UIView()
+        linkIconContainer.translatesAutoresizingMaskIntoConstraints = false
+        linkIconContainer.addSubview(linkIconView)
+        linkIconContainer.widthAnchor.constraint(equalToConstant: 40).isActive = true
+        linkIconContainer.heightAnchor.constraint(equalToConstant: 40).isActive = true
+        
+        // Center the link icon within the container
+        NSLayoutConstraint.activate([
+            linkIconView.centerXAnchor.constraint(equalTo: linkIconContainer.centerXAnchor),
+            linkIconView.centerYAnchor.constraint(equalTo: linkIconContainer.centerYAnchor)
+        ])
+        
         stackView.axis = .horizontal
         stackView.spacing = 10
         stackView.alignment = .center
         stackView.addArrangedSubview(imageView)
         stackView.addArrangedSubview(label)
+        stackView.addArrangedSubview(linkIconContainer) // Add the container for the link icon
         stackView.layer.borderColor = UIColor.black.cgColor
         stackView.layer.borderWidth = 2
         stackView.backgroundColor = .white
         stackView.layer.cornerRadius = 5
     }
+
+
     
     func addTapGesture(to label: UILabel, action: @escaping () -> Void) {
         let tap = UITapGestureRecognizer(target: self, action: #selector(handleTap(_:)))

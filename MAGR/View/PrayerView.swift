@@ -115,11 +115,14 @@ class PrayerView: UIView {
     }
     
     // MARK: - Public Methods
-    func configure(icon: UIImage?, prayer: String, adhan: String, iqama: String) {
+    func configure(icon: UIImage?, prayer: String, adhan: String, iqama: String, show: Bool = true) {
         iconView.image = icon
         prayerLabel.text = prayer
         adhanLabel.text = adhan
         iqamaLabel.text = iqama
+        if !show {
+            self.alarmIconView.tintColor = .clear
+        }
     }
     
     func setBorderColor(_ visible: Bool) {

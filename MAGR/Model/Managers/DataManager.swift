@@ -462,8 +462,8 @@ extension DataManager {
                    try context.execute(batchDeleteRequest)
                }
             try context.save()
-            print("Successfully cleared all data in Core Data.")
-            printAllCoreData(context: context)
+            //print("Successfully cleared all data in Core Data.")
+            //printAllCoreData(context: context)
             
            } catch {print("Error clearing Core Data: \(error)")}
     }
@@ -478,7 +478,7 @@ extension DataManager {
         try context.execute(deleteRequest)
         try context.save()
             
-        print("Successfully cleared all MonthlyPrayers from Core Data records.")
+        //print("Successfully cleared all MonthlyPrayers from Core Data records.")
     }
     
     static func clearDailyPrayerEntities() throws {
@@ -491,7 +491,7 @@ extension DataManager {
         try context.execute(deleteRequest)
         try context.save()
             
-        print("Successfully cleared all Daily Prayer Core Data records.")
+        //print("Successfully cleared all Daily Prayer Core Data records.")
     }
     
     static func clearNotificationEntities() throws {
