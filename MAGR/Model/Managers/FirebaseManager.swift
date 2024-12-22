@@ -95,6 +95,21 @@ class FirebaseManager {
     
     
     /**
+     
+     */
+    static func fetchHadithNumber() async -> String {
+        let query = db.collection(K.FireStore.Collections.hadiths)
+        do {
+            
+            let raw_fetched_data = try await query.getDocuments()
+            return raw_fetched_data.documents[0].data()[K.FireStore.hadiths.number] as! String
+            
+        } catch { print("Could not fetch hadithNumber: \(error)")}
+        
+        return "999"
+    }
+    
+    /**
      Retrieve all Announcement Image URL's from Firebase
      
      - Returns: List of Strings that each represent a URL that needs to be

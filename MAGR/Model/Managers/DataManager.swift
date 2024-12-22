@@ -20,6 +20,7 @@ class DataManager {
     private static let defaults = UserDefaults.standard
     private static var dateOfLastNetwork = Date()
     private static var userWantsNotifications = false
+    private static var hadithNumber = "1"
     static var gotPushNoticeCounter: Int = 0
     
     // MARK: Setting Up Persistent Storage
@@ -144,6 +145,12 @@ extension DataManager {
     /// Set the value for ``FirebaseMonthlyPrayer`` list  for all adhans for the month from given liar of FirebaseMonthlyPrayers
     static func setMonthlyTimes(_ prayers: [FirebaseMonthlyPrayer]) {monthlyPrayers = prayers}
     
+    /// Save the given Hadith Number to UserDefaults and DataManager hadithNumber
+    static func setHadithNumber(_ number: String = "1") {
+        defaults.set(number, forKey: K.userDefaults.hadithNumber)
+        hadithNumber = number
+    }
+    
     /// Save the given Date to UserDefaults and DataManager dateOfLastNetwork
     static func setDateOfLastNetwork(_ date: Date = Calendar.current.date(from: DateComponents(year: 2024, month: 11, day: 9))!) {
         defaults.set(date, forKey: K.userDefaults.lastNetworkDate)
@@ -229,6 +236,13 @@ extension DataManager {
         if let status = defaults.object(forKey: K.userDefaults.userWantsNotitifications) as? Bool {userWantsNotifications = status}
         else {setUserWantsNotifications()}
         return userWantsNotifications
+    }
+    
+    /// Grab hadithNumber String from UserDefaults and create it if it doesnt exist. Then assign it to DataManager.hadithNumber
+    static func getHadithNumber() -> String {
+        if let number = defaults.object(forKey: K.userDefaults.hadithNumber) as? String {hadithNumber = number}
+        else { setHadithNumber() }
+        return hadithNumber
     }
     
     /// Grab DailyPrayerEntities from Core Data and populate DataManager DailyPrayerEntities dict

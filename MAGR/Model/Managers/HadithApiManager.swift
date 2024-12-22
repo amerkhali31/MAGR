@@ -16,7 +16,7 @@ struct HadithApiManager {
     
     private static let baseUrl = "https://www.hadithapi.com/api/hadiths"
     private static let book = "sahih-bukhari"
-    private static let hadithNumber = String(3)
+    private static let hadithNumber = DataManager.getHadithNumber()
     private static let status = "Sahih"
     private static let apikey = PrivateKeys.hadithKey
     private static var urlString = ""
