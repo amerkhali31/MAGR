@@ -117,7 +117,7 @@ extension HomeVC {
     }
     
     func setupContent() {
-        
+
         setupLabels()
         
         prayerBox.configure(icon: UIImage(systemName: "moon"), topText: "Next Prayer: \(DataManager.getNextPrayer().name)", countdownText: "")
@@ -131,7 +131,7 @@ extension HomeVC {
         announcementBox.attachTo(parentView: contentView, topAnchor: prayerBox.bottomAnchor, topInset: standardSpace, xInset: standardXinset)
         announcementBox.onTouch = {self.announceTouched()}
         
-        verseBox.configure(icon: UIImage(systemName: "book"), topText: "Verse of the Day", bottomText: "Reflect on the wisdom of Hadith")
+        verseBox.configure(icon: UIImage(systemName: "book"), topText: "Hadith of the Day", bottomText: "Reflect on the wisdom of Hadith")
         verseBox.attachTo(parentView: contentView, topAnchor: announcementBox.bottomAnchor, topInset: standardSpace, xInset: standardXinset)
         verseBox.onTouch = {
             Task {

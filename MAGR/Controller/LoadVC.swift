@@ -17,7 +17,7 @@ class LoadVC: UIViewController {
 
         setupScreen()
         prepareApp()
-        
+        //DataManager.clearCoreData()
         super.viewDidLoad()
 
     }
@@ -60,6 +60,9 @@ extension LoadVC {
 extension LoadVC {
     
     private func prepareApp() {
+        
+        let _ = DataManager.getDateofLastNetwork()
+        
         do {
             
             // Load From Memory

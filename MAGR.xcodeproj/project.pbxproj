@@ -34,6 +34,7 @@
 		868C822C2D0CA9B100D4DA3F /* PrayerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 868C822B2D0CA9B100D4DA3F /* PrayerView.swift */; };
 		869AF3072D0E4CA700B323FD /* PrayerChoiceLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 869AF3062D0E4CA700B323FD /* PrayerChoiceLabel.swift */; };
 		869AF30D2D0E70A500B323FD /* MonthlyPrayerCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 869AF30C2D0E70A500B323FD /* MonthlyPrayerCell.swift */; };
+		869D72582D189DAA006454B9 /* ZoomableImageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 869D72572D189DAA006454B9 /* ZoomableImageViewController.swift */; };
 		86A2AB252D0FDBCC00288EFF /* Hadiths.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86A2AB242D0FDBCC00288EFF /* Hadiths.swift */; };
 		86A2AB272D0FDD5300288EFF /* HadithApiManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86A2AB262D0FDD5300288EFF /* HadithApiManager.swift */; };
 		86A2AB292D0FDE3F00288EFF /* apiKeys.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86A2AB282D0FDE3F00288EFF /* apiKeys.swift */; };
@@ -97,6 +98,7 @@
 		868C822B2D0CA9B100D4DA3F /* PrayerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrayerView.swift; sourceTree = "<group>"; };
 		869AF3062D0E4CA700B323FD /* PrayerChoiceLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrayerChoiceLabel.swift; sourceTree = "<group>"; };
 		869AF30C2D0E70A500B323FD /* MonthlyPrayerCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MonthlyPrayerCell.swift; sourceTree = "<group>"; };
+		869D72572D189DAA006454B9 /* ZoomableImageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZoomableImageViewController.swift; sourceTree = "<group>"; };
 		86A2AB242D0FDBCC00288EFF /* Hadiths.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Hadiths.swift; sourceTree = "<group>"; };
 		86A2AB262D0FDD5300288EFF /* HadithApiManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HadithApiManager.swift; sourceTree = "<group>"; };
 		86A2AB282D0FDE3F00288EFF /* apiKeys.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = apiKeys.swift; sourceTree = "<group>"; };
@@ -154,6 +156,7 @@
 				86FF4EE82D0B5D1400C67719 /* PrayerTimeHomeVC.swift */,
 				86FF4EEC2D0B5D3200C67719 /* SettingsVC.swift */,
 				86A2AB302D1005B600288EFF /* QiblaFinderViewController.swift */,
+				869D72572D189DAA006454B9 /* ZoomableImageViewController.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -431,6 +434,7 @@
 				867706402D0BC84C00E6A89B /* DailyPrayer.swift in Sources */,
 				86A2AB252D0FDBCC00288EFF /* Hadiths.swift in Sources */,
 				86FF4EEF2D0B5D3C00C67719 /* LoadVC.swift in Sources */,
+				869D72582D189DAA006454B9 /* ZoomableImageViewController.swift in Sources */,
 				867706322D0B64B200E6A89B /* FirebaseMonthlyPrayer.swift in Sources */,
 				866701202D0A4DA900D19EAD /* MAGR.xcdatamodeld in Sources */,
 				866701162D0A4DA900D19EAD /* AppDelegate.swift in Sources */,

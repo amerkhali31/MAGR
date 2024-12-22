@@ -8,7 +8,7 @@
 import UIKit
 import CoreData
 import FirebaseCore
-import FirebaseMessaging
+//import FirebaseMessaging
 
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterDelegate {
@@ -22,6 +22,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         setenv("GRPC_TRACE", "NONE", 1)
         FirebaseConfiguration.shared.setLoggerLevel(.error)
         FirebaseApp.configure()
+        FirebaseConfiguration.shared.setLoggerLevel(.error)
+        
         
 
         return true

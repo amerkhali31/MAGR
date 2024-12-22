@@ -109,51 +109,68 @@ class ContactUsViewController: BaseBackgroundViewController {
         imageView.translatesAutoresizingMaskIntoConstraints = false
         imageView.widthAnchor.constraint(equalToConstant: 48).isActive = true
         imageView.heightAnchor.constraint(equalToConstant: 48).isActive = true
+
         if color != UIColor.tintColor {
             imageView.tintColor = color
         }
-        
+
+        // Create a container for the label to provide padding
+        let labelContainer = UIView()
+        labelContainer.translatesAutoresizingMaskIntoConstraints = false
+
         let label = UILabel()
         label.attributedText = makeUnderlinedText(text)
         label.textColor = .tintColor
         label.font = UIFont(name: "Helvetica Neue", size: 24)
         label.numberOfLines = 0
         label.isUserInteractionEnabled = true
-        
+
         // Add tap gesture to label
         addTapGesture(to: label, action: action)
-        
+
+        label.translatesAutoresizingMaskIntoConstraints = false
+        labelContainer.addSubview(label)
+
+        // Add padding to the label within the container
+        NSLayoutConstraint.activate([
+            label.topAnchor.constraint(equalTo: labelContainer.topAnchor, constant: 5), // Top padding
+            label.leadingAnchor.constraint(equalTo: labelContainer.leadingAnchor),
+            label.trailingAnchor.constraint(equalTo: labelContainer.trailingAnchor),
+            label.bottomAnchor.constraint(equalTo: labelContainer.bottomAnchor, constant: -5) // Bottom padding
+        ])
+
         let linkIconView = UIImageView(image: UIImage(systemName: "link"))
         linkIconView.contentMode = .scaleAspectFit
         linkIconView.translatesAutoresizingMaskIntoConstraints = false
-        linkIconView.tintColor = .blue
+        linkIconView.tintColor = .tintColor
         linkIconView.widthAnchor.constraint(equalToConstant: 24).isActive = true
         linkIconView.heightAnchor.constraint(equalToConstant: 24).isActive = true
-        
+
         // Wrap the link icon in a container view for padding
         let linkIconContainer = UIView()
         linkIconContainer.translatesAutoresizingMaskIntoConstraints = false
         linkIconContainer.addSubview(linkIconView)
         linkIconContainer.widthAnchor.constraint(equalToConstant: 40).isActive = true
         linkIconContainer.heightAnchor.constraint(equalToConstant: 40).isActive = true
-        
+
         // Center the link icon within the container
         NSLayoutConstraint.activate([
             linkIconView.centerXAnchor.constraint(equalTo: linkIconContainer.centerXAnchor),
             linkIconView.centerYAnchor.constraint(equalTo: linkIconContainer.centerYAnchor)
         ])
-        
+
         stackView.axis = .horizontal
         stackView.spacing = 10
         stackView.alignment = .center
         stackView.addArrangedSubview(imageView)
-        stackView.addArrangedSubview(label)
+        stackView.addArrangedSubview(labelContainer) // Use the label container instead of the label directly
         stackView.addArrangedSubview(linkIconContainer) // Add the container for the link icon
         stackView.layer.borderColor = UIColor.black.cgColor
         stackView.layer.borderWidth = 2
         stackView.backgroundColor = .white
         stackView.layer.cornerRadius = 5
     }
+
 
 
     
