@@ -72,7 +72,7 @@ class NotificationManager {
 //                if let error = error {
 //                    //print("Error scheduling notification: \(error.localizedDescription)")
 //                } else {
-//                    //print("\(title) Sceduled Notice: \(triggerDate). ID: \(noticeIdentifier)")
+                    print("\(title) Sceduled Notice: \(triggerDate). ID: \(noticeIdentifier)")
 //                }
             }
         }

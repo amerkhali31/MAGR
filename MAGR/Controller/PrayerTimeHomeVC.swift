@@ -68,11 +68,9 @@ extension PrayerTimeHomeVC {
     @objc func handleSwipe(_ gesture: UISwipeGestureRecognizer) {
         switch gesture.direction {
         case .right:
-            print("Swiped Right!")
-            monthTapped()
-        case .left:
-            print("Swiped Left!")
             todayTapped()
+        case .left:
+            monthTapped()
         default:
             break
         }
@@ -97,6 +95,7 @@ extension PrayerTimeHomeVC {
     }
     
 }
+
 
 // MARK: - Today View Configuration
 extension PrayerTimeHomeVC {
@@ -418,6 +417,10 @@ extension PrayerTimeHomeVC: UITableViewDelegate {
 
 extension PrayerTimeHomeVC: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+
+        if let range = Calendar.current.range(of: .day, in: .month, for: Date()) {
+            return DataManager.getMonthlyPrayerEntities()[0..<range.count].count
+        }
         return DataManager.getMonthlyPrayerEntities().count
     }
     

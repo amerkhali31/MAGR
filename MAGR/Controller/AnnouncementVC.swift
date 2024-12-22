@@ -110,7 +110,11 @@ class AnnouncementVC: BaseBackgroundViewController, UIScrollViewDelegate {
             let imageView = UIImageView(image: image)
             imageView.contentMode = .scaleAspectFit
             imageView.translatesAutoresizingMaskIntoConstraints = false
+            imageView.isUserInteractionEnabled = true
             zoomableScrollView.addSubview(imageView)
+            
+            let tapGesture = UITapGestureRecognizer(target: self, action: #selector(imageTapped(_:)))
+            imageView.addGestureRecognizer(tapGesture)
 
             // Constraints to center the image view inside the zoomable scroll view
             NSLayoutConstraint.activate([
@@ -179,6 +183,16 @@ class AnnouncementVC: BaseBackgroundViewController, UIScrollViewDelegate {
 
         leftChevron.alpha = currentPage > 0 ? 1 : 0
         rightChevron.alpha = currentPage < totalPages - 1 ? 1 : 0
+    }
+    
+    @objc func imageTapped(_ sender: UITapGestureRecognizer) {
+        guard let imageView = sender.view as? UIImageView, let image = imageView.image else { return }
+
+        let zoomableVC = ZoomableImageViewController()
+        zoomableVC.image = image
+        zoomableVC.modalPresentationStyle = .overFullScreen
+        zoomableVC.modalTransitionStyle = .crossDissolve
+        present(zoomableVC, animated: true, completion: nil)
     }
 
     @objc func scrollLeft() {

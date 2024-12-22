@@ -399,6 +399,10 @@ extension DataManager {
             } catch { print("Error Handling Dailies: \(error)")}
         }
         else {
+            //print("HANDLE DAILY ELSE CLOSURE")
+//            print("Date of Last Network: \(dateOfLastNetwork)")
+//            print("Current Date: \(Date())")
+//            print("Check: \(Calendar.current.isDate(dateOfLastNetwork, inSameDayAs: Date()))")
             setTodayAdhanTimes()
             fajrToday.iqama = DailyPrayerEntities[K.FireStore.dailyPrayers.names.fajr]?.iqama ?? "22:22 AM"
             dhuhrToday.iqama = DailyPrayerEntities[K.FireStore.dailyPrayers.names.dhuhr]?.iqama ?? "22:22 AM"
@@ -462,8 +466,8 @@ extension DataManager {
                    try context.execute(batchDeleteRequest)
                }
             try context.save()
-            //print("Successfully cleared all data in Core Data.")
-            //printAllCoreData(context: context)
+            print("Successfully cleared all data in Core Data.")
+            printAllCoreData(context: context)
             
            } catch {print("Error clearing Core Data: \(error)")}
     }

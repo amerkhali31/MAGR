@@ -66,7 +66,7 @@ class FirebaseManager {
     
     
     /**
-     Retrieve all Iqama times for today from Firebase
+     Retrieve all Iqama times for today from Firebase. Sets dateOfLastNetwork upon completion
      
      - Returns: Dict of [String: ``FirebasePrayer``] which is effectively used for[Prayer_Name : Prayer_Time]. Will have all 5 daily prayers and jumaa. Returns Empty list if failed.
      - Note: Daily Adhan times will be retreived from here, not firebase. So ensure this worked before fetching daily times.
