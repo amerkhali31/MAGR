@@ -62,6 +62,7 @@ extension LoadVC {
     private func prepareApp() {
         
         let _ = DataManager.getDateofLastNetwork()
+        let _ = DataManager.getHadithNumber()
         
         do {
             
@@ -74,12 +75,14 @@ extension LoadVC {
             DataManager.setTodaysDate(TimeManager.getTodaysDate())
             
             Task {
+                async let hadithNumber = FirebaseManager.fetchHadithNumber()
                 async let announcements: () = DataManager.handleAnnouncements()
                 async let monthly: () = DataManager.handleMonthly()
                 //async let checkUpdate: () = self.checkForUpdate()
                 
                 await announcements
                 await monthly
+                await DataManager.setHadithNumber(hadithNumber)
                 
                 await DataManager.handleDaily()
                 //await checkUpdate

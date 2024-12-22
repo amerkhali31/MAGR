@@ -32,6 +32,7 @@ struct K {
             static let prayer_times = "daily_prayer_times"
             static let announcements = "announcements"
             static let monthly_prayer_times = "adhan_prayer_times"
+            static let hadiths = "hadiths"
             
         }
         
@@ -75,6 +76,11 @@ struct K {
             
             static let url = "url"
         }
+        
+        /// The name of the field stored in the one document in the hadiths Collection in firebase
+        struct hadiths {
+            static let number = "number"
+        }
     }
     
     ///Store the names given to each notification so they can later be referenced for deletion and scheduling.
@@ -105,6 +111,7 @@ struct K {
         static let maghribNotice = "mn"
         static let ishaNotice = "in"
         static let pushNoticeTest = "pushTest"
+        static let hadithNumber = "hadithNumber"
     }
     
     /// Names of images saved to assets
