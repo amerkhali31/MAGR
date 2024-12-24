@@ -17,15 +17,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         
-        // Configure Firebase
+        UNUserNotificationCenter.current().requestAuthorization(
+          options: [.alert, .sound, .badge],
+          completionHandler: { _, _ in } )
+        
         setenv("GRPC_VERBOSITY", "NONE", 1)
         setenv("GRPC_TRACE", "NONE", 1)
-        FirebaseConfiguration.shared.setLoggerLevel(.error)
         FirebaseApp.configure()
-        FirebaseConfiguration.shared.setLoggerLevel(.error)
         
-        
-
         return true
     }
     

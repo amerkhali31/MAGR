@@ -23,7 +23,7 @@ class ContactUsViewController: BaseBackgroundViewController {
     
     private var address: String = "5921 Darlene Drive Rockford, IL 61109"
     private var phoneNumber: String = "815-397-3311"
-    private var emailAddress: String = "admin@magr.org"
+    private var emailAddress: String = "secretary@magr.org"
     private var facebook: String = "https://www.facebook.com/mccrockford/"
     private var twitter: String = "https://x.com/rockfordmuslim"
     private var instagram: String = "https://www.instagram.com/pr.magr/"

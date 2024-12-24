@@ -23,7 +23,7 @@ class HomeVC: BaseBackgroundViewController {
     
     let prayerBox = PrayerBox()
     var timeUntilNextPrayer: Int = 0
-    var nextPrayer = ""
+    var nextPrayer = DataManager.getNextPrayer()
     
     let announcementBox = HomeBox()
     let verseBox = HomeBox()
@@ -120,7 +120,7 @@ extension HomeVC {
 
         setupLabels()
         
-        prayerBox.configure(icon: UIImage(systemName: "moon"), topText: "Next Prayer: \(DataManager.getNextPrayer().name)", countdownText: "")
+        prayerBox.configure(prayer: nextPrayer)
         prayerBox.attachTo(parentView: contentView, topAnchor: arabDateLabel.bottomAnchor, topInset: standardSpace, xInset: standardXinset, height: 150)
         prayerBox.topLabel.adjustsFontSizeToFitWidth = true
         updateTimer() // call once to initialize it and not have to wait 1 second for it to start displaying

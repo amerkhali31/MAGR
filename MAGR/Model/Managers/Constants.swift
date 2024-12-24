@@ -117,6 +117,7 @@ struct K {
     /// Names of images saved to assets
     struct images {
         static let logo = "magrImage"
+        static let mosque = "magr_mosque"
     }
     
 }
