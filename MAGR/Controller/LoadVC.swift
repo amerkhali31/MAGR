@@ -57,12 +57,14 @@ extension LoadVC {
 }
 
 //MARK: Prepare the app by loading and networking. In Progress
-extension LoadVC {
+extension LoadVC: appDelegateDelegate {
     
-    private func prepareApp() {
+    func prepareApp() {
         
         let _ = DataManager.getDateofLastNetwork()
         let _ = DataManager.getHadithNumber()
+        DataManager.getPrayerNotifications()
+        let appDelegate = UIApplication.shared.delegate as! AppDelegate
         
         do {
             
@@ -78,14 +80,16 @@ extension LoadVC {
                 async let hadithNumber = FirebaseManager.fetchHadithNumber()
                 async let announcements: () = DataManager.handleAnnouncements()
                 async let monthly: () = DataManager.handleMonthly()
-                //async let checkUpdate: () = self.checkForUpdate()
+                async let token = try appDelegate.fetchFCMToken()
+                
+                let fcmToken = try await token
+                DataManager.device_token = fcmToken
+                print("Device Token: \(fcmToken)")
                 
                 await announcements
                 await monthly
                 await DataManager.setHadithNumber(hadithNumber)
-                
                 await DataManager.handleDaily()
-                //await checkUpdate
                 
                 // Once Prayer times are gotten, assign current and next prayer
                 DataManager.setCurrentPrayer(PrayerManager.findCurrentPrayer())
@@ -104,4 +108,5 @@ extension LoadVC {
         catch {print("Error Preparing App: \(error)")}
         
     }
+    
 }

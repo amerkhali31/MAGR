@@ -10,9 +10,16 @@ import CoreData
 import FirebaseCore
 import FirebaseMessaging
 
+protocol appDelegateDelegate {
+    func prepareApp()
+}
+
+
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterDelegate {
-
+    
+    var delegate: appDelegateDelegate?
+    
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         
         // Request Permission for Notifications from user
@@ -39,18 +46,23 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
     
     // MARK: Push Notice
     
+    func fetchFCMToken() async throws -> String {
+        
+        return try await withCheckedThrowingContinuation { continuation in
+            Messaging.messaging().token { token, error in
+                if let error = error {continuation.resume(throwing: error)}
+                else if let token = token {continuation.resume(returning: token)}
+                else {continuation.resume(throwing: NSError(domain: "FCMTokenError", code: -1, userInfo: [NSLocalizedDescriptionKey: "Failed to fetch FCM token"]))}
+            }
+        }
+    }
+    
     func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
         
         // Send the device token to Firebase
         Messaging.messaging().apnsToken = deviceToken
         
-        // Retrieve FCM token for testing/debuggin
-        Messaging.messaging().token { token, error in
-            if let error = error { print("Error fetching FCM registration token: \(error)") }
-            else if let token = token {
-                DataManager.device_token = token
-                print("FCM registration token: \(token)") }
-        }
+        delegate?.prepareApp()
     }
     
     func application(_ application: UIApplication, didFailToRegisterForRemoteNotificationsWithError error: Error) {
