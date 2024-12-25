@@ -81,6 +81,22 @@ struct K {
         struct hadiths {
             static let number = "number"
         }
+        
+        /// The names of the fields stored in a single document of the user preference Collection in firebase
+        struct Notifications {
+            static let fajr_adhan = "fajr_adhan"
+            static let fajr_iqama = "fajr_iqama"
+            static let dhuhr_adhan = "dhuhr_adhan"
+            static let dhuhr_iqama = "dhuhr_iqama"
+            static let asr_adhan = "asr_adhan"
+            static let asr_iqama = "asr_iqama"
+            static let maghrib_adhan = "maghrib_adhan"
+            static let maghrib_iqama = "maghrib_iqama"
+            static let isha_adhan = "isha_adhan"
+            static let isha_iqama = "isha_iqama"
+            static let jumaa1_notice = "jumaa1_notice"
+            static let device_token = "device_token"
+        }
     }
     
     ///Store the names given to each notification so they can later be referenced for deletion and scheduling.

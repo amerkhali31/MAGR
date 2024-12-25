@@ -53,6 +53,9 @@ class DataManager {
     
     private static var monthlyPrayers: [FirebaseMonthlyPrayer] = []
     
+    // MARK: Notifications
+    static var device_token: String = ""
+    static var notificationPreferences = FirebaseUserPreference(device_token: device_token)
     
     private init() {}
 }
