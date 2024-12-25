@@ -121,11 +121,19 @@ struct K {
         
         static let lastNetworkDate = "dateOfLastNetwork"
         static let userWantsNotitifications = "userWantsNotifications"
-        static let fajrNotice = "fn"
-        static let dhuhrNotice = "dn"
-        static let asrNotice = "an"
-        static let maghribNotice = "mn"
-        static let ishaNotice = "in"
+        
+        static let fajr_adhan_notification = "fan"
+        static let dhuhr_adhan_notification = "dan"
+        static let asr_adhan_notification = "aan"
+        static let maghrib_adhan_notification = "man"
+        static let isha_adhan_notification = "ian"
+        
+        static let fajr_iqama_notification = "fin"
+        static let dhuhr_iqama_notification = "din"
+        static let asr_iqama_notification = "ain"
+        static let maghrib_iqama_notification = "min"
+        static let isha_iqama_notification = "iin"
+        
         static let pushNoticeTest = "pushTest"
         static let hadithNumber = "hadithNumber"
     }

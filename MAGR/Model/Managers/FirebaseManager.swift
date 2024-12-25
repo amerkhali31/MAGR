@@ -94,8 +94,18 @@ class FirebaseManager {
     }
     
     
+    static func fetchUserPreferences() async throws -> FirebaseUserPreference? {
+        let query = db.collection(K.FireStore.Collections.prayer_times)
+        let raw_fetched_data = try await query.getDocuments()
+                
+        for doc in raw_fetched_data.documents {
+        }
+        
+        return nil
+    }
+    
     /**
-     
+     Fetch the hadith number from firebase and return the number as a string so Hadith of The Day has a hadith number to call its api with
      */
     static func fetchHadithNumber() async -> String {
         let query = db.collection(K.FireStore.Collections.hadiths)

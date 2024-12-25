@@ -21,7 +21,20 @@ class DataManager {
     private static var dateOfLastNetwork = Date()
     private static var userWantsNotifications = false
     private static var hadithNumber = "1"
+    private static let notices = [
+        K.userDefaults.fajr_adhan_notification,
+        K.userDefaults.fajr_adhan_notification,
+        K.userDefaults.dhuhr_adhan_notification,
+        K.userDefaults.dhuhr_adhan_notification,
+        K.userDefaults.asr_adhan_notification,
+        K.userDefaults.asr_iqama_notification,
+        K.userDefaults.maghrib_iqama_notification,
+        K.userDefaults.maghrib_iqama_notification,
+        K.userDefaults.isha_iqama_notification,
+        K.userDefaults.isha_iqama_notification,
+    ]
     static var gotPushNoticeCounter: Int = 0
+    static var prayer_notification_preferences: [String: Bool] = [:]
     
     // MARK: Setting Up Persistent Storage
     private static let persistentContianer = (UIApplication.shared.delegate as! AppDelegate).persistentContainer
@@ -166,6 +179,15 @@ extension DataManager {
         userWantsNotifications = status
     }
     
+    static func createPrayerNotificationPreferences() {
+        
+        for notice in notices {
+            defaults.set(false, forKey: notice)
+            prayer_notification_preferences[notice] = false
+        }
+        
+    }
+    
     /// Test
     static func setPushNoticeTest(count: Int = 0) {
         defaults.set(count, forKey: K.userDefaults.pushNoticeTest)
@@ -176,6 +198,8 @@ extension DataManager {
 
 // MARK: Persistent Storage Operations - CREATE
 extension DataManager {
+    
+    
     
     /// Create and return a DailyPrayerEntity from a ``DailyPrayer`` Object
     static func createDailyPrayerEntity(_ prayer: DailyPrayer) -> DailyPrayerEntity {
@@ -222,6 +246,19 @@ extension DataManager {
         if let count = defaults.object(forKey: K.userDefaults.pushNoticeTest) as? Int {gotPushNoticeCounter = count}
         else {setPushNoticeTest()}
         return gotPushNoticeCounter
+    }
+    
+    /// Load the user's notification preferences into DataManager.prayerNotificationPreferences and create them if they dont exist
+    static func getPrayerNotifications() {
+        
+        var failed = 0
+        
+        for notice in notices {
+            if let prayer_notice = defaults.object(forKey: notice) as? Bool { prayer_notification_preferences[notice] = prayer_notice }
+            else { failed += 1 }
+        }
+        
+        if failed > 0 { createPrayerNotificationPreferences() }
     }
     
     /// Grab dateOfLastNetwork from UserDefaults and create it if it doesnt exist. Then assign it to DataManager.dateOfLastNetwork

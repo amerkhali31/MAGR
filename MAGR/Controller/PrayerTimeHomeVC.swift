@@ -268,8 +268,11 @@ extension PrayerTimeHomeVC {
 
     /// Example: Fajr Touch
     func fajrTouch() {
-        handlePrayerTouch() {
-            self.fajrView.alarmToggle(DataManager.getFajrToday(), self)
+        //handlePrayerTouch() {self.fajrView.alarmToggle(DataManager.getFajrToday(), self)}
+        let prayerVC = PrayerNoticeViewController()
+        prayerVC.dailyPrayer = DataManager.getFajrToday()
+        DispatchQueue.main.async { [weak self] in
+            self?.present(prayerVC, animated: true, completion: nil)
         }
     }
 
