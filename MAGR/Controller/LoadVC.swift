@@ -12,12 +12,13 @@ class LoadVC: UIViewController {
     let loadingImageView = UIImageView()
     let loadingImage = UIImage(named: K.images.logo)
     let spinner = UIActivityIndicatorView(style: .large)
-
+    let appDelegate = UIApplication.shared.delegate as! AppDelegate
+    
     override func viewDidLoad() {
-
+        
+        appDelegate.delegate = self
         setupScreen()
-        prepareApp()
-        //DataManager.clearCoreData()
+        
         super.viewDidLoad()
 
     }
@@ -61,10 +62,10 @@ extension LoadVC: appDelegateDelegate {
     
     func prepareApp() {
         
+        
         let _ = DataManager.getDateofLastNetwork()
         let _ = DataManager.getHadithNumber()
-        DataManager.getPrayerNotifications()
-        let appDelegate = UIApplication.shared.delegate as! AppDelegate
+        
         
         do {
             
@@ -84,7 +85,9 @@ extension LoadVC: appDelegateDelegate {
                 
                 let fcmToken = try await token
                 DataManager.device_token = fcmToken
-                print("Device Token: \(fcmToken)")
+                
+                let userPreferences = try await FirebaseManager.fetchUserPreferences(for: fcmToken)
+                DataManager.setUserNotificationPreferences(userPreferences)
                 
                 await announcements
                 await monthly
@@ -100,6 +103,7 @@ extension LoadVC: appDelegateDelegate {
                 
                 // Go into the actual app
                 DispatchQueue.main.async {
+                    DataManager.printFilteredUserDefaults()
                     self.performSegue(withIdentifier: K.segues.loadSeque, sender: self)
                 }
             }
@@ -107,6 +111,11 @@ extension LoadVC: appDelegateDelegate {
         }
         catch {print("Error Preparing App: \(error)")}
         
+    }
+    
+    func clearAll() {
+        DataManager.clearCoreData()
+        DataManager.clearUserDefaults()
     }
     
 }

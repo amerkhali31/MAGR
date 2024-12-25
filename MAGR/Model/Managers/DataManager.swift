@@ -21,16 +21,16 @@ class DataManager {
     private static var dateOfLastNetwork = Date()
     private static var userWantsNotifications = false
     private static var hadithNumber = "1"
-    private static let notices = [
+    static let notices = [
         K.userDefaults.fajr_adhan_notification,
-        K.userDefaults.fajr_adhan_notification,
+        K.userDefaults.fajr_iqama_notification,
         K.userDefaults.dhuhr_adhan_notification,
-        K.userDefaults.dhuhr_adhan_notification,
+        K.userDefaults.dhuhr_iqama_notification,
         K.userDefaults.asr_adhan_notification,
         K.userDefaults.asr_iqama_notification,
+        K.userDefaults.maghrib_adhan_notification,
         K.userDefaults.maghrib_iqama_notification,
-        K.userDefaults.maghrib_iqama_notification,
-        K.userDefaults.isha_iqama_notification,
+        K.userDefaults.isha_adhan_notification,
         K.userDefaults.isha_iqama_notification,
     ]
     static var gotPushNoticeCounter: Int = 0
@@ -179,13 +179,23 @@ extension DataManager {
         userWantsNotifications = status
     }
     
-    static func createPrayerNotificationPreferences() {
+    
+    ///asdf
+    static func setUserNotificationPreferences(_ preferences: FirebaseUserPreference) {
+        prayer_notification_preferences[K.FireStore.Notifications.fajr_adhan] = preferences.fajr_adhan
+        prayer_notification_preferences[K.FireStore.Notifications.fajr_iqama] = preferences.fajr_iqama
+        prayer_notification_preferences[K.FireStore.Notifications.dhuhr_adhan] = preferences.dhuhr_adhan
+        prayer_notification_preferences[K.FireStore.Notifications.dhuhr_iqama] = preferences.dhuhr_iqama
+        prayer_notification_preferences[K.FireStore.Notifications.asr_adhan] = preferences.asr_adhan
+        prayer_notification_preferences[K.FireStore.Notifications.asr_iqama] = preferences.asr_iqama
+        prayer_notification_preferences[K.FireStore.Notifications.maghrib_adhan] = preferences.maghrib_adhan
+        prayer_notification_preferences[K.FireStore.Notifications.maghrib_iqama] = preferences.maghrib_iqama
+        prayer_notification_preferences[K.FireStore.Notifications.isha_adhan] = preferences.isha_adhan
+        prayer_notification_preferences[K.FireStore.Notifications.isha_iqama] = preferences.isha_iqama
         
         for notice in notices {
-            defaults.set(false, forKey: notice)
-            prayer_notification_preferences[notice] = false
+            defaults.set(prayer_notification_preferences[notice], forKey: notice)
         }
-        
     }
     
     /// Test
@@ -198,8 +208,6 @@ extension DataManager {
 
 // MARK: Persistent Storage Operations - CREATE
 extension DataManager {
-    
-    
     
     /// Create and return a DailyPrayerEntity from a ``DailyPrayer`` Object
     static func createDailyPrayerEntity(_ prayer: DailyPrayer) -> DailyPrayerEntity {
@@ -247,19 +255,7 @@ extension DataManager {
         else {setPushNoticeTest()}
         return gotPushNoticeCounter
     }
-    
-    /// Load the user's notification preferences into DataManager.prayerNotificationPreferences and create them if they dont exist
-    static func getPrayerNotifications() {
-        
-        var failed = 0
-        
-        for notice in notices {
-            if let prayer_notice = defaults.object(forKey: notice) as? Bool { prayer_notification_preferences[notice] = prayer_notice }
-            else { failed += 1 }
-        }
-        
-        if failed > 0 { createPrayerNotificationPreferences() }
-    }
+
     
     /// Grab dateOfLastNetwork from UserDefaults and create it if it doesnt exist. Then assign it to DataManager.dateOfLastNetwork
     /// Come back to this and verify that this is actually what you want
@@ -590,6 +586,32 @@ extension DataManager {
             }
         }
     }
+    
+    static func clearUserDefaults() {
+        let userDefaults = UserDefaults.standard
+        let defaultsDictionary = userDefaults.dictionaryRepresentation()
+        
+        for key in defaultsDictionary.keys {
+            userDefaults.removeObject(forKey: key)
+        }
+        
+        userDefaults.synchronize() // Ensure changes are saved immediately
+        print("UserDefaults cleared.")
+    }
+    
+    static func printFilteredUserDefaults() {
+        let userDefaults = UserDefaults.standard
+        let defaultsDictionary = userDefaults.dictionaryRepresentation()
+
+        print("Filtered UserDefaults Contents:")
+        for (key, value) in defaultsDictionary {
+            // Filter out system-generated keys
+            if !key.starts(with: "Apple") && !key.starts(with: "NS") {
+                print("\(key): \(value)")
+            }
+        }
+    }
+
 }
 
 extension NSManagedObject {

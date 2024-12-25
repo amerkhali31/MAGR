@@ -40,7 +40,7 @@ class PrayerManager {
         - prayer: ``DailyPrayer`` that needs to have it's iqama time checked
      */
     static func processIqama(_ prayer: DailyPrayer) -> String {
-        print("Prayer: \(prayer.name), Date: \(prayer.adhan), Iqama: \(prayer.iqama)")
+        //print("Prayer: \(prayer.name), Date: \(prayer.adhan), Iqama: \(prayer.iqama)")
             
         if prayer.iqama == "5 minutes after prayer time" {
             

@@ -12,6 +12,7 @@ import FirebaseMessaging
 
 protocol appDelegateDelegate {
     func prepareApp()
+    func clearAll()
 }
 
 
@@ -62,7 +63,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         // Send the device token to Firebase
         Messaging.messaging().apnsToken = deviceToken
         
+        //delegate?.clearAll()
         delegate?.prepareApp()
+        
     }
     
     func application(_ application: UIApplication, didFailToRegisterForRemoteNotificationsWithError error: Error) {

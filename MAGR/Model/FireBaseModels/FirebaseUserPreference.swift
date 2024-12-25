@@ -15,7 +15,7 @@ import Foundation
     - device_token: String Representing the unique identifier of the device to be used for push notification.
     - adhan_iqama: Boolean representing whether the user wants to be notified of that particular event.
  */
-struct FirebaseUserPreference {
+struct FirebaseUserPreference: Codable {
     
      var fajr_adhan: Bool
      var fajr_iqama: Bool

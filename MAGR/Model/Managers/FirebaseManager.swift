@@ -93,16 +93,35 @@ class FirebaseManager {
         
     }
     
-    
-    static func fetchUserPreferences() async throws -> FirebaseUserPreference? {
-        let query = db.collection(K.FireStore.Collections.prayer_times)
+    /**
+     Grab User Preferences from firebase and upload for this devices token if it doesnt already exist in there
+     - Returns: ``FirebaseUserPreference`` object that indicates which prayers the user should receive a push notification for
+     - Parameters:
+        - For: The Token that is used to uniquely identify the device that is wanting to receive push notifications
+     */
+    static func fetchUserPreferences(for deviceToken: String) async throws -> FirebaseUserPreference {
+        
+        //initialize an object to store all of the data
+        var newUserPreferences = FirebaseUserPreference(device_token: deviceToken)
+        
+        let query = db.collection(K.FireStore.Collections.user_preferences).whereField(K.FireStore.Notifications.device_token, isEqualTo: deviceToken)
         let raw_fetched_data = try await query.getDocuments()
-                
-        for doc in raw_fetched_data.documents {
+        
+        guard let document = raw_fetched_data.documents.first else {
+            
+            try db.collection(K.FireStore.Collections.user_preferences)
+                .document(deviceToken)
+                .setData(from: newUserPreferences)
+            
+            return newUserPreferences
         }
         
-        return nil
+        do {newUserPreferences = try document.data(as: FirebaseUserPreference.self)}
+        catch { print("Error decoding user preferences: \(error)")}
+        
+        return newUserPreferences
     }
+    
     
     /**
      Fetch the hadith number from firebase and return the number as a string so Hadith of The Day has a hadith number to call its api with
@@ -118,6 +137,7 @@ class FirebaseManager {
         
         return "999"
     }
+    
     
     /**
      Retrieve all Announcement Image URL's from Firebase

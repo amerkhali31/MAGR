@@ -33,7 +33,7 @@ struct K {
             static let announcements = "announcements"
             static let monthly_prayer_times = "adhan_prayer_times"
             static let hadiths = "hadiths"
-            
+            static let user_preferences = "user_preferences"
         }
         
         /// The names associated with a doc stored in the dailyPrayers Collection in firebase
@@ -122,17 +122,17 @@ struct K {
         static let lastNetworkDate = "dateOfLastNetwork"
         static let userWantsNotitifications = "userWantsNotifications"
         
-        static let fajr_adhan_notification = "fan"
-        static let dhuhr_adhan_notification = "dan"
-        static let asr_adhan_notification = "aan"
-        static let maghrib_adhan_notification = "man"
-        static let isha_adhan_notification = "ian"
+        static let fajr_adhan_notification = K.FireStore.Notifications.fajr_adhan
+        static let dhuhr_adhan_notification = K.FireStore.Notifications.dhuhr_adhan
+        static let asr_adhan_notification = K.FireStore.Notifications.asr_adhan
+        static let maghrib_adhan_notification = K.FireStore.Notifications.maghrib_adhan
+        static let isha_adhan_notification = K.FireStore.Notifications.isha_adhan
         
-        static let fajr_iqama_notification = "fin"
-        static let dhuhr_iqama_notification = "din"
-        static let asr_iqama_notification = "ain"
-        static let maghrib_iqama_notification = "min"
-        static let isha_iqama_notification = "iin"
+        static let fajr_iqama_notification = K.FireStore.Notifications.fajr_iqama
+        static let dhuhr_iqama_notification = K.FireStore.Notifications.dhuhr_iqama
+        static let asr_iqama_notification = K.FireStore.Notifications.asr_iqama
+        static let maghrib_iqama_notification = K.FireStore.Notifications.maghrib_iqama
+        static let isha_iqama_notification = K.FireStore.Notifications.isha_iqama
         
         static let pushNoticeTest = "pushTest"
         static let hadithNumber = "hadithNumber"
