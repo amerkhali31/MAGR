@@ -103,7 +103,6 @@ extension LoadVC: appDelegateDelegate {
                 
                 // Go into the actual app
                 DispatchQueue.main.async {
-                    DataManager.printFilteredUserDefaults()
                     self.performSegue(withIdentifier: K.segues.loadSeque, sender: self)
                 }
             }

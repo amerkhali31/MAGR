@@ -6,11 +6,25 @@
 //
 
 import UIKit
+import Firebase
+
+protocol PrayerNoticeViewControllerDelegate {
+    func updateAlarmStatus(for prayerName: String, isAdhanEnabled: Bool, isIqamaEnabled: Bool)
+}
 
 class PrayerNoticeViewController: BaseBackgroundViewController {
     
-    var dailyPrayer: DailyPrayer? // Property to store the passed object
-    private let dragHandle = UIView()
+    var delegate: PrayerNoticeViewControllerDelegate?
+    
+    var prayerName: String = ""
+    var adhan_bool: Bool = false
+    var iqama_bool: Bool = false
+    var adhan_field_name: String = ""
+    var iqama_field_name: String = ""
+    var inputs: [String]?
+    
+    private let adhan_switch = UISwitch()
+    private let iqama_switch = UISwitch()
     
     private let titleLabel: UILabel = {
         let label = UILabel()
@@ -23,34 +37,53 @@ class PrayerNoticeViewController: BaseBackgroundViewController {
     }()
     
     override func viewDidLoad() {
+        
         super.viewDidLoad()
         
-        view.backgroundColor = .green
+        processInputs()
         setupUI()
         
-        // Set the title dynamically using the passed `DailyPrayer` object
-        if let dailyPrayer = dailyPrayer {
-            titleLabel.text = "\(dailyPrayer.name) Notification Settings"
+        
+    }
+    
+    private func processInputs() {
+        if let safeInputs = inputs {
+            
+            prayerName = safeInputs[0]
+            
+            adhan_field_name = safeInputs[1]
+            iqama_field_name = safeInputs[2]
+            
+            adhan_bool = DataManager.prayer_notification_preferences[adhan_field_name] ?? false
+            iqama_bool = DataManager.prayer_notification_preferences[iqama_field_name] ?? false
+            
         }
     }
     
     private func setupUI() {
-        setupDragHandle()
         
         // Add the title label
+        titleLabel.text = "\(prayerName) Notification Settings"
         view.addSubview(titleLabel)
         titleLabel.translatesAutoresizingMaskIntoConstraints = false
         
         // Create and add Adhan and Iqama views
         let adhanView = createNotificationView(
             title: "Adhan Notifications",
-            description: "Enable or disable notifications for \(dailyPrayer?.name ?? "this prayer") adhan."
+            description: "Enable or disable notifications for \(prayerName) adhan.",
+            Switch: adhan_switch
         )
+        adhan_switch.isOn = adhan_bool
+        adhan_switch.addTarget(self, action: #selector(handleSwitchToggle(_:)), for: .valueChanged)
+        
         let iqamaView = createNotificationView(
             title: "Iqama Notifications",
-            description: "Enable or disable notifications for \(dailyPrayer?.name ?? "this prayer") iqama."
+            description: "Enable or disable notifications for \(prayerName) iqama.",
+            Switch: iqama_switch
         )
-        
+        iqama_switch.isOn = iqama_bool
+        iqama_switch.addTarget(self, action: #selector(handleSwitchToggle(_:)), for: .valueChanged)
+
         view.addSubview(adhanView)
         view.addSubview(iqamaView)
         
@@ -75,7 +108,20 @@ class PrayerNoticeViewController: BaseBackgroundViewController {
         ])
     }
     
-    private func createNotificationView(title: String, description: String) -> UIView {
+    @objc private func handleSwitchToggle(_ sender: UISwitch) {
+        let isAdhanSwitch = sender == adhan_switch
+        let fieldName = isAdhanSwitch ? adhan_field_name : iqama_field_name
+        let newValue = sender.isOn
+        
+        // Update the DataManager's local preferences
+        DataManager.setSingleUserPreference(fieldName, newValue)
+        FirebaseManager.updateUserPreferences(update: fieldName, to: newValue)
+        delegate?.updateAlarmStatus(for: prayerName, isAdhanEnabled: adhan_switch.isOn, isIqamaEnabled: iqama_switch.isOn)
+
+    }
+
+    
+    private func createNotificationView(title: String, description: String, Switch: UISwitch) -> UIView {
         let containerView = UIView()
         containerView.backgroundColor = .white
         containerView.layer.cornerRadius = 10
@@ -94,7 +140,7 @@ class PrayerNoticeViewController: BaseBackgroundViewController {
         descriptionLabel.font = UIFont.systemFont(ofSize: 14)
         descriptionLabel.textColor = .darkGray
         
-        let switchControl = UISwitch()
+        let switchControl = Switch
         
         containerView.addSubview(titleLabel)
         containerView.addSubview(descriptionLabel)
@@ -120,20 +166,4 @@ class PrayerNoticeViewController: BaseBackgroundViewController {
         return containerView
     }
     
-    private func setupDragHandle() {
-        // Configure the drag handle view
-        dragHandle.backgroundColor = UIColor.lightGray
-        dragHandle.layer.cornerRadius = 3
-        dragHandle.translatesAutoresizingMaskIntoConstraints = false
-        
-        view.addSubview(dragHandle)
-        
-        // Set constraints for the drag handle
-        NSLayoutConstraint.activate([
-            dragHandle.topAnchor.constraint(equalTo: view.topAnchor, constant: 10),
-            dragHandle.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            dragHandle.widthAnchor.constraint(equalToConstant: 50),
-            dragHandle.heightAnchor.constraint(equalToConstant: 5)
-        ])
-    }
 }

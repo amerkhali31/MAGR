@@ -93,35 +93,6 @@ class FirebaseManager {
         
     }
     
-    /**
-     Grab User Preferences from firebase and upload for this devices token if it doesnt already exist in there
-     - Returns: ``FirebaseUserPreference`` object that indicates which prayers the user should receive a push notification for
-     - Parameters:
-        - For: The Token that is used to uniquely identify the device that is wanting to receive push notifications
-     */
-    static func fetchUserPreferences(for deviceToken: String) async throws -> FirebaseUserPreference {
-        
-        //initialize an object to store all of the data
-        var newUserPreferences = FirebaseUserPreference(device_token: deviceToken)
-        
-        let query = db.collection(K.FireStore.Collections.user_preferences).whereField(K.FireStore.Notifications.device_token, isEqualTo: deviceToken)
-        let raw_fetched_data = try await query.getDocuments()
-        
-        guard let document = raw_fetched_data.documents.first else {
-            
-            try db.collection(K.FireStore.Collections.user_preferences)
-                .document(deviceToken)
-                .setData(from: newUserPreferences)
-            
-            return newUserPreferences
-        }
-        
-        do {newUserPreferences = try document.data(as: FirebaseUserPreference.self)}
-        catch { print("Error decoding user preferences: \(error)")}
-        
-        return newUserPreferences
-    }
-    
     
     /**
      Fetch the hadith number from firebase and return the number as a string so Hadith of The Day has a hadith number to call its api with
@@ -202,6 +173,44 @@ class FirebaseManager {
         
         let (data, _) = try await URLSession.shared.data(from: url)
         return UIImage(data: data)
+    }
+    
+    
+    /**
+     Grab User Preferences from firebase and upload for this devices token if it doesnt already exist in there
+     - Returns: ``FirebaseUserPreference`` object that indicates which prayers the user should receive a push notification for
+     - Parameters:
+        - For: The Token that is used to uniquely identify the device that is wanting to receive push notifications
+     */
+    static func fetchUserPreferences(for deviceToken: String) async throws -> FirebaseUserPreference {
+        
+        //initialize an object to store all of the data
+        var newUserPreferences = FirebaseUserPreference(device_token: deviceToken)
+        
+        let query = db.collection(K.FireStore.Collections.user_preferences).whereField(K.FireStore.Notifications.device_token, isEqualTo: deviceToken)
+        let raw_fetched_data = try await query.getDocuments()
+        
+        guard let document = raw_fetched_data.documents.first else {
+            
+            try db.collection(K.FireStore.Collections.user_preferences)
+                .document(deviceToken)
+                .setData(from: newUserPreferences)
+            
+            return newUserPreferences
+        }
+        
+        do {newUserPreferences = try document.data(as: FirebaseUserPreference.self)}
+        catch { print("Error decoding user preferences: \(error)")}
+        
+        return newUserPreferences
+    }
+    
+    
+    
+    static func updateUserPreferences(update notification_field: String, to status: Bool) {
+        db.collection(K.FireStore.Collections
+            .user_preferences).document(DataManager.device_token)
+            .updateData([notification_field: status]) { error in if let error = error {print("error uploading preference")} else {print("Successfully uploaded preferences")}}
     }
     
     

@@ -115,11 +115,21 @@ class PrayerView: UIView {
     }
     
     // MARK: - Public Methods
-    func configure(icon: UIImage?, prayer: String, adhan: String, iqama: String, show: Bool = true) {
+    func configure(icon: UIImage?, prayer: DailyPrayer, show: Bool = true, jumaa: Bool = false) {
+        
         iconView.image = icon
-        prayerLabel.text = prayer
-        adhanLabel.text = adhan
-        iqamaLabel.text = iqama
+        
+        if jumaa {
+            prayerLabel.text = "Jumaa"
+            adhanLabel.text = prayer.name.replacingOccurrences(of: "Friday ", with: "")
+            iqamaLabel.text = prayer.iqama
+        }
+        else {
+            prayerLabel.text = prayer.name
+            adhanLabel.text = prayer.adhan
+            iqamaLabel.text = prayer.iqama
+        }
+        
         if !show {
             self.alarmIconView.tintColor = .clear
         }
@@ -174,6 +184,7 @@ class PrayerView: UIView {
     func setAlarmStatus(to entityStatus: Bool) {
         status = entityStatus
         if status {alarmIconView.tintColor = .white}
+        else {alarmIconView.tintColor = .gray}
     }
     
     private func showPrayerScheduledAlert(prayerName: String, isScheduled: Bool, vc: UIViewController) {

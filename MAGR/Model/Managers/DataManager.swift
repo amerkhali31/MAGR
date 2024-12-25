@@ -179,6 +179,10 @@ extension DataManager {
         userWantsNotifications = status
     }
     
+    static func setSingleUserPreference(_ name: String, _ status: Bool) {
+        prayer_notification_preferences[name] = status
+        defaults.set(prayer_notification_preferences[name], forKey: name)
+    }
     
     ///asdf
     static func setUserNotificationPreferences(_ preferences: FirebaseUserPreference) {
