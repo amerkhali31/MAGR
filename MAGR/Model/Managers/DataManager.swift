@@ -270,6 +270,15 @@ extension DataManager {
         return dateOfLastNetwork
     }
     
+    /// Load user notification preferences from user defaults and set prayerNotificationPrefences accordingly. creates values if they dont exist already.
+    static func loadUserNotificationPreferences() {
+        for notice in notices {
+            
+            if let noticeStatus = defaults.object(forKey: notice) as? Bool {prayer_notification_preferences[notice] = noticeStatus}
+            else {setSingleUserPreference(notice, false)}
+        }
+    }
+    
     /// Grab userWantsNotifications Bool from UserDefaults and create it if it doesnt exist. Then assign it to DataManager.userWantsNotifications
     static func getUserWantsNotice() -> Bool {
         

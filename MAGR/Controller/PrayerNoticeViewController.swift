@@ -21,6 +21,12 @@ class PrayerNoticeViewController: BaseBackgroundViewController {
     var iqama_bool: Bool = false
     var adhan_field_name: String = ""
     var iqama_field_name: String = ""
+    
+    var fieldName = ""
+    var isAdhanSwitch: Bool = false
+    var newValue: Bool = false
+    
+    // Passed name of Prayer, Name of Firebase users_to_notify for adhan Document and iqama Document
     var inputs: [String]?
     
     private let adhan_switch = UISwitch()
@@ -39,6 +45,8 @@ class PrayerNoticeViewController: BaseBackgroundViewController {
     override func viewDidLoad() {
         
         super.viewDidLoad()
+        
+        FirebaseManager.delegate = self
         
         processInputs()
         setupUI()
@@ -74,7 +82,7 @@ class PrayerNoticeViewController: BaseBackgroundViewController {
             Switch: adhan_switch
         )
         adhan_switch.isOn = adhan_bool
-        adhan_switch.addTarget(self, action: #selector(handleSwitchToggle(_:)), for: .valueChanged)
+        adhan_switch.addTarget(self, action: #selector(handleSwitchToggle(_:)), for: .touchUpInside)
         
         let iqamaView = createNotificationView(
             title: "Iqama Notifications",
@@ -82,7 +90,7 @@ class PrayerNoticeViewController: BaseBackgroundViewController {
             Switch: iqama_switch
         )
         iqama_switch.isOn = iqama_bool
-        iqama_switch.addTarget(self, action: #selector(handleSwitchToggle(_:)), for: .valueChanged)
+        iqama_switch.addTarget(self, action: #selector(handleSwitchToggle(_:)), for: .touchUpInside)
 
         view.addSubview(adhanView)
         view.addSubview(iqamaView)
@@ -111,18 +119,17 @@ class PrayerNoticeViewController: BaseBackgroundViewController {
     @objc private func handleSwitchToggle(_ sender: UISwitch) {
         
         // Boolean representing whether sender is adhan switch or not
-        let isAdhanSwitch = sender == adhan_switch
+        isAdhanSwitch = sender == adhan_switch
         
         // set field name to adhan_field_name if sender was adhan switch or iqama_field_name if it wasnt
-        let fieldName = isAdhanSwitch ? adhan_field_name : iqama_field_name
+        fieldName = isAdhanSwitch ? adhan_field_name : iqama_field_name
         
         // Get the value of the switch to give to firebase
-        let newValue = sender.isOn
+        newValue = sender.isOn
         
-        // Update the DataManager's local preferences
-        DataManager.setSingleUserPreference(fieldName, newValue)
-        FirebaseManager.updateUserPreferences(update: fieldName, to: newValue)
-        delegate?.updateAlarmStatus(for: prayerName, isAdhanEnabled: adhan_switch.isOn, isIqamaEnabled: iqama_switch.isOn)
+        FirebaseManager.updateUsersToNotify(Set: fieldName, To: newValue)
+        
+        
 
     }
 
@@ -171,5 +178,42 @@ class PrayerNoticeViewController: BaseBackgroundViewController {
         
         return containerView
     }
+    
+}
+
+extension PrayerNoticeViewController: FirebaseManagerDelegate {
+    
+    func addedUserSuccessfully() {
+        DataManager.setSingleUserPreference(fieldName, newValue)
+        delegate?.updateAlarmStatus(for: prayerName, isAdhanEnabled: adhan_switch.isOn, isIqamaEnabled: iqama_switch.isOn)
+    }
+    
+    func failedToAddUser() {
+        let title = "Error"
+        let message = "Unable to schedule notification. Please try again later."
+        let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+        self.present(alert, animated: true, completion: nil)
+        newValue = !newValue
+        if isAdhanSwitch { adhan_switch.setOn(newValue, animated: true) }
+        else { iqama_switch.setOn(newValue, animated: true) }
+    }
+    
+    func removedUserSuccessfully() {
+        DataManager.setSingleUserPreference(fieldName, newValue)
+        delegate?.updateAlarmStatus(for: prayerName, isAdhanEnabled: adhan_switch.isOn, isIqamaEnabled: iqama_switch.isOn)
+    }
+    
+    func failedToRemoveUser() {
+        let title = "Error"
+        let message = "Unable to disblae notification at this time. This is an issue on our end, not yours. Please try again later."
+        let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+        self.present(alert, animated: true, completion: nil)
+        newValue = !newValue
+        if isAdhanSwitch { adhan_switch.setOn(newValue, animated: true) }
+        else { iqama_switch.setOn(newValue, animated: true) }
+    }
+    
     
 }

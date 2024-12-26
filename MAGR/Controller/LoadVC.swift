@@ -65,7 +65,7 @@ extension LoadVC: appDelegateDelegate {
         
         let _ = DataManager.getDateofLastNetwork()
         let _ = DataManager.getHadithNumber()
-        
+        DataManager.loadUserNotificationPreferences()
         
         do {
             
@@ -86,8 +86,8 @@ extension LoadVC: appDelegateDelegate {
                 let fcmToken = try await token
                 DataManager.device_token = fcmToken
                 
-                let userPreferences = try await FirebaseManager.fetchUserPreferences(for: fcmToken)
-                DataManager.setUserNotificationPreferences(userPreferences)
+                //let userPreferences = try await FirebaseManager.fetchUserPreferences(for: fcmToken)
+                //DataManager.setUserNotificationPreferences(userPreferences)
                 
                 await announcements
                 await monthly

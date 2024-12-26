@@ -124,7 +124,7 @@ struct K {
     }
     
     /// Names of different values stored in UserDefaults
-    /// - Important: leave all notifications = firestore notification names to keep consistent
+    /// - Important: leave all notifications = firestore notification names to remain consistent. Keep coupled or will no longer access firestore properly.
     struct userDefaults {
         
         static let lastNetworkDate = "dateOfLastNetwork"

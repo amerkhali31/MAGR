@@ -213,6 +213,7 @@ class FirebaseManager {
         return newUserPreferences
     }
     
+    /// Deprecated
     static func updateUserPreferences(update notification_field: String, to status: Bool) {
         db.collection(K.FireStore.Collections.user_preferences)
             .document(DataManager.device_token)
@@ -221,11 +222,15 @@ class FirebaseManager {
                 else {print("Successfully uploaded preferences")}}
     }
     
-    static func updateUsersToNotify(_ action: Bool) {
-        let notificationDoc = db.collection(K.FireStore.Collections.users_to_notify)
-            .document(K.FireStore.Notifications.fajr_adhan)
+    /**
+     Write something important here
+     */
+    static func updateUsersToNotify(Set doc: String, To status: Bool) {
         
-        if action {
+        let notificationDoc = db.collection(K.FireStore.Collections.users_to_notify)
+            .document(doc)
+        
+        if status {
             
             notificationDoc.updateData([K.FireStore.users_to_notify.users: FieldValue.arrayUnion([DataManager.device_token])]) { error in
                     

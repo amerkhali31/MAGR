@@ -386,5 +386,3 @@ extension PrayerTimeHomeVC: PrayerNoticeViewControllerDelegate {
         }
     }
 }
-
-
