@@ -9,7 +9,6 @@ import UIKit
 
 class PrayerTimeHomeVC: BaseBackgroundViewController {
     
-    // Complete View
     let todayView = UIView()
     let monthView = UIView()
     
@@ -206,7 +205,6 @@ extension PrayerTimeHomeVC {
     func prayerTouch(dailyPrayer: DailyPrayer) {
         
         let prayerVC = PrayerNoticeViewController()
-        
         var inputs: [String] = []
         
         switch dailyPrayer.name {
@@ -224,7 +222,6 @@ extension PrayerTimeHomeVC {
         DispatchQueue.main.async { [weak self] in
             self?.navigationController?.pushViewController(prayerVC, animated: true)
         }
-        
     }
     
     func initializeAlarmStatuses() {
@@ -389,3 +386,5 @@ extension PrayerTimeHomeVC: PrayerNoticeViewControllerDelegate {
         }
     }
 }
+
+

@@ -34,6 +34,7 @@ struct K {
             static let monthly_prayer_times = "adhan_prayer_times"
             static let hadiths = "hadiths"
             static let user_preferences = "user_preferences"
+            static let users_to_notify = "users_to_notify"
         }
         
         /// The names associated with a doc stored in the dailyPrayers Collection in firebase
@@ -83,6 +84,7 @@ struct K {
         }
         
         /// The names of the fields stored in a single document of the user preference Collection in firebase
+        /// Also the names of the documents in users_to_notify
         struct Notifications {
             static let fajr_adhan = "fajr_adhan"
             static let fajr_iqama = "fajr_iqama"
@@ -96,6 +98,11 @@ struct K {
             static let isha_iqama = "isha_iqama"
             static let jumaa1_notice = "jumaa1_notice"
             static let device_token = "device_token"
+        }
+        
+        /// Testing out users_to_notify collection. the name of the field of a document in the 
+        struct users_to_notify {
+            static let users = "users"
         }
     }
     

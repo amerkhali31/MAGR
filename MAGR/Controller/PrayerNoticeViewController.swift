@@ -109,8 +109,14 @@ class PrayerNoticeViewController: BaseBackgroundViewController {
     }
     
     @objc private func handleSwitchToggle(_ sender: UISwitch) {
+        
+        // Boolean representing whether sender is adhan switch or not
         let isAdhanSwitch = sender == adhan_switch
+        
+        // set field name to adhan_field_name if sender was adhan switch or iqama_field_name if it wasnt
         let fieldName = isAdhanSwitch ? adhan_field_name : iqama_field_name
+        
+        // Get the value of the switch to give to firebase
         let newValue = sender.isOn
         
         // Update the DataManager's local preferences

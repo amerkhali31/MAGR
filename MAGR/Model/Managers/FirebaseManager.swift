@@ -8,6 +8,14 @@
 import Foundation
 import FirebaseFirestore
 
+protocol FirebaseManagerDelegate {
+    
+    func addedUserSuccessfully()
+    func failedToAddUser()
+    func removedUserSuccessfully()
+    func failedToRemoveUser()
+}
+
 /**
  This class will be responsible for all operations involving networking - particularly fetching dat from Firebase
  
@@ -17,7 +25,7 @@ import FirebaseFirestore
 class FirebaseManager {
 
     static let db = Firestore.firestore()
-    
+    static var delegate: FirebaseManagerDelegate?
     
     /**
      Retrieve all adhan times for this month from Firebase
@@ -205,12 +213,34 @@ class FirebaseManager {
         return newUserPreferences
     }
     
-    
-    
     static func updateUserPreferences(update notification_field: String, to status: Bool) {
-        db.collection(K.FireStore.Collections
-            .user_preferences).document(DataManager.device_token)
-            .updateData([notification_field: status]) { error in if let error = error {print("error uploading preference")} else {print("Successfully uploaded preferences")}}
+        db.collection(K.FireStore.Collections.user_preferences)
+            .document(DataManager.device_token)
+            .updateData([notification_field: status]) { error in
+                if let error = error {print("error uploading preference \(error)")}
+                else {print("Successfully uploaded preferences")}}
+    }
+    
+    static func updateUsersToNotify(_ action: Bool) {
+        let notificationDoc = db.collection(K.FireStore.Collections.users_to_notify)
+            .document(K.FireStore.Notifications.fajr_adhan)
+        
+        if action {
+            
+            notificationDoc.updateData([K.FireStore.users_to_notify.users: FieldValue.arrayUnion([DataManager.device_token])]) { error in
+                    
+                if let _ = error {delegate?.failedToAddUser()}
+                else {delegate?.addedUserSuccessfully()}
+            }
+        }
+        else {
+            notificationDoc.updateData([K.FireStore.users_to_notify.users: FieldValue.arrayRemove([DataManager.device_token])]) { error in
+            
+                if let _ = error {delegate?.failedToAddUser()}
+                else {delegate?.removedUserSuccessfully()}
+            }
+        }
+        
     }
     
     
