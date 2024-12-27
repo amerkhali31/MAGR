@@ -203,7 +203,7 @@ extension PrayerTimeHomeVC {
 extension PrayerTimeHomeVC {
 
     func prayerTouch(dailyPrayer: DailyPrayer) {
-        
+        print("Here")
         let prayerVC = PrayerNoticeViewController()
         var inputs: [String] = []
         
