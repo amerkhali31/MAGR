@@ -7,6 +7,7 @@
 
 import Foundation
 import FirebaseFirestore
+import FirebaseMessaging
 
 protocol FirebaseManagerDelegate {
     
@@ -223,7 +224,7 @@ class FirebaseManager {
     }
     
     /**
-     Write something important here
+     Adds or removes user from userstonotify collection in firebase for specific prayer. will likely be deprecated
      */
     static func updateUsersToNotify(Set doc: String, To status: Bool) {
         
@@ -248,6 +249,29 @@ class FirebaseManager {
         
     }
     
+    /**
+     Subscripe to topics for notifications
+     */
+    static func subscribeToTopic(topic: String) {
+        
+        Messaging.messaging().subscribe(toTopic: topic) { error in
+            if let error = error {print("Failed to subscripe to \(topic) : \(error)")}
+            else {print("Successfully subscribed to \(topic)")}
+        }
+        
+    }
+    
+    /**
+     Subscripe to topics for notifications
+     */
+    static func unsubscribeToTopic(topic: String) {
+        
+        Messaging.messaging().unsubscribe(fromTopic: topic) { error in
+            if let error = error {print("Failed to unsubscripe to \(topic) : \(error)")}
+            else {print("Successfully unsubscribed to \(topic)")}
+        }
+        
+    }
     
     private init() {}
 }
