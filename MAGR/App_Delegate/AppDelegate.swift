@@ -7,23 +7,32 @@
 
 import UIKit
 import CoreData
+import Firebase
 import FirebaseCore
-//import FirebaseMessaging
+import FirebaseMessaging
 
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterDelegate {
-
-
-
+        
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         
+        // Request Permission for Notifications from user
         UNUserNotificationCenter.current().requestAuthorization(
           options: [.alert, .sound, .badge],
           completionHandler: { _, _ in } )
         
+        // Keep the console clean
         setenv("GRPC_VERBOSITY", "NONE", 1)
         setenv("GRPC_TRACE", "NONE", 1)
+        
+        // Begin Firebase setup
         FirebaseApp.configure()
+        
+        // Set the delegate for notification handling
+        UNUserNotificationCenter.current().delegate = self
+        
+        // Register for APNS notifications
+        application.registerForRemoteNotifications()
         
         return true
     }
@@ -31,61 +40,27 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
     
     // MARK: Push Notice
     
-    
-    /*
-     
-     /*
-     // Register for remote notifications
-     UNUserNotificationCenter.current().delegate = self
-     
-     UNUserNotificationCenter.current().requestAuthorization(
-       options: [.alert, .sound, .badge],
-       completionHandler: { _, _ in } )
-     
-     application.registerForRemoteNotifications()
-     */
-     
-    func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
-        //print("DidRegisterForRemoteNotificationsWithDeviceToken")
-        //print(deviceToken)
+    func fetchFCMToken() async throws -> String {
         
-        // Send the device token to Firebase
-        Messaging.messaging().apnsToken = deviceToken
-        
-        // Retrieve FCM token for testing/debuggin
-        Messaging.messaging().token { token, error in
-            if let error = error { print("Error fetching FCM registration token: \(error)") }
-            else if let token = token {print("FCM registration token: \(token)") }
+        return try await withCheckedThrowingContinuation { continuation in
+            Messaging.messaging().token { token, error in
+                if let error = error {continuation.resume(throwing: error)}
+                else if let token = token {continuation.resume(returning: token)}
+                else {continuation.resume(throwing: NSError(domain: "FCMTokenError", code: -1, userInfo: [NSLocalizedDescriptionKey: "Failed to fetch FCM token"]))}
+            }
         }
-        
-        
+    }
+    
+    func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
+        Messaging.messaging().apnsToken = deviceToken
     }
     
     func application(_ application: UIApplication, didFailToRegisterForRemoteNotificationsWithError error: Error) {
         print("Failed to register for remote notifications: \(error.localizedDescription)")
     }
-    
-    func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable: Any], fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
-        print("Silent push notification received: \(userInfo)")
-        let count = DataManager.getPushNotificationCount() + 1
-        DataManager.setPushNoticeTest(count: count)
-        // Perform your background task here
-        runBackgroundTask()
 
-        completionHandler(.newData)
-    }
-    
-    private func runBackgroundTask() {
-        
-    }
-    */
     
     // MARK: UISceneSession Lifecycle
-    
-    func applicationWillTerminate(_ application: UIApplication) {
-        //NotificationManager.scheduleAllDailyNotifications()
-        //NotificationManager.printScheduledNotifications()
-    }
 
     func application(_ application: UIApplication, configurationForConnecting connectingSceneSession: UISceneSession, options: UIScene.ConnectionOptions) -> UISceneConfiguration {
         // Called when a new scene session is being created.

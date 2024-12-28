@@ -6,23 +6,11 @@
 //
 
 import Foundation
-
-/**
- This class will be responsible for all operations involving Notifications - Particularly Scheuling, deleting, and printing
- */
-import Foundation
 import FirebaseFirestore
 import CoreData
 
-/**
- Will be responsible for managing all of the app's data. Performs reads and writes with Core Data
- 
- Rest of the app will be getting it's information from here. All prayer times, notifications, and announcements are here.
- 
- */
+/// Mostly Deprecated. Keeping just in case further notification capability is to be added in the future
 class NotificationManager {
-    
-    
     
     private static let center = UNUserNotificationCenter.current()
     
@@ -85,72 +73,6 @@ class NotificationManager {
         let settings = await center.notificationSettings()
         return settings.authorizationStatus == .authorized || settings.authorizationStatus == .provisional
     }
-    
-    /// Clear all sceduled notifications and schedule new ones on top of them up to 64 notifications. app needs to open and be closed for this to work
-    /// Clear all scheduled notifications and schedule new ones on top of them
-    static func scheduleAllDailyNotifications() {
-        
-        // Clear all pending notifications to avoid duplication
-        deleteAllNotifications()
-        
-        // Get all prayers with notifications enabled
-        let enabledPrayers = DataManager.NotificationEntities.filter { $0.value.status }
-        
-        // Calculate the max number of days for notifications per prayer
-        let day = TimeManager.getDayOfMonth()
-        let monthlyEntities = DataManager.getMonthlyPrayerEntities()
-        let daysLeftInMonthlyEntity = 1 + monthlyEntities.count - day
-        
-        let maxNotifications = 64
-        let maxDaysPerPrayer = maxNotifications / max(1, enabledPrayers.count) // Avoid division by zero
-        
-        let numberOfDaysForNotification = min(daysLeftInMonthlyEntity,maxDaysPerPrayer)
-        
-       // print("Scheduling notifications for \(enabledPrayers.count) daily prayers, \(numberOfDaysForNotification) days each.")
-        
-        // Iterate over each enabled prayer
-        for prayerNotification in enabledPrayers {
-            
-            guard let prayerName = prayerNotification.value.prayer else { print("Problem"); continue }
-            
-            for (index,monthlyEntity) in DataManager.getMonthlyPrayerEntities()[day-1..<day-1+numberOfDaysForNotification].enumerated() {
-                
-                switch prayerName {
-                    
-                case K.FireStore.dailyPrayers.names.fajr:
-                    if let date = TimeManager.createDateFromDateAndTime(TimeManager.convert24HrTimeTo12HrTime(monthlyEntity.fajr ?? "00:00 AM"), monthlyEntity.date ?? "1999-09-27") {
-                        scheduleNotification(at: date, "Fajr", "\(K.AdhanNotifications.fajrNotice)-\(day+index)")
-                    }
-                    
-                case K.FireStore.dailyPrayers.names.dhuhr:
-                    if let date = TimeManager.createDateFromDateAndTime(TimeManager.convert24HrTimeTo12HrTime(monthlyEntity.dhuhr ?? "00:00 AM"), monthlyEntity.date ?? "1999-09-27") {
-                        scheduleNotification(at: date, "Dhuhr", "\(K.AdhanNotifications.dhuhrNotice)-\(day+index)")
-                    }
-                    
-                case K.FireStore.dailyPrayers.names.asr:
-                    if let date = TimeManager.createDateFromDateAndTime(TimeManager.convert24HrTimeTo12HrTime(monthlyEntity.asr ?? "00:00 AM"), monthlyEntity.date ?? "1999-09-27") {
-                        scheduleNotification(at: date, "Asr", "\(K.AdhanNotifications.asrNotice)-\(day+index)")
-                    }
-                    
-                case K.FireStore.dailyPrayers.names.maghrib:
-                    if let date = TimeManager.createDateFromDateAndTime(TimeManager.convert24HrTimeTo12HrTime(monthlyEntity.maghrib ?? "00:00 AM"), monthlyEntity.date ?? "1999-09-27") {
-                        scheduleNotification(at: date, "Maghrib", "\(K.AdhanNotifications.maghribNotice)-\(day+index)")
-                    }
-                    
-                case K.FireStore.dailyPrayers.names.isha:
-                    if let date = TimeManager.createDateFromDateAndTime(TimeManager.convert24HrTimeTo12HrTime(monthlyEntity.isha ?? "00:00 AM"), monthlyEntity.date ?? "1999-09-27") {
-                        scheduleNotification(at: date, "Isha", "\(K.AdhanNotifications.ishaNotice)-\(day+index)")
-                    }
-                    
-                default:
-                    //print("Prayer name \(prayerName) not found when making a Notification")
-                    continue
-                }
-                
-            }
-        }
-    }
-
     
     /// Display all scheduled notifications and their details
     static func printScheduledNotifications() {

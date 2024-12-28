@@ -83,7 +83,7 @@ class AnnouncementVC: BaseBackgroundViewController, UIScrollViewDelegate {
         zoomableScrollViews.removeAll() // Reset the zoomable scroll views array
 
         // Load images (replace with your data source)
-        let images = DataManager.getUrlImages()
+        let images = DataManager.urlImages
         let pageWidth = scrollView.bounds.width
         let pageHeight = scrollView.bounds.height
 
@@ -128,7 +128,7 @@ class AnnouncementVC: BaseBackgroundViewController, UIScrollViewDelegate {
 
     func setupPageControl() {
         pageControl.translatesAutoresizingMaskIntoConstraints = false
-        pageControl.numberOfPages = DataManager.getUrlImages().count
+        pageControl.numberOfPages = DataManager.urlImages.count
         pageControl.currentPage = 0
         pageControl.pageIndicatorTintColor = .lightGray
         pageControl.currentPageIndicatorTintColor = .white
@@ -179,7 +179,7 @@ class AnnouncementVC: BaseBackgroundViewController, UIScrollViewDelegate {
 
     func updateChevronVisibility() {
         let currentPage = Int(scrollView.contentOffset.x / scrollView.bounds.width)
-        let totalPages = DataManager.getUrlImages().count
+        let totalPages = DataManager.urlImages.count
 
         leftChevron.alpha = currentPage > 0 ? 1 : 0
         rightChevron.alpha = currentPage < totalPages - 1 ? 1 : 0

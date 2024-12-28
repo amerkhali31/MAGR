@@ -12,17 +12,14 @@ class LoadVC: UIViewController {
     let loadingImageView = UIImageView()
     let loadingImage = UIImage(named: K.images.logo)
     let spinner = UIActivityIndicatorView(style: .large)
-
+    
     override func viewDidLoad() {
-
+        
         setupScreen()
         prepareApp()
-        //DataManager.clearCoreData()
+        //clearAll()
         super.viewDidLoad()
-
     }
-    
-
 }
 
 //MARK: Set up the screen - Tested and functional.
@@ -59,49 +56,47 @@ extension LoadVC {
 //MARK: Prepare the app by loading and networking. In Progress
 extension LoadVC {
     
-    private func prepareApp() {
+    func prepareApp() {
         
-        let _ = DataManager.getDateofLastNetwork()
-        let _ = DataManager.getHadithNumber()
-        
-        do {
+        // Load from UserDefaults
+        DataManager.getDateofLastNetwork()
+        DataManager.getHadithNumber()
+        DataManager.loadUserNotificationPreferences()
             
-            // Load From Memory
-            try DataManager.loadMonthlyPrayerEntities()
-            try DataManager.loadDailyPrayerEntities()
-            try DataManager.loadNotificationEntities()
+        // Load From Core Data
+        DataManager.loadMonthlyPrayerEntities()
+        DataManager.loadTodayPrayerEntities()
+        DataManager.loadAnnouncementEntities()
+    
+        // Get the date before networking in case we need todays date for data processing
+        DataManager.todaysDate = TimeManager.getTodaysDate()
         
-            // Get the date before networking in case we need todays date for data processing
-            DataManager.setTodaysDate(TimeManager.getTodaysDate())
+        Task {
             
-            Task {
-                async let hadithNumber = FirebaseManager.fetchHadithNumber()
-                async let announcements: () = DataManager.handleAnnouncements()
-                async let monthly: () = DataManager.handleMonthly()
-                //async let checkUpdate: () = self.checkForUpdate()
-                
-                await announcements
-                await monthly
-                await DataManager.setHadithNumber(hadithNumber)
-                
-                await DataManager.handleDaily()
-                //await checkUpdate
-                
-                // Once Prayer times are gotten, assign current and next prayer
-                DataManager.setCurrentPrayer(PrayerManager.findCurrentPrayer())
-                DataManager.setNextPrayer(PrayerManager.getNextPrayer())
-                
-                // With updated times, schedule notifications
-                NotificationManager.scheduleAllDailyNotifications()
-                
-                // Go into the actual app
-                DispatchQueue.main.async {
-                    self.performSegue(withIdentifier: K.segues.loadSeque, sender: self)
-                }
+            // Network if needed or move on with loaded data
+            async let hadithNumber: () = DataManager.handleHadith()
+            async let announcements: () = DataManager.handleAnnouncements()
+            async let monthly: () = DataManager.handleMonthly()
+            async let daily: () = DataManager.handleDaily()
+
+            await announcements
+            await monthly
+            await hadithNumber
+            await daily
+            
+            DataManager.currentPrayer = PrayerManager.findCurrentPrayer()
+            DataManager.nextPrayer = PrayerManager.getNextPrayer()
+            DataManager.saveDatabase()
+            
+            DispatchQueue.main.async {
+                self.performSegue(withIdentifier: K.segues.loadSeque, sender: self)
             }
-            
         }
-        catch {print("Error Preparing App: \(error)")}
-        
     }
+    
+    func clearAll() {
+        DataManager.clearCoreData()
+        DataManager.clearUserDefaults()
+    }
+    
 }

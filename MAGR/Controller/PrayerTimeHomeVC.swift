@@ -9,7 +9,6 @@ import UIKit
 
 class PrayerTimeHomeVC: BaseBackgroundViewController {
     
-    // Complete View
     let todayView = UIView()
     let monthView = UIView()
     
@@ -58,6 +57,10 @@ class PrayerTimeHomeVC: BaseBackgroundViewController {
 
         configureTodayView()
         configureMonthView()
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        
     }
 
 }
@@ -122,7 +125,7 @@ extension PrayerTimeHomeVC {
     
     func setupTopLabels() {
         
-        configureLabel(labelToConfigure: dateLabel, text: TimeManager.formatDateToReadable(DataManager.getTodaysDate(), false) ?? "No Date", 100)
+        configureLabel(labelToConfigure: dateLabel, text: TimeManager.formatDateToReadable(DataManager.todaysDate, false) ?? "No Date", 100)
         dateLabel.leadingAnchor.constraint(equalTo: todayView.leadingAnchor, constant: 0).isActive = true
         dateLabel.adjustsFontSizeToFitWidth = true
 
@@ -153,53 +156,30 @@ extension PrayerTimeHomeVC {
     func setupPrayerViews() {
         
         // Add and configure the Fajr view
-        fajrView.configure(icon: UIImage(systemName: "moon"),
-                           prayer: "Fajr",
-                           adhan: DataManager.getFajrToday().adhan,
-                           iqama: DataManager.getFajrToday().iqama)
+        fajrView.configure(icon: UIImage(systemName: "moon"), prayer: DataManager.fajrToday)
         fajrView.attachTo(parentView: todayView, topAnchor: adhanLabel.bottomAnchor, topInset: 10)
-        fajrView.onTouch = {self.fajrTouch()}
+        fajrView.onTouch = {self.prayerTouch(dailyPrayer: DataManager.fajrToday)}
         
-        dhuhrView.configure(icon: UIImage(systemName: "sun.max"),
-                            prayer: "Dhuhr",
-                            adhan: DataManager.getDhuhrToday().adhan,
-                            iqama: DataManager.getDhuhrToday().iqama)
+        dhuhrView.configure(icon: UIImage(systemName: "sun.max"), prayer: DataManager.dhuhrToday)
         dhuhrView.attachTo(parentView: todayView, topAnchor: fajrView.bottomAnchor)
-        dhuhrView.onTouch = {self.dhuhrTouch()}
+        dhuhrView.onTouch = {self.prayerTouch(dailyPrayer: DataManager.dhuhrToday)}
         
-        asrView.configure(icon: UIImage(systemName: "sun.min"),
-                          prayer: "Asr",
-                          adhan: DataManager.getAsrToday().adhan,
-                          iqama: DataManager.getAsrToday().iqama)
+        asrView.configure(icon: UIImage(systemName: "sun.min"), prayer: DataManager.asrToday)
         asrView.attachTo(parentView: todayView, topAnchor: dhuhrView.bottomAnchor)
-        asrView.onTouch = {self.asrTouch()}
+        asrView.onTouch = {self.prayerTouch(dailyPrayer: DataManager.asrToday)}
         
-        maghribView.configure(icon: UIImage(systemName: "sun.horizon"),
-                              prayer: "Maghrib",
-                              adhan: DataManager.getMaghribToday().adhan,
-                              iqama: DataManager.getMaghribToday().iqama)
+        maghribView.configure(icon: UIImage(systemName: "sun.horizon"), prayer: DataManager.maghribToday)
         maghribView.attachTo(parentView: todayView, topAnchor: asrView.bottomAnchor)
-        maghribView.onTouch = {self.maghribTouch()}
+        maghribView.onTouch = {self.prayerTouch(dailyPrayer: DataManager.maghribToday)}
         
-        ishaView.configure(icon: UIImage(systemName: "moon"),
-                           prayer: "Isha",
-                           adhan: DataManager.getIshaToday().adhan,
-                           iqama: DataManager.getIshaToday().iqama)
+        ishaView.configure(icon: UIImage(systemName: "moon"), prayer: DataManager.ishaToday)
         ishaView.attachTo(parentView: todayView, topAnchor: maghribView.bottomAnchor)
-        ishaView.onTouch = {self.ishaTouch()}
+        ishaView.onTouch = {self.prayerTouch(dailyPrayer: DataManager.ishaToday)}
         
-        khutbaView.configure(icon: UIImage(systemName: "music.mic"),
-                             prayer: "Jumaa",
-                             adhan: "Khutba",
-                             iqama:DataManager.getKhutba().iqama,
-                             show: false)
+        khutbaView.configure(icon: UIImage(systemName: "music.mic"), prayer: DataManager.khutbaToday, show: false, jumaa: true)
         khutbaView.attachTo(parentView: todayView, topAnchor: ishaView.bottomAnchor, topInset: 50)
         
-        jumaaView.configure(icon: UIImage(systemName: "sun.max"),
-                            prayer: "Jumaa",
-                            adhan: "Salah",
-                            iqama: DataManager.getJumaa().iqama,
-                            show: false)
+        jumaaView.configure(icon: UIImage(systemName: "sun.max"), prayer: DataManager.jumaaToday, show: false, jumaa: true)
         jumaaView.attachTo(parentView: todayView, topAnchor: khutbaView.bottomAnchor)
         
         highlightCurrentPrayer()
@@ -207,11 +187,11 @@ extension PrayerTimeHomeVC {
     
     func highlightCurrentPrayer() {
         switch PrayerManager.findCurrentPrayer().name {
-        case K.FireStore.dailyPrayers.names.fajr: fajrView.layer.borderColor = UIColor.white.cgColor
-        case K.FireStore.dailyPrayers.names.dhuhr: dhuhrView.layer.borderColor = UIColor.white.cgColor
-        case K.FireStore.dailyPrayers.names.asr: asrView.layer.borderColor = UIColor.white.cgColor
-        case K.FireStore.dailyPrayers.names.maghrib: maghribView.layer.borderColor = UIColor.white.cgColor
-        case K.FireStore.dailyPrayers.names.isha: ishaView.layer.borderColor = UIColor.white.cgColor
+        case K.DailyPrayerDisplayNames.fajr: fajrView.layer.borderColor = UIColor.white.cgColor
+        case K.DailyPrayerDisplayNames.dhuhr: dhuhrView.layer.borderColor = UIColor.white.cgColor
+        case K.DailyPrayerDisplayNames.asr: asrView.layer.borderColor = UIColor.white.cgColor
+        case K.DailyPrayerDisplayNames.maghrib: maghribView.layer.borderColor = UIColor.white.cgColor
+        case K.DailyPrayerDisplayNames.isha: ishaView.layer.borderColor = UIColor.white.cgColor
         default: fajrView.layer.borderColor = UIColor.white.cgColor
         }
     }
@@ -221,108 +201,56 @@ extension PrayerTimeHomeVC {
 
 // MARK: Functionality for when prayer times are touched
 extension PrayerTimeHomeVC {
-    
-    func showPopup() {
-        let message = "You need to enable notifications in your phone's settings to turn on notifications for adhan."
-        let alert = UIAlertController(title: "Notice", message: message, preferredStyle: .alert)
 
-        alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+    func prayerTouch(dailyPrayer: DailyPrayer) {
 
-        self.present(alert, animated: true, completion: nil)
-    }
-
-    /// Centralized Notification Check with Popup Handling. Look into this more
-    func genericTouch(completion: @escaping (Bool) -> Void) {
-        Task {
-
-            let allStatusesAreFalse = DataManager.NotificationEntities.allSatisfy { $0.value.status == false }
-            if allStatusesAreFalse {DataManager.setUserWantsNotifications(true)}
-            else {DataManager.setUserWantsNotifications(false)}
-            
-            let notificationsAllowed = await NotificationManager.checkNotificationPermissions()
-            
-            DispatchQueue.main.async {
-                if !notificationsAllowed {
-                    self.showPopup()
-                    completion(false) // Notify caller that notifications are not allowed
-                } else {
-                    completion(true) // Proceed if notifications are allowed
-                }
-            }
+        let prayerVC = PrayerNoticeViewController()
+        var inputs: [String] = []
+        
+        switch dailyPrayer.name {
+            case K.DailyPrayerDisplayNames.fajr: inputs = [dailyPrayer.name,K.userDefaults.fajr_adhan_notification, K.userDefaults.fajr_iqama_notification]
+            case K.DailyPrayerDisplayNames.dhuhr: inputs = [dailyPrayer.name,K.userDefaults.dhuhr_adhan_notification, K.userDefaults.dhuhr_iqama_notification]
+            case K.DailyPrayerDisplayNames.asr: inputs = [dailyPrayer.name,K.userDefaults.asr_adhan_notification, K.userDefaults.asr_iqama_notification]
+            case K.DailyPrayerDisplayNames.maghrib: inputs = [dailyPrayer.name,K.userDefaults.maghrib_adhan_notification, K.userDefaults.maghrib_iqama_notification]
+            case K.DailyPrayerDisplayNames.isha: inputs = [dailyPrayer.name,K.userDefaults.isha_adhan_notification, K.userDefaults.isha_iqama_notification]
+            default: print()
         }
-    }
-
-    /**
-     Centralized Logic for Prayer Touch
-     - Parameters: None - that is why () after escaping
-    */
-     func handlePrayerTouch(action: @escaping () -> Void) {
-         
-         // GenericTouch function has (Bool) after escapoing so this notificationsAllowed before in is a Bool
-         genericTouch { notificationsAllowed in
-            if notificationsAllowed {
-                action() // Perform the specific action for the prayer
-            }
-        }
-    }
-
-    /// Example: Fajr Touch
-    func fajrTouch() {
-        handlePrayerTouch() {
-            self.fajrView.alarmToggle(DataManager.getFajrToday(), self)
-        }
-    }
-
-    /// Example: Other Prayer Touches
-    func dhuhrTouch() {
-        handlePrayerTouch() {
-            self.dhuhrView.alarmToggle(DataManager.getDhuhrToday(), self)
-        }
-    }
-
-    func asrTouch() {
-        handlePrayerTouch() {
-            self.asrView.alarmToggle(DataManager.getAsrToday(), self)
-        }
-    }
-
-    func maghribTouch() {
-        handlePrayerTouch() {
-            self.maghribView.alarmToggle(DataManager.getMaghribToday(), self)
-        }
-    }
-
-    func ishaTouch() {
-        handlePrayerTouch() {
-            self.ishaView.alarmToggle(DataManager.getIshaToday(), self)
+        
+        prayerVC.inputs = inputs
+        prayerVC.delegate = self
+        
+        DispatchQueue.main.async { [weak self] in
+            self?.navigationController?.pushViewController(prayerVC, animated: true)
         }
     }
     
     func initializeAlarmStatuses() {
         // Initialize Fajr
-        if let fajrEntity = DataManager.NotificationEntities[K.FireStore.dailyPrayers.names.fajr] {
-            fajrView.setAlarmStatus(to: fajrEntity.status)
-        }
+        if DataManager.prayer_notification_preferences[K.userDefaults.fajr_adhan_notification] ?? false ||
+            DataManager.prayer_notification_preferences[K.userDefaults.fajr_iqama_notification] ?? false {
+            fajrView.setAlarmStatus(to: true)
+        } else {fajrView.setAlarmStatus(to: false)}
         
-        // Initialize Dhuhr
-        if let dhuhrEntity = DataManager.NotificationEntities[K.FireStore.dailyPrayers.names.dhuhr] {
-            dhuhrView.setAlarmStatus(to: dhuhrEntity.status)
-        }
         
-        // Initialize Asr
-        if let asrEntity = DataManager.NotificationEntities[K.FireStore.dailyPrayers.names.asr] {
-            asrView.setAlarmStatus(to: asrEntity.status)
-        }
+        if DataManager.prayer_notification_preferences[K.userDefaults.dhuhr_adhan_notification] ?? false ||
+            DataManager.prayer_notification_preferences[K.userDefaults.dhuhr_iqama_notification] ?? false {
+            dhuhrView.setAlarmStatus(to: true)
+        } else {dhuhrView.setAlarmStatus(to: false)}
         
-        // Initialize Maghrib
-        if let maghribEntity = DataManager.NotificationEntities[K.FireStore.dailyPrayers.names.maghrib] {
-            maghribView.setAlarmStatus(to: maghribEntity.status)
-        }
+        if DataManager.prayer_notification_preferences[K.userDefaults.asr_adhan_notification] ?? false ||
+            DataManager.prayer_notification_preferences[K.userDefaults.asr_iqama_notification] ?? false {
+            asrView.setAlarmStatus(to: true)
+        } else {asrView.setAlarmStatus(to: false)}
         
-        // Initialize Isha
-        if let ishaEntity = DataManager.NotificationEntities[K.FireStore.dailyPrayers.names.isha] {
-            ishaView.setAlarmStatus(to: ishaEntity.status)
-        }
+        if DataManager.prayer_notification_preferences[K.userDefaults.maghrib_adhan_notification] ?? false ||
+            DataManager.prayer_notification_preferences[K.userDefaults.maghrib_iqama_notification] ?? false {
+            maghribView.setAlarmStatus(to: true)
+        } else {maghribView.setAlarmStatus(to: false)}
+        
+        if DataManager.prayer_notification_preferences[K.userDefaults.isha_adhan_notification] ?? false ||
+            DataManager.prayer_notification_preferences[K.userDefaults.isha_iqama_notification] ?? false {
+            ishaView.setAlarmStatus(to: true)
+        } else {ishaView.setAlarmStatus(to: false)}
     }
 }
 
@@ -373,7 +301,7 @@ extension PrayerTimeHomeVC {
     
     private func setupMonthlyLabels() {
         
-        let labels = [TimeManager.getMonthName(DataManager.getTodaysDate()), "Fajr", "Dhuhr", "Asr", "Maghrib", "Isha"]
+        let labels = [TimeManager.getMonthName(DataManager.todaysDate), "Fajr", "Dhuhr", "Asr", "Maghrib", "Isha"]
         let labelViews: [UILabel] = [monthlyDateLabel, fajrLabel, dhuhrLabel, asrLabel, maghribLabel, ishaLabel]
         
         for (index, labelText) in labels.enumerated() {
@@ -419,19 +347,42 @@ extension PrayerTimeHomeVC: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
 
         if let range = Calendar.current.range(of: .day, in: .month, for: Date()) {
-            return DataManager.getMonthlyPrayerEntities()[0..<range.count].count
+            return DataManager.MonthlyPrayerEntities[0..<range.count].count
         }
-        return DataManager.getMonthlyPrayerEntities().count
+        return DataManager.MonthlyPrayerEntities.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: "MonthlyPrayerCell", for: indexPath) as? MonthlyPrayerCell else {
             return UITableViewCell() }
         
-        let data = DataManager.getMonthlyPrayerEntities()[indexPath.row]
+        let data = DataManager.MonthlyPrayerEntities[indexPath.row]
         //cell.backgroundColor = .clear
         cell.configure(with: data)
         cell.isUserInteractionEnabled = false
         return cell
+    }
+}
+
+extension PrayerTimeHomeVC: PrayerNoticeViewControllerDelegate {
+    func updateAlarmStatus(for prayerName: String, isAdhanEnabled: Bool, isIqamaEnabled: Bool) {
+        // Determine the new alarm status based on the rules
+        let isAlarmOn = isAdhanEnabled || isIqamaEnabled
+
+        // Update the corresponding PrayerView's alarm icon status
+        switch prayerName {
+        case K.DailyPrayerDisplayNames.fajr:
+            fajrView.setAlarmStatus(to: isAlarmOn)
+        case K.DailyPrayerDisplayNames.dhuhr:
+            dhuhrView.setAlarmStatus(to: isAlarmOn)
+        case K.DailyPrayerDisplayNames.asr:
+            asrView.setAlarmStatus(to: isAlarmOn)
+        case K.DailyPrayerDisplayNames.maghrib:
+            maghribView.setAlarmStatus(to: isAlarmOn)
+        case K.DailyPrayerDisplayNames.isha:
+            ishaView.setAlarmStatus(to: isAlarmOn)
+        default:
+            break
+        }
     }
 }

@@ -222,9 +222,9 @@ class PrayerBox: UIView {
         
         var iconName = ""
         switch prayer.name {
-        case K.FireStore.dailyPrayers.names.dhuhr: iconName = "sun.max"
-        case K.FireStore.dailyPrayers.names.asr: iconName = "sun.min"
-        case K.FireStore.dailyPrayers.names.maghrib: iconName = "sun.horizon"
+        case K.DailyPrayerDisplayNames.dhuhr: iconName = "sun.max"
+        case K.DailyPrayerDisplayNames.asr: iconName = "sun.min"
+        case K.DailyPrayerDisplayNames.maghrib: iconName = "sun.horizon"
         default: iconName = "moon" }
         
         iconView.image = UIImage(systemName: iconName)

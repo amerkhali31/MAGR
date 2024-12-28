@@ -20,20 +20,7 @@ class TimeManager {
         
         return formatter.string(from: Date())
     }
-    
-    /// Takes a time string in military time and returns it as AM/PM time
-    static func convert24HrTimeTo12HrTime(_ time: String) -> String {
-        
-        let formatter = DateFormatter()
-        formatter.dateFormat = "HH:mm"
-        
-        guard let time12hr = formatter.date(from: time) else {return "00:99 PM"}
-        
-        formatter.dateFormat = "h:mm a"
-        let newTime = formatter.string(from: time12hr)
-        
-        return newTime
-    }
+
     
     /// Return the number of the month of the adhan's currently saved to Core Data
     static func getMonthofAdhan(_ monthlyList: [MonthlyPrayerEntity]) -> String {

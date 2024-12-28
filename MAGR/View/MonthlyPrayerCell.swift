@@ -72,11 +72,11 @@ class MonthlyPrayerCell: UITableViewCell {
         let todayDate = calendar.component(.day, from: date)
 
         dayLabel.text = "\(todayDate)"
-        fajrLabel.text = TimeManager.convert24HrTimeTo12HrTime(data.fajr!)
-        dhuhrLabel.text = TimeManager.convert24HrTimeTo12HrTime(data.dhuhr!)
-        asrLabel.text = TimeManager.convert24HrTimeTo12HrTime(data.asr!)
-        maghribLabel.text = TimeManager.convert24HrTimeTo12HrTime(data.maghrib!)
-        ishaLabel.text = TimeManager.convert24HrTimeTo12HrTime(data.isha!)
+        fajrLabel.text = data.fajr ?? "44:44 AM"
+        dhuhrLabel.text = data.dhuhr ?? "44:44 AM"
+        asrLabel.text = data.asr ?? "44:44 AM"
+        maghribLabel.text = data.maghrib ?? "44:44 AM"
+        ishaLabel.text = data.isha ?? "44:44 AM"
         
     }
 }

@@ -17,12 +17,12 @@
 		866701302D0A4DAA00D19EAD /* MAGRTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8667012F2D0A4DAA00D19EAD /* MAGRTests.swift */; };
 		8667013A2D0A4DAA00D19EAD /* MAGRUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 866701392D0A4DAA00D19EAD /* MAGRUITests.swift */; };
 		8667013C2D0A4DAA00D19EAD /* MAGRUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8667013B2D0A4DAA00D19EAD /* MAGRUITestsLaunchTests.swift */; };
+		8671B4852D1FBFD600B5FC58 /* FirebaseDailyPrayerTimes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8671B4842D1FBFD600B5FC58 /* FirebaseDailyPrayerTimes.swift */; };
+		8671B4872D1FC19C00B5FC58 /* FirebaseOneDayAdhanTimes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8671B4862D1FC19C00B5FC58 /* FirebaseOneDayAdhanTimes.swift */; };
 		867706262D0B620A00E6A89B /* FirebaseCore in Frameworks */ = {isa = PBXBuildFile; productRef = 867706252D0B620A00E6A89B /* FirebaseCore */; };
 		867706282D0B620A00E6A89B /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = 867706272D0B620A00E6A89B /* FirebaseFirestore */; };
 		8677062A2D0B620A00E6A89B /* FirebaseMessaging in Frameworks */ = {isa = PBXBuildFile; productRef = 867706292D0B620A00E6A89B /* FirebaseMessaging */; };
-		8677062E2D0B63BA00E6A89B /* FirebasePrayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8677062D2D0B63BA00E6A89B /* FirebasePrayer.swift */; };
 		867706302D0B646F00E6A89B /* FirebaseAnnouncement.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8677062F2D0B646F00E6A89B /* FirebaseAnnouncement.swift */; };
-		867706322D0B64B200E6A89B /* FirebaseMonthlyPrayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 867706312D0B64B200E6A89B /* FirebaseMonthlyPrayer.swift */; };
 		867706342D0B68B000E6A89B /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 867706332D0B68B000E6A89B /* Constants.swift */; };
 		867706362D0B68BB00E6A89B /* DataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 867706352D0B68BB00E6A89B /* DataManager.swift */; };
 		867706382D0B68C400E6A89B /* FirebaseManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 867706372D0B68C400E6A89B /* FirebaseManager.swift */; };
@@ -40,14 +40,13 @@
 		86A2AB292D0FDE3F00288EFF /* apiKeys.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86A2AB282D0FDE3F00288EFF /* apiKeys.swift */; };
 		86A2AB2D2D0FE84E00288EFF /* HadithViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86A2AB2C2D0FE84E00288EFF /* HadithViewController.swift */; };
 		86A2AB2F2D0FF8A100288EFF /* ContactUsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86A2AB2E2D0FF8A100288EFF /* ContactUsViewController.swift */; };
-		86A2AB312D1005B600288EFF /* QiblaFinderViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86A2AB302D1005B600288EFF /* QiblaFinderViewController.swift */; };
 		86BC00D72D0B594800F361D9 /* MainTabController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86BC00D62D0B594800F361D9 /* MainTabController.swift */; };
 		86BC00D92D0B59DC00F361D9 /* adhan.wav in Resources */ = {isa = PBXBuildFile; fileRef = 86BC00D82D0B59DC00F361D9 /* adhan.wav */; };
+		86C7F7F72D1B9E5900ACADC3 /* PrayerNoticeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86C7F7F62D1B9E5900ACADC3 /* PrayerNoticeViewController.swift */; };
 		86FF4EE52D0B5BC000C67719 /* BaseBackgroundViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86FF4EE42D0B5BC000C67719 /* BaseBackgroundViewController.swift */; };
 		86FF4EE72D0B5D0700C67719 /* AnnouncementVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86FF4EE62D0B5D0700C67719 /* AnnouncementVC.swift */; };
 		86FF4EE92D0B5D1400C67719 /* PrayerTimeHomeVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86FF4EE82D0B5D1400C67719 /* PrayerTimeHomeVC.swift */; };
 		86FF4EEB2D0B5D2200C67719 /* HomeVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86FF4EEA2D0B5D2200C67719 /* HomeVC.swift */; };
-		86FF4EED2D0B5D3200C67719 /* SettingsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86FF4EEC2D0B5D3200C67719 /* SettingsVC.swift */; };
 		86FF4EEF2D0B5D3C00C67719 /* LoadVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86FF4EEE2D0B5D3C00C67719 /* LoadVC.swift */; };
 /* End PBXBuildFile section */
 
@@ -83,9 +82,9 @@
 		866701352D0A4DAA00D19EAD /* MAGRUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MAGRUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		866701392D0A4DAA00D19EAD /* MAGRUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MAGRUITests.swift; sourceTree = "<group>"; };
 		8667013B2D0A4DAA00D19EAD /* MAGRUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MAGRUITestsLaunchTests.swift; sourceTree = "<group>"; };
-		8677062D2D0B63BA00E6A89B /* FirebasePrayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebasePrayer.swift; sourceTree = "<group>"; };
+		8671B4842D1FBFD600B5FC58 /* FirebaseDailyPrayerTimes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseDailyPrayerTimes.swift; sourceTree = "<group>"; };
+		8671B4862D1FC19C00B5FC58 /* FirebaseOneDayAdhanTimes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseOneDayAdhanTimes.swift; sourceTree = "<group>"; };
 		8677062F2D0B646F00E6A89B /* FirebaseAnnouncement.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseAnnouncement.swift; sourceTree = "<group>"; };
-		867706312D0B64B200E6A89B /* FirebaseMonthlyPrayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseMonthlyPrayer.swift; sourceTree = "<group>"; };
 		867706332D0B68B000E6A89B /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		867706352D0B68BB00E6A89B /* DataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataManager.swift; sourceTree = "<group>"; };
 		867706372D0B68C400E6A89B /* FirebaseManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseManager.swift; sourceTree = "<group>"; };
@@ -104,14 +103,13 @@
 		86A2AB282D0FDE3F00288EFF /* apiKeys.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = apiKeys.swift; sourceTree = "<group>"; };
 		86A2AB2C2D0FE84E00288EFF /* HadithViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HadithViewController.swift; sourceTree = "<group>"; };
 		86A2AB2E2D0FF8A100288EFF /* ContactUsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactUsViewController.swift; sourceTree = "<group>"; };
-		86A2AB302D1005B600288EFF /* QiblaFinderViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QiblaFinderViewController.swift; sourceTree = "<group>"; };
 		86BC00D62D0B594800F361D9 /* MainTabController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTabController.swift; sourceTree = "<group>"; };
 		86BC00D82D0B59DC00F361D9 /* adhan.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = adhan.wav; sourceTree = "<group>"; };
+		86C7F7F62D1B9E5900ACADC3 /* PrayerNoticeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrayerNoticeViewController.swift; sourceTree = "<group>"; };
 		86FF4EE42D0B5BC000C67719 /* BaseBackgroundViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseBackgroundViewController.swift; sourceTree = "<group>"; };
 		86FF4EE62D0B5D0700C67719 /* AnnouncementVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnnouncementVC.swift; sourceTree = "<group>"; };
 		86FF4EE82D0B5D1400C67719 /* PrayerTimeHomeVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrayerTimeHomeVC.swift; sourceTree = "<group>"; };
 		86FF4EEA2D0B5D2200C67719 /* HomeVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeVC.swift; sourceTree = "<group>"; };
-		86FF4EEC2D0B5D3200C67719 /* SettingsVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsVC.swift; sourceTree = "<group>"; };
 		86FF4EEE2D0B5D3C00C67719 /* LoadVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadVC.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -153,9 +151,8 @@
 				86FF4EEA2D0B5D2200C67719 /* HomeVC.swift */,
 				86FF4EEE2D0B5D3C00C67719 /* LoadVC.swift */,
 				86BC00D62D0B594800F361D9 /* MainTabController.swift */,
+				86C7F7F62D1B9E5900ACADC3 /* PrayerNoticeViewController.swift */,
 				86FF4EE82D0B5D1400C67719 /* PrayerTimeHomeVC.swift */,
-				86FF4EEC2D0B5D3200C67719 /* SettingsVC.swift */,
-				86A2AB302D1005B600288EFF /* QiblaFinderViewController.swift */,
 				869D72572D189DAA006454B9 /* ZoomableImageViewController.swift */,
 			);
 			path = Controller;
@@ -249,12 +246,12 @@
 		8677062B2D0B63A000E6A89B /* FireBaseModels */ = {
 			isa = PBXGroup;
 			children = (
-				8677062D2D0B63BA00E6A89B /* FirebasePrayer.swift */,
 				8677062F2D0B646F00E6A89B /* FirebaseAnnouncement.swift */,
-				867706312D0B64B200E6A89B /* FirebaseMonthlyPrayer.swift */,
 				8677063F2D0BC84C00E6A89B /* DailyPrayer.swift */,
 				86A2AB242D0FDBCC00288EFF /* Hadiths.swift */,
 				86A2AB282D0FDE3F00288EFF /* apiKeys.swift */,
+				8671B4842D1FBFD600B5FC58 /* FirebaseDailyPrayerTimes.swift */,
+				8671B4862D1FC19C00B5FC58 /* FirebaseOneDayAdhanTimes.swift */,
 			);
 			path = FireBaseModels;
 			sourceTree = "<group>";
@@ -422,20 +419,20 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				86C7F7F72D1B9E5900ACADC3 /* PrayerNoticeViewController.swift in Sources */,
 				86FF4EE92D0B5D1400C67719 /* PrayerTimeHomeVC.swift in Sources */,
 				8677063A2D0B68DC00E6A89B /* NotificationManager.swift in Sources */,
 				86A2AB2D2D0FE84E00288EFF /* HadithViewController.swift in Sources */,
 				867706362D0B68BB00E6A89B /* DataManager.swift in Sources */,
 				867706302D0B646F00E6A89B /* FirebaseAnnouncement.swift in Sources */,
+				8671B4852D1FBFD600B5FC58 /* FirebaseDailyPrayerTimes.swift in Sources */,
 				86A2AB272D0FDD5300288EFF /* HadithApiManager.swift in Sources */,
 				86FF4EEB2D0B5D2200C67719 /* HomeVC.swift in Sources */,
 				869AF30D2D0E70A500B323FD /* MonthlyPrayerCell.swift in Sources */,
-				8677062E2D0B63BA00E6A89B /* FirebasePrayer.swift in Sources */,
 				867706402D0BC84C00E6A89B /* DailyPrayer.swift in Sources */,
 				86A2AB252D0FDBCC00288EFF /* Hadiths.swift in Sources */,
 				86FF4EEF2D0B5D3C00C67719 /* LoadVC.swift in Sources */,
 				869D72582D189DAA006454B9 /* ZoomableImageViewController.swift in Sources */,
-				867706322D0B64B200E6A89B /* FirebaseMonthlyPrayer.swift in Sources */,
 				866701202D0A4DA900D19EAD /* MAGR.xcdatamodeld in Sources */,
 				866701162D0A4DA900D19EAD /* AppDelegate.swift in Sources */,
 				868C822C2D0CA9B100D4DA3F /* PrayerView.swift in Sources */,
@@ -449,9 +446,8 @@
 				86A2AB292D0FDE3F00288EFF /* apiKeys.swift in Sources */,
 				866701182D0A4DA900D19EAD /* SceneDelegate.swift in Sources */,
 				86A2AB2F2D0FF8A100288EFF /* ContactUsViewController.swift in Sources */,
-				86FF4EED2D0B5D3200C67719 /* SettingsVC.swift in Sources */,
 				868C822A2D0C99CA00D4DA3F /* HomeBox.swift in Sources */,
-				86A2AB312D1005B600288EFF /* QiblaFinderViewController.swift in Sources */,
+				8671B4872D1FC19C00B5FC58 /* FirebaseOneDayAdhanTimes.swift in Sources */,
 				8677063E2D0B68EF00E6A89B /* TimeManager.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
