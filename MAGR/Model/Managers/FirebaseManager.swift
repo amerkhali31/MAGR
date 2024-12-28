@@ -8,7 +8,7 @@
 import Foundation
 import FirebaseFirestore
 import FirebaseMessaging
-
+import Firebase
 
 /**
  This class will be responsible for all operations involving networking - particularly fetching dat from Firebase
@@ -37,7 +37,7 @@ class FirebaseManager {
             
             // Set the data to the custom data type I made
             monthlyAdhanTimes = raw_fetched_data.documents.compactMap { document in
-                try? document.data(as: FirebaseOneDayAdhanTimes.self) // .self refers to the type rather than an instance
+                try? document.data(as: FirebaseOneDayAdhanTimes.self)
             }
         } catch { print("Error fetching monthly adhan times: \(error)")}
         
@@ -47,7 +47,7 @@ class FirebaseManager {
     
     ///Retrieve all prayer times for today from Firebase. Sets dateOfLastNetwork upon completion
     ///- Returns: ``FirebaseDailyPrayerTimes`` object representing all of todays adhan and iqama times as well as jumaa
-    static func todayPrayerTimes() async -> FirebaseDailyPrayerTimes {
+    static func fetchTodayPrayerTimes() async -> FirebaseDailyPrayerTimes {
         
         var today_times = FirebaseDailyPrayerTimes()
         
@@ -85,7 +85,7 @@ class FirebaseManager {
     
     ///Retrieve all Announcement Image URL's from Firebase
     /// - Returns: List of Strings that each represent a URL that needs to be
-    static func fetchAnnouncementImageURLs() async -> [String]{
+    static func fetchAnnouncementImageURLs() async -> FirebaseAnnouncement {
         
         var announcements = FirebaseAnnouncement()
         
@@ -93,13 +93,13 @@ class FirebaseManager {
         do {
             
             let raw_fetched_data = try await query.getDocuments()
-            guard let document = raw_fetched_data.documents.first else { return announcements.urls }
+            guard let document = raw_fetched_data.documents.first else { return announcements }
             
             do {announcements = try document.data(as: FirebaseAnnouncement.self)}
             
         } catch { print("Error fetching Announcement URLs: \(error)")}
 
-        return announcements.urls
+        return announcements
         
     }
     

@@ -12,18 +12,14 @@ class LoadVC: UIViewController {
     let loadingImageView = UIImageView()
     let loadingImage = UIImage(named: K.images.logo)
     let spinner = UIActivityIndicatorView(style: .large)
-    let appDelegate = UIApplication.shared.delegate as! AppDelegate
     
     override func viewDidLoad() {
         
-        appDelegate.delegate = self
         setupScreen()
+        prepareApp()
         
         super.viewDidLoad()
-
     }
-    
-
 }
 
 //MARK: Set up the screen - Tested and functional.
@@ -58,58 +54,43 @@ extension LoadVC {
 }
 
 //MARK: Prepare the app by loading and networking. In Progress
-extension LoadVC: appDelegateDelegate {
+extension LoadVC {
     
     func prepareApp() {
         
-        
-        let _ = DataManager.getDateofLastNetwork()
-        let _ = DataManager.getHadithNumber()
+        // Load from UserDefaults
+        DataManager.getDateofLastNetwork()
+        DataManager.getHadithNumber()
         DataManager.loadUserNotificationPreferences()
-        
-        do {
             
-            // Load From Memory
-            try DataManager.loadMonthlyPrayerEntities()
-            try DataManager.loadDailyPrayerEntities()
-            try DataManager.loadNotificationEntities()
+        // Load From Core Data
+        DataManager.loadMonthlyPrayerEntities()
+        DataManager.loadTodayPrayerEntities()
+        DataManager.loadAnnouncementEntities()
+    
+        // Get the date before networking in case we need todays date for data processing
+        DataManager.todaysDate = TimeManager.getTodaysDate()
         
-            // Get the date before networking in case we need todays date for data processing
-            DataManager.setTodaysDate(TimeManager.getTodaysDate())
+        Task {
             
-            Task {
-                async let hadithNumber = FirebaseManager.fetchHadithNumber()
-                async let announcements: () = DataManager.handleAnnouncements()
-                async let monthly: () = DataManager.handleMonthly()
-                async let token = try appDelegate.fetchFCMToken()
-                
-                let fcmToken = try await token
-                DataManager.device_token = fcmToken
-                
-                //let userPreferences = try await FirebaseManager.fetchUserPreferences(for: fcmToken)
-                //DataManager.setUserNotificationPreferences(userPreferences)
-                
-                await announcements
-                await monthly
-                await DataManager.setHadithNumber(hadithNumber)
-                await DataManager.handleDaily()
-                
-                // Once Prayer times are gotten, assign current and next prayer
-                DataManager.setCurrentPrayer(PrayerManager.findCurrentPrayer())
-                DataManager.setNextPrayer(PrayerManager.getNextPrayer())
-                
-                // With updated times, schedule notifications
-                NotificationManager.scheduleAllDailyNotifications()
-                
-                // Go into the actual app
-                DispatchQueue.main.async {
-                    self.performSegue(withIdentifier: K.segues.loadSeque, sender: self)
-                }
+            // Network if needed or move on with loaded data
+            async let hadithNumber: () = DataManager.handleHadith()
+            async let announcements: () = DataManager.handleAnnouncements()
+            async let monthly: () = DataManager.handleMonthly()
+            async let daily: () = DataManager.handleDaily()
+
+            await announcements
+            await monthly
+            await hadithNumber
+            await daily
+            
+            DataManager.currentPrayer = PrayerManager.findCurrentPrayer()
+            DataManager.nextPrayer = PrayerManager.getNextPrayer()
+
+            DispatchQueue.main.async {
+                self.performSegue(withIdentifier: K.segues.loadSeque, sender: self)
             }
-            
         }
-        catch {print("Error Preparing App: \(error)")}
-        
     }
     
     func clearAll() {

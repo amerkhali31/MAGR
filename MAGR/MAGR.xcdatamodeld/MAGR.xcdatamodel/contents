@@ -13,6 +13,7 @@
     </entity>
     <entity name="MonthlyPrayerEntity" representedClassName="MonthlyPrayerEntity" syncable="YES" codeGenerationType="class">
         <attribute name="asr" optional="YES" attributeType="String"/>
+        <attribute name="date" optional="YES" attributeType="String"/>
         <attribute name="dhuhr" optional="YES" attributeType="String"/>
         <attribute name="fajr" optional="YES" attributeType="String"/>
         <attribute name="isha" optional="YES" attributeType="String"/>
@@ -32,7 +33,7 @@
         <attribute name="fajr_iqama" optional="YES" attributeType="String"/>
         <attribute name="isha_adhan" optional="YES" attributeType="String"/>
         <attribute name="isha_iqama" optional="YES" attributeType="String"/>
-        <attribute name="jumaa_hkutba" optional="YES" attributeType="String"/>
+        <attribute name="jumaa_khutba" optional="YES" attributeType="String"/>
         <attribute name="jumaa_salah" optional="YES" attributeType="String"/>
         <attribute name="maghrib_adhan" optional="YES" attributeType="String"/>
         <attribute name="maghrib_iqama" optional="YES" attributeType="String"/>

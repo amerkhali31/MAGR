@@ -21,18 +21,21 @@ struct FirebaseOneDayAdhanTimes: Codable {
     var maghrib: String
     var isha: String
     var sunrise: String
+    var date: String
     
     init(fajr: String = "66:66 AM",
          dhuhr: String = "66:66 AM",
          asr: String = "66:66 AM",
          maghrib: String = "66:66 AM",
          isha: String = "66:66 AM",
-         sunrise: String = "66:66 AM") {
+         sunrise: String = "66:66 AM",
+         date: String = "2024-11-09") {
         self.fajr = fajr
         self.dhuhr = dhuhr
         self.asr = asr
         self.maghrib = maghrib
         self.isha = isha
         self.sunrise = sunrise
+        self.date = date
     }
 }

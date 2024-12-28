@@ -35,6 +35,7 @@ struct K {
                     static let maghrib = "maghrib"
                     static let isha = "isha"
                     static let sunrise = "sunrise"
+                    static let date = "date"
                 }
             }
             

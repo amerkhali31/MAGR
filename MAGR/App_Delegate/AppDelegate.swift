@@ -7,20 +7,13 @@
 
 import UIKit
 import CoreData
+import Firebase
 import FirebaseCore
 import FirebaseMessaging
 
-protocol appDelegateDelegate {
-    func prepareApp()
-    func clearAll()
-}
-
-
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterDelegate {
-    
-    var delegate: appDelegateDelegate?
-    
+        
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         
         // Request Permission for Notifications from user
@@ -59,13 +52,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
     }
     
     func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
-        
-        // Send the device token to Firebase
         Messaging.messaging().apnsToken = deviceToken
-        
-        //delegate?.clearAll()
-        //delegate?.prepareApp()
-        
     }
     
     func application(_ application: UIApplication, didFailToRegisterForRemoteNotificationsWithError error: Error) {
@@ -74,11 +61,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
 
     
     // MARK: UISceneSession Lifecycle
-    
-    func applicationWillTerminate(_ application: UIApplication) {
-        //NotificationManager.scheduleAllDailyNotifications()
-        //NotificationManager.printScheduledNotifications()
-    }
 
     func application(_ application: UIApplication, configurationForConnecting connectingSceneSession: UISceneSession, options: UIScene.ConnectionOptions) -> UISceneConfiguration {
         // Called when a new scene session is being created.
