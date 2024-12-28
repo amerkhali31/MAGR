@@ -23,7 +23,7 @@ class HomeVC: BaseBackgroundViewController {
     
     let prayerBox = PrayerBox()
     var timeUntilNextPrayer: Int = 0
-    var nextPrayer = DataManager.getNextPrayer()
+    var nextPrayer = DataManager.nextPrayer
     
     let announcementBox = HomeBox()
     let verseBox = HomeBox()
@@ -90,7 +90,7 @@ extension HomeVC {
     
     func setupLabels() {
         
-        dateLabel.text = TimeManager.formatDateToReadable(DataManager.getTodaysDate(), true)
+        dateLabel.text = TimeManager.formatDateToReadable(DataManager.todaysDate, true)
         arabDateLabel.text = TimeManager.convertToIslamicDate(from: Date())
         
         dateLabel.translatesAutoresizingMaskIntoConstraints = false
@@ -146,11 +146,6 @@ extension HomeVC {
         donationBox.attachTo(parentView: contentView, topAnchor: contactBox.bottomAnchor, topInset: standardSpace, xInset: standardXinset)
         donationBox.onTouch = {self.donateTouched()}
         donationBox.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -1).isActive = true
-        
-        //qiblaBox.configure(icon: UIImage(systemName: "safari"), topText: "Qibla Finder", bottomText: "Get the qibla direction from anywhere")
-        //qiblaBox.attachTo(parentView: contentView, topAnchor: donationBox.bottomAnchor, topInset: standardSpace, xInset: standardXinset)
-        //qiblaBox.onTouch = {self.qiblaTouched()}
-        //qiblaBox.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -10).isActive = true
         
     }
     
@@ -238,14 +233,7 @@ extension HomeVC {
         
         if UIApplication.shared.canOpenURL(url) { UIApplication.shared.open(url, options: [:]) }
     }
-    
-    func qiblaTouched() {
-        
-        DispatchQueue.main.async { [weak self] in
-            self?.present(QiblaFinderViewController(), animated: true, completion: nil)
-        }
-        
-    }
+
     
 }
 

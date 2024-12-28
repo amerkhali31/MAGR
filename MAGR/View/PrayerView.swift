@@ -155,9 +155,6 @@ class PrayerView: UIView {
         
         status = !status
         
-        DataManager.NotificationEntities[prayer.name]?.status = status
-        //NotificationManager.deleteNotification(prayer.name)
-        
         if status {alarmIconView.tintColor = .white}
         else {alarmIconView.tintColor = .gray}
         
@@ -175,9 +172,6 @@ class PrayerView: UIView {
         // Present the alert
         vc.present(alertController, animated: true, completion: nil)
         
-        NotificationManager.scheduleAllDailyNotifications()
-        DataManager.saveDatabase()
-
     }
     
     /// Function to initialize state of alarm colors when the view loads up

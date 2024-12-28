@@ -17,7 +17,7 @@ class LoadVC: UIViewController {
         
         setupScreen()
         prepareApp()
-        
+        //clearAll()
         super.viewDidLoad()
     }
 }
@@ -86,7 +86,8 @@ extension LoadVC {
             
             DataManager.currentPrayer = PrayerManager.findCurrentPrayer()
             DataManager.nextPrayer = PrayerManager.getNextPrayer()
-
+            DataManager.saveDatabase()
+            
             DispatchQueue.main.async {
                 self.performSegue(withIdentifier: K.segues.loadSeque, sender: self)
             }

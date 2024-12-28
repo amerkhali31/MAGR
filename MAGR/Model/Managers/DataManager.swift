@@ -137,7 +137,7 @@ extension DataManager {
         entity.isha_iqama = prayerTimes.isha_iqama
         entity.jumaa_khutba = prayerTimes.jumaa_khutba
         entity.jumaa_salah = prayerTimes.jumaa_salah
-        
+        print("Created TodayPrayerEntity")
         return entity
         
     }
@@ -234,11 +234,9 @@ extension DataManager {
             }
             
             MonthlyPrayerEntities.sort {$0.date! < $1.date!}
-            
-            saveDatabase()
-            
+                        
         }
-        catch {print("Could not clear monthly")}
+        catch {print("Could not clear monthly: \(error)")}
 
     }
     
@@ -270,10 +268,7 @@ extension DataManager {
             
             TodayPrayerEntities = createTodayPrayerEntity(prayers)
 
-            
-            saveDatabase()
-            
-        } catch {print("Could not clear daily")}
+        } catch {print("Could not clear daily: \(error)")}
         
     }
     
@@ -298,7 +293,7 @@ extension DataManager {
     static func handleMonthly() async {
             
         if MonthlyPrayerEntities.count == 0 || TimeManager.getCurrentMonth() != TimeManager.getMonthofAdhan(MonthlyPrayerEntities) {
-            
+            print("networking for monthly")
             let monthlyTimes = await FirebaseManager.fetchMonthlyAdhanTimes()
             updateMonthlyAdhanStorage(monthlyTimes)
 
@@ -313,7 +308,8 @@ extension DataManager {
     static func handleDaily() async {
         
         //Situation where need to network
-        if TodayPrayerEntities != nil || !Calendar.current.isDate(dateOfLastNetwork, inSameDayAs: Date()) {
+        if TodayPrayerEntities == nil || !Calendar.current.isDate(dateOfLastNetwork, inSameDayAs: Date()) {
+            print("Networking for today entities")
             
             let prayerTimes = await FirebaseManager.fetchTodayPrayerTimes()
             updateDailyPrayerStorage(prayerTimes)
@@ -345,7 +341,7 @@ extension DataManager {
         
         
         if AnnouncementEntities.count == 0 || !Calendar.current.isDate(dateOfLastNetwork, inSameDayAs: Date()) {
-            
+            print("Networking for announcements")
             let announcements = await FirebaseManager.fetchAnnouncementImageURLs()
             updateAnnouncementStorage(announcements)
             
@@ -371,6 +367,7 @@ extension DataManager {
     static func handleHadith() async {
         
         if !Calendar.current.isDate(dateOfLastNetwork, inSameDayAs: Date()) {
+            print("networking for hadith")
             let number = await FirebaseManager.fetchHadithNumber()
             setHadithNumber(number)
         }
@@ -420,7 +417,7 @@ extension DataManager {
         let deleteRequest = NSBatchDeleteRequest(fetchRequest: request)
         
         try context.execute(deleteRequest)
-        try context.save()
+        //try context.save()
     }
     
     static func clearMonthlyPrayerEntities() throws {
@@ -431,20 +428,19 @@ extension DataManager {
         let deleteRequest = NSBatchDeleteRequest(fetchRequest: request)
         
         try context.execute(deleteRequest)
-        try context.save()
+        //try context.save()
             
         //print("Successfully cleared all MonthlyPrayers from Core Data records.")
     }
     
     static func clearTodayPrayerEntities() throws {
-        
         TodayPrayerEntities = nil
 
         let request : NSFetchRequest<NSFetchRequestResult> = TodayPrayerEntity.fetchRequest()
         let deleteRequest = NSBatchDeleteRequest(fetchRequest: request)
         
         try context.execute(deleteRequest)
-        try context.save()
+        //try context.save()
             
         //print("Successfully cleared all Daily Prayer Core Data records.")
     }

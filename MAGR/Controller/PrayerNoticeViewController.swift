@@ -76,7 +76,7 @@ class PrayerNoticeViewController: BaseBackgroundViewController {
         // Create and add Adhan and Iqama views
         let adhanView = createNotificationView(
             title: "Adhan Notifications",
-            description: "Enable or disable notifications for \(prayerName) adhan.",
+            description: "Set notifications for \(prayerName) adhan.",
             Switch: adhan_switch
         )
         adhan_switch.isOn = adhan_bool
@@ -84,7 +84,7 @@ class PrayerNoticeViewController: BaseBackgroundViewController {
         
         let iqamaView = createNotificationView(
             title: "Iqama Notifications",
-            description: "Enable or disable notifications for \(prayerName) iqama.",
+            description: "Set notifications for 15 minutes before \(prayerName) iqama.",
             Switch: iqama_switch
         )
         iqama_switch.isOn = iqama_bool
@@ -154,7 +154,7 @@ class PrayerNoticeViewController: BaseBackgroundViewController {
         descriptionLabel.text = description
         descriptionLabel.textAlignment = .center
         descriptionLabel.font = UIFont.systemFont(ofSize: 14)
-        descriptionLabel.textColor = .darkGray
+        descriptionLabel.textColor = .black
         
         let switchControl = Switch
         
