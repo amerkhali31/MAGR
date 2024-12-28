@@ -17,6 +17,8 @@
 		866701302D0A4DAA00D19EAD /* MAGRTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8667012F2D0A4DAA00D19EAD /* MAGRTests.swift */; };
 		8667013A2D0A4DAA00D19EAD /* MAGRUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 866701392D0A4DAA00D19EAD /* MAGRUITests.swift */; };
 		8667013C2D0A4DAA00D19EAD /* MAGRUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8667013B2D0A4DAA00D19EAD /* MAGRUITestsLaunchTests.swift */; };
+		8671B4852D1FBFD600B5FC58 /* FirebaseDailyPrayerTimes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8671B4842D1FBFD600B5FC58 /* FirebaseDailyPrayerTimes.swift */; };
+		8671B4872D1FC19C00B5FC58 /* FirebaseOneDayAdhanTimes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8671B4862D1FC19C00B5FC58 /* FirebaseOneDayAdhanTimes.swift */; };
 		867706262D0B620A00E6A89B /* FirebaseCore in Frameworks */ = {isa = PBXBuildFile; productRef = 867706252D0B620A00E6A89B /* FirebaseCore */; };
 		867706282D0B620A00E6A89B /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = 867706272D0B620A00E6A89B /* FirebaseFirestore */; };
 		8677062A2D0B620A00E6A89B /* FirebaseMessaging in Frameworks */ = {isa = PBXBuildFile; productRef = 867706292D0B620A00E6A89B /* FirebaseMessaging */; };
@@ -85,6 +87,8 @@
 		866701352D0A4DAA00D19EAD /* MAGRUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MAGRUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		866701392D0A4DAA00D19EAD /* MAGRUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MAGRUITests.swift; sourceTree = "<group>"; };
 		8667013B2D0A4DAA00D19EAD /* MAGRUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MAGRUITestsLaunchTests.swift; sourceTree = "<group>"; };
+		8671B4842D1FBFD600B5FC58 /* FirebaseDailyPrayerTimes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseDailyPrayerTimes.swift; sourceTree = "<group>"; };
+		8671B4862D1FC19C00B5FC58 /* FirebaseOneDayAdhanTimes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseOneDayAdhanTimes.swift; sourceTree = "<group>"; };
 		8677062D2D0B63BA00E6A89B /* FirebasePrayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebasePrayer.swift; sourceTree = "<group>"; };
 		8677062F2D0B646F00E6A89B /* FirebaseAnnouncement.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseAnnouncement.swift; sourceTree = "<group>"; };
 		867706312D0B64B200E6A89B /* FirebaseMonthlyPrayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseMonthlyPrayer.swift; sourceTree = "<group>"; };
@@ -261,6 +265,8 @@
 				8677063F2D0BC84C00E6A89B /* DailyPrayer.swift */,
 				86A2AB242D0FDBCC00288EFF /* Hadiths.swift */,
 				86A2AB282D0FDE3F00288EFF /* apiKeys.swift */,
+				8671B4842D1FBFD600B5FC58 /* FirebaseDailyPrayerTimes.swift */,
+				8671B4862D1FC19C00B5FC58 /* FirebaseOneDayAdhanTimes.swift */,
 			);
 			path = FireBaseModels;
 			sourceTree = "<group>";
@@ -434,6 +440,7 @@
 				86A2AB2D2D0FE84E00288EFF /* HadithViewController.swift in Sources */,
 				867706362D0B68BB00E6A89B /* DataManager.swift in Sources */,
 				867706302D0B646F00E6A89B /* FirebaseAnnouncement.swift in Sources */,
+				8671B4852D1FBFD600B5FC58 /* FirebaseDailyPrayerTimes.swift in Sources */,
 				86A2AB272D0FDD5300288EFF /* HadithApiManager.swift in Sources */,
 				86FF4EEB2D0B5D2200C67719 /* HomeVC.swift in Sources */,
 				869AF30D2D0E70A500B323FD /* MonthlyPrayerCell.swift in Sources */,
@@ -459,6 +466,7 @@
 				86A2AB2F2D0FF8A100288EFF /* ContactUsViewController.swift in Sources */,
 				86FF4EED2D0B5D3200C67719 /* SettingsVC.swift in Sources */,
 				868C822A2D0C99CA00D4DA3F /* HomeBox.swift in Sources */,
+				8671B4872D1FC19C00B5FC58 /* FirebaseOneDayAdhanTimes.swift in Sources */,
 				86A2AB312D1005B600288EFF /* QiblaFinderViewController.swift in Sources */,
 				8677063E2D0B68EF00E6A89B /* TimeManager.swift in Sources */,
 			);

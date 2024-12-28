@@ -8,16 +8,33 @@
         <attribute name="iqama" optional="YES" attributeType="String"/>
         <attribute name="prayer" optional="YES" attributeType="String"/>
     </entity>
+    <entity name="HadithEntity" representedClassName="HadithEntity" syncable="YES" codeGenerationType="class">
+        <attribute name="number" optional="YES" attributeType="String"/>
+    </entity>
     <entity name="MonthlyPrayerEntity" representedClassName="MonthlyPrayerEntity" syncable="YES" codeGenerationType="class">
         <attribute name="asr" optional="YES" attributeType="String"/>
-        <attribute name="date" optional="YES" attributeType="String"/>
         <attribute name="dhuhr" optional="YES" attributeType="String"/>
         <attribute name="fajr" optional="YES" attributeType="String"/>
         <attribute name="isha" optional="YES" attributeType="String"/>
         <attribute name="maghrib" optional="YES" attributeType="String"/>
+        <attribute name="sunrise" optional="YES" attributeType="String"/>
     </entity>
     <entity name="NotificationEntity" representedClassName="NotificationEntity" syncable="YES" codeGenerationType="class">
         <attribute name="prayer" optional="YES" attributeType="String"/>
         <attribute name="status" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
+    </entity>
+    <entity name="TodayPrayerEntity" representedClassName="TodayPrayerEntity" syncable="YES" codeGenerationType="class">
+        <attribute name="asr_adhan" optional="YES" attributeType="String"/>
+        <attribute name="asr_iqama" optional="YES" attributeType="String"/>
+        <attribute name="dhuhr_adhan" optional="YES" attributeType="String"/>
+        <attribute name="dhuhr_iqama" optional="YES" attributeType="String"/>
+        <attribute name="fajr_adhan" optional="YES" attributeType="String"/>
+        <attribute name="fajr_iqama" optional="YES" attributeType="String"/>
+        <attribute name="isha_adhan" optional="YES" attributeType="String"/>
+        <attribute name="isha_iqama" optional="YES" attributeType="String"/>
+        <attribute name="jumaa_hkutba" optional="YES" attributeType="String"/>
+        <attribute name="jumaa_salah" optional="YES" attributeType="String"/>
+        <attribute name="maghrib_adhan" optional="YES" attributeType="String"/>
+        <attribute name="maghrib_iqama" optional="YES" attributeType="String"/>
     </entity>
 </model>

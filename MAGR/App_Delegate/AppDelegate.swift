@@ -64,7 +64,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         Messaging.messaging().apnsToken = deviceToken
         
         //delegate?.clearAll()
-        delegate?.prepareApp()
+        //delegate?.prepareApp()
         
     }
     

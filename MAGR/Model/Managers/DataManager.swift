@@ -19,7 +19,6 @@ class DataManager {
     // MARK: Setting up UserDefaults
     private static let defaults = UserDefaults.standard
     private static var dateOfLastNetwork = Date()
-    private static var userWantsNotifications = false
     private static var hadithNumber = "1"
     static let notices = [
         K.userDefaults.fajr_adhan_notification,
@@ -33,15 +32,12 @@ class DataManager {
         K.userDefaults.isha_adhan_notification,
         K.userDefaults.isha_iqama_notification,
     ]
-    static var gotPushNoticeCounter: Int = 0
-    static var prayer_notification_preferences: [String: Bool] = [:]
     
     // MARK: Setting Up Persistent Storage
     private static let persistentContianer = (UIApplication.shared.delegate as! AppDelegate).persistentContainer
     private static let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
     
-    static var NotificationEntities: [String : NotificationEntity] = [:]
-    private static var DailyPrayerEntities: [String: DailyPrayerEntity] = [:]
+    private static var TodayPrayerEntities: TodayPrayerEntity
     private static var MonthlyPrayerEntities: [MonthlyPrayerEntity] = []
     
     // MARK: Announcements
@@ -55,14 +51,14 @@ class DataManager {
     private static var currentPrayer: DailyPrayer = DailyPrayer()
     private static var nextPrayer: DailyPrayer = DailyPrayer()
     
-    private static var fajrToday: DailyPrayer = DailyPrayer(name: K.FireStore.dailyPrayers.names.fajr)
-    private static var dhuhrToday: DailyPrayer = DailyPrayer(name: K.FireStore.dailyPrayers.names.dhuhr)
-    private static var asrToday: DailyPrayer = DailyPrayer(name: K.FireStore.dailyPrayers.names.asr)
-    private static var maghribToday: DailyPrayer = DailyPrayer(name: K.FireStore.dailyPrayers.names.maghrib)
-    private static var ishaToday: DailyPrayer = DailyPrayer(name: K.FireStore.dailyPrayers.names.isha)
+    private static var fajrToday: DailyPrayer = DailyPrayer(name: K.DailyPrayerDisplayNames.fajr)
+    private static var dhuhrToday: DailyPrayer = DailyPrayer(name: K.DailyPrayerDisplayNames.dhuhr)
+    private static var asrToday: DailyPrayer = DailyPrayer(name: K.DailyPrayerDisplayNames.asr)
+    private static var maghribToday: DailyPrayer = DailyPrayer(name: K.DailyPrayerDisplayNames.maghrib)
+    private static var ishaToday: DailyPrayer = DailyPrayer(name: K.DailyPrayerDisplayNames.isha)
     
-    private static var khutbaToday: DailyPrayer = DailyPrayer(name: K.FireStore.dailyPrayers.names.jumaaKhutba)
-    private static var jumaaToday: DailyPrayer = DailyPrayer(name: K.FireStore.dailyPrayers.names.jumaaSalah)
+    private static var khutbaToday: DailyPrayer = DailyPrayer(name: K.DailyPrayerDisplayNames.jumaa_khutba)
+    private static var jumaaToday: DailyPrayer = DailyPrayer(name: K.DailyPrayerDisplayNames.jumaa_salah)
     
     private static var monthlyPrayers: [FirebaseMonthlyPrayer] = []
     

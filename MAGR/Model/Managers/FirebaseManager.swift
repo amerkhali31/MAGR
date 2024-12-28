@@ -9,13 +9,6 @@ import Foundation
 import FirebaseFirestore
 import FirebaseMessaging
 
-protocol FirebaseManagerDelegate {
-    
-    func addedUserSuccessfully()
-    func failedToAddUser()
-    func removedUserSuccessfully()
-    func failedToRemoveUser()
-}
 
 /**
  This class will be responsible for all operations involving networking - particularly fetching dat from Firebase
@@ -26,92 +19,63 @@ protocol FirebaseManagerDelegate {
 class FirebaseManager {
 
     static let db = Firestore.firestore()
-    static var delegate: FirebaseManagerDelegate?
     
-    /**
-     Retrieve all adhan times for this month from Firebase
-     
-     - Returns: List of ``FirebaseMonthlyPrayer`` objects that represent this current month's adhans for every single prayer.
-     - Note: Daily Adhan times will be retreived from here, not firebase. So ensure this worked before fetching daily times.
-     - Important: Check if list is empty during loading process to determine how to move forward.
-     ## Test Notes: Unit Tested and Functional Confirmed
-     */
-    static func fetchAdhanTimes() async throws -> [FirebaseMonthlyPrayer]{
-                
-        var monthlyAdhan: [FirebaseMonthlyPrayer] = []
-                
-        let query = db.collection(K.FireStore.Collections.monthly_prayer_times)
-        let raw_fetched_data = try await query.getDocuments()
-                
-        for doc in raw_fetched_data.documents {
+    ///Retrieves all adhan times for this month
+    /// - Returns: ``[FirebaseOneDayAdhanTimes]`` list representing this month's adhan times for each prayer
+    static func fetchMonthlyAdhanTimes() async -> [FirebaseOneDayAdhanTimes] {
+        
+        // Initialize an empty array for storing data to return
+        var monthlyAdhanTimes: [FirebaseOneDayAdhanTimes] = []
+        
+        // Tell Firebase what collection you want to grab from
+        let query = db.collection(K.FireStore.Collections.monthly_adhan_times.collection_name)
+        
+        do {
             
-            // Extract prayer times and date from the document
-            let fajrAdhan = doc.data()[K.FireStore.monthlyPrayers.fajr] as! String
-            let dhuhrAdhan = doc.data()[K.FireStore.monthlyPrayers.zuhr] as! String
-            let asrAdhan = doc.data()[K.FireStore.monthlyPrayers.asr] as! String
-            let maghribAdhan = doc.data()[K.FireStore.monthlyPrayers.maghrib] as! String
-            let ishaAdhan = doc.data()[K.FireStore.monthlyPrayers.isha] as! String
-            let date = doc.data()[K.FireStore.monthlyPrayers.date] as! String
-
-            // Create a `FirebaseMonthlyPrayer` object for each document
-            let oneDayAdhanTimes = FirebaseMonthlyPrayer(
-                fajr: fajrAdhan,
-                zuhr: dhuhrAdhan,
-                asr: asrAdhan,
-                maghrib: maghribAdhan,
-                isha: ishaAdhan,
-                date: date
-            )
-
-            // Add it to the array
-            monthlyAdhan.append(oneDayAdhanTimes)
-        }
+            // Grab the data
+            let raw_fetched_data = try await query.getDocuments()
+            
+            // Set the data to the custom data type I made
+            monthlyAdhanTimes = raw_fetched_data.documents.compactMap { document in
+                try? document.data(as: FirebaseOneDayAdhanTimes.self) // .self refers to the type rather than an instance
+            }
+        } catch { print("Error fetching monthly adhan times: \(error)")}
         
-        monthlyAdhan.sort { $0.date < $1.date }
-
-        return monthlyAdhan
-        
+        return monthlyAdhanTimes
     }
     
     
-    /**
-     Retrieve all Iqama times for today from Firebase. Sets dateOfLastNetwork upon completion
-     
-     - Returns: Dict of [String: ``FirebasePrayer``] which is effectively used for[Prayer_Name : Prayer_Time]. Will have all 5 daily prayers and jumaa. Returns Empty list if failed.
-     - Note: Daily Adhan times will be retreived from here, not firebase. So ensure this worked before fetching daily times.
-     - Important: Adhan will be initialized to 99:99 AM for each prayer
-     ## Test Notes: Unit Tested and Functional Confirmed
-     */
-    static func fetchIqamaTimes() async throws -> [String: FirebasePrayer] {
-                
-        var dailyPrayers: [String: FirebasePrayer] = [:]
-                
-        let query = db.collection(K.FireStore.Collections.prayer_times)
-        let raw_fetched_data = try await query.getDocuments()
-                
-        for doc in raw_fetched_data.documents {
-            
-            let prayerName = doc.data()[K.FireStore.dailyPrayers.fields.name] as! String
-            let prayerIqama = doc.data()[K.FireStore.dailyPrayers.fields.time] as! String
-            dailyPrayers[prayerName] = FirebasePrayer(prayerName, prayerIqama)
-        }
+    ///Retrieve all prayer times for today from Firebase. Sets dateOfLastNetwork upon completion
+    ///- Returns: ``FirebaseDailyPrayerTimes`` object representing all of todays adhan and iqama times as well as jumaa
+    static func todayPrayerTimes() async -> FirebaseDailyPrayerTimes {
         
-        DataManager.setDateOfLastNetwork(Date())
-
-        return dailyPrayers
+        var today_times = FirebaseDailyPrayerTimes()
         
-    }
-    
-    
-    /**
-     Fetch the hadith number from firebase and return the number as a string so Hadith of The Day has a hadith number to call its api with
-     */
-    static func fetchHadithNumber() async -> String {
-        let query = db.collection(K.FireStore.Collections.hadiths)
+        let query = db.collection(K.FireStore.Collections.todays_prayer_times.collection_name)
+        
         do {
             
             let raw_fetched_data = try await query.getDocuments()
-            return raw_fetched_data.documents[0].data()[K.FireStore.hadiths.number] as! String
+            guard let document = raw_fetched_data.documents.first else {return today_times}
+            
+            today_times = try document.data(as: FirebaseDailyPrayerTimes.self)
+            
+            DataManager.setDateOfLastNetwork(Date())
+            
+        } catch { print("Error fetching daily prayer times: \(error)")}
+        
+        return today_times
+    }
+    
+
+    ///Fetch the hadith number from firebase
+    ///- Returns: Number as a string so Hadith of The Day has a hadith number to call its api with
+    static func fetchHadithNumber() async -> String {
+        let query = db.collection(K.FireStore.Collections.hadiths.collection_name)
+        do {
+            
+            let raw_fetched_data = try await query.getDocuments()
+            return raw_fetched_data.documents[0].data()[K.FireStore.Collections.hadiths.hadith.fields.number] as! String
             
         } catch { print("Could not fetch hadithNumber: \(error)")}
         
@@ -119,28 +83,23 @@ class FirebaseManager {
     }
     
     
-    /**
-     Retrieve all Announcement Image URL's from Firebase
-     
-     - Returns: List of Strings that each represent a URL that needs to be
-     - Note: Daily Adhan times will be retreived from here, not firebase. So ensure this worked before fetching daily times.
-     - Important: Adhan will be initialized to 99:99 AM for each prayer
-     ## Test Notes: Unit Tested and Functional Confirmed
-     */
-    static func fetchAnnouncementImageURLs() async throws -> [String]{
+    ///Retrieve all Announcement Image URL's from Firebase
+    /// - Returns: List of Strings that each represent a URL that needs to be
+    static func fetchAnnouncementImageURLs() async -> [String]{
         
+        var announcements = FirebaseAnnouncement()
         
-        var urlList: [String] = []
-        
-        let query = db.collection(K.FireStore.Collections.announcements)
-        let raw_fetched_data = try await query.getDocuments()
-                
-        for doc in raw_fetched_data.documents {
+        let query = db.collection(K.FireStore.Collections.announcements.collection_name)
+        do {
             
-            urlList.append(doc.data()[K.FireStore.announcement.url] as! String)
-        }
-        
-        return urlList
+            let raw_fetched_data = try await query.getDocuments()
+            guard let document = raw_fetched_data.documents.first else { return announcements.urls }
+            
+            do {announcements = try document.data(as: FirebaseAnnouncement.self)}
+            
+        } catch { print("Error fetching Announcement URLs: \(error)")}
+
+        return announcements.urls
         
     }
     
@@ -154,18 +113,22 @@ class FirebaseManager {
      - Returns: A list of `UIImage` objects.
      - Throws: An error if any image fails to download.
      */
-    static func fetchAnnouncementImages(_ urlList: [URL]) async throws -> [UIImage] {
-        
+    static func fetchAnnouncementImages(_ urlList: [URL]) async -> [UIImage] {
         var urlImages: [UIImage] = []
 
-        for url in urlList {
-            
-            async let image = fetchImage(from: url)
-            
-            if let fetchedImage = try await image {
-                urlImages.append(fetchedImage)
+        // Create a task for each URL
+        let tasks = urlList.map { url in
+            Task {
+                return await fetchImage(from: url) // No need for try here
             }
-        }        
+        }
+
+        // Collect results concurrently
+        for task in tasks {
+            if let image = await task.value {
+                urlImages.append(image)
+            }
+        }
 
         return urlImages
     }
@@ -178,100 +141,36 @@ class FirebaseManager {
      - Returns: A `UIImage` object if the download is successful, or `nil` if it fails.
      - Throws: An error if the network request fails.
      */
-    static func fetchImage(from url: URL) async throws -> UIImage? {
-        
-        let (data, _) = try await URLSession.shared.data(from: url)
-        return UIImage(data: data)
-    }
-    
-    
-    /**
-     Grab User Preferences from firebase and upload for this devices token if it doesnt already exist in there
-     - Returns: ``FirebaseUserPreference`` object that indicates which prayers the user should receive a push notification for
-     - Parameters:
-        - For: The Token that is used to uniquely identify the device that is wanting to receive push notifications
-     */
-    static func fetchUserPreferences(for deviceToken: String) async throws -> FirebaseUserPreference {
-        
-        //initialize an object to store all of the data
-        var newUserPreferences = FirebaseUserPreference(device_token: deviceToken)
-        
-        let query = db.collection(K.FireStore.Collections.user_preferences).whereField(K.FireStore.Notifications.device_token, isEqualTo: deviceToken)
-        let raw_fetched_data = try await query.getDocuments()
-        
-        guard let document = raw_fetched_data.documents.first else {
-            
-            try db.collection(K.FireStore.Collections.user_preferences)
-                .document(deviceToken)
-                .setData(from: newUserPreferences)
-            
-            return newUserPreferences
+    static func fetchImage(from url: URL) async -> UIImage? {
+        do {
+            let (data, _) = try await URLSession.shared.data(from: url)
+            return UIImage(data: data)
+        } catch {
+            print("Error fetching image from URL \(url): \(error.localizedDescription)")
+            return nil
         }
-        
-        do {newUserPreferences = try document.data(as: FirebaseUserPreference.self)}
-        catch { print("Error decoding user preferences: \(error)")}
-        
-        return newUserPreferences
     }
     
-    /// Deprecated
-    static func updateUserPreferences(update notification_field: String, to status: Bool) {
-        db.collection(K.FireStore.Collections.user_preferences)
-            .document(DataManager.device_token)
-            .updateData([notification_field: status]) { error in
-                if let error = error {print("error uploading preference \(error)")}
-                else {print("Successfully uploaded preferences")}}
-    }
     
-    /**
-     Adds or removes user from userstonotify collection in firebase for specific prayer. will likely be deprecated
-     */
-    static func updateUsersToNotify(Set doc: String, To status: Bool) {
-        
-        let notificationDoc = db.collection(K.FireStore.Collections.users_to_notify)
-            .document(doc)
-        
-        if status {
-            
-            notificationDoc.updateData([K.FireStore.users_to_notify.users: FieldValue.arrayUnion([DataManager.device_token])]) { error in
-                    
-                if let _ = error {delegate?.failedToAddUser()}
-                else {delegate?.addedUserSuccessfully()}
-            }
-        }
-        else {
-            notificationDoc.updateData([K.FireStore.users_to_notify.users: FieldValue.arrayRemove([DataManager.device_token])]) { error in
-            
-                if let _ = error {delegate?.failedToAddUser()}
-                else {delegate?.removedUserSuccessfully()}
-            }
-        }
-        
-    }
-    
-    /**
-     Subscripe to topics for notifications
-     */
+    ///Subscripe to topics for notifications
     static func subscribeToTopic(topic: String) {
         
         Messaging.messaging().subscribe(toTopic: topic) { error in
             if let error = error {print("Failed to subscripe to \(topic) : \(error)")}
             else {print("Successfully subscribed to \(topic)")}
         }
-        
     }
     
-    /**
-     Subscripe to topics for notifications
-     */
+    
+    ///Unsubscripe to topics for notifications
     static func unsubscribeToTopic(topic: String) {
         
         Messaging.messaging().unsubscribe(fromTopic: topic) { error in
             if let error = error {print("Failed to unsubscripe to \(topic) : \(error)")}
             else {print("Successfully unsubscribed to \(topic)")}
         }
-        
     }
+    
     
     private init() {}
 }
