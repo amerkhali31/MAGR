@@ -121,7 +121,7 @@ class PrayerView: UIView {
         
         if jumaa {
             prayerLabel.text = "Jumaa"
-            adhanLabel.text = prayer.name.replacingOccurrences(of: "Friday ", with: "")
+            adhanLabel.text = prayer.name.replacingOccurrences(of: "Jumaa ", with: "")
             iqamaLabel.text = prayer.iqama
         }
         else {

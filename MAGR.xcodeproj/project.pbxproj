@@ -152,8 +152,8 @@
 				86FF4EEE2D0B5D3C00C67719 /* LoadVC.swift */,
 				86BC00D62D0B594800F361D9 /* MainTabController.swift */,
 				86C7F7F62D1B9E5900ACADC3 /* PrayerNoticeViewController.swift */,
-				869D72572D189DAA006454B9 /* ZoomableImageViewController.swift */,
 				86FF4EE82D0B5D1400C67719 /* PrayerTimeHomeVC.swift */,
+				869D72572D189DAA006454B9 /* ZoomableImageViewController.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
