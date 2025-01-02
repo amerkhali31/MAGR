@@ -17,7 +17,7 @@ class LoadVC: UIViewController {
         
         setupScreen()
         prepareApp()
-        //clearAll()
+        
         super.viewDidLoad()
     }
 }
@@ -70,7 +70,7 @@ extension LoadVC {
     
         // Get the date before networking in case we need todays date for data processing
         DataManager.todaysDate = TimeManager.getTodaysDate()
-        
+                
         Task {
             
             // Network if needed or move on with loaded data
@@ -97,6 +97,21 @@ extension LoadVC {
     func clearAll() {
         DataManager.clearCoreData()
         DataManager.clearUserDefaults()
+    }
+    
+    func checkNotificationAuthorizationStatus(completion: @escaping (Bool) -> Void) {
+        UNUserNotificationCenter.current().getNotificationSettings { settings in
+            switch settings.authorizationStatus {
+            case .authorized, .provisional:
+                // Notifications are enabled
+                completion(true)
+            case .denied, .notDetermined:
+                // Notifications are not enabled
+                completion(false)
+            default:
+                completion(false)
+            }
+        }
     }
     
 }

@@ -39,6 +39,9 @@ class FirebaseManager {
             monthlyAdhanTimes = raw_fetched_data.documents.compactMap { document in
                 try? document.data(as: FirebaseOneDayAdhanTimes.self)
             }
+            
+            monthlyAdhanTimes.sort { $0.date < $1.date }
+            
         } catch { print("Error fetching monthly adhan times: \(error)")}
         
         return monthlyAdhanTimes
@@ -75,10 +78,14 @@ class FirebaseManager {
         do {
             
             let raw_fetched_data = try await query.getDocuments()
-            return raw_fetched_data.documents[0].data()[K.FireStore.Collections.hadiths.hadith.fields.number] as! String
+            if let number = raw_fetched_data.documents[0].data()[K.FireStore.Collections.hadiths.hadith.fields.number] as? Int {
+                return String(number)
+            }
+            return "1"
+            
             
         } catch { print("Could not fetch hadithNumber: \(error)")}
-        
+        print("Number: 999")
         return "999"
     }
     

@@ -64,7 +64,8 @@ class DataManager {
     // MARK: Date
     static var todaysDate: String = ""
     
-    
+    // MARK: Notifications
+    static var notificationsEnabled: Bool = false
     private init() {}
 }
 
@@ -145,13 +146,17 @@ extension DataManager {
     /// Create a MonthlyPrayerEntity from a FirebaseOneDayAdhanTimes Object
     static func createMonthlyPrayerEntity(_ prayers: FirebaseOneDayAdhanTimes) -> MonthlyPrayerEntity {
         
-        let entity = MonthlyPrayerEntity(context: context)
-        entity.fajr = prayers.fajr
-        entity.dhuhr = prayers.dhuhr
-        entity.asr = prayers.asr
-        entity.maghrib = prayers.maghrib
-        entity.isha = prayers.isha
-        entity.date = prayers.date
+        var entity: MonthlyPrayerEntity!
+        context.performAndWait {
+            
+            entity = MonthlyPrayerEntity(context: context)
+            entity.fajr = prayers.fajr
+            entity.dhuhr = prayers.dhuhr
+            entity.asr = prayers.asr
+            entity.maghrib = prayers.maghrib
+            entity.isha = prayers.isha
+            entity.date = prayers.date
+        }
         
         return entity
     }
@@ -226,9 +231,7 @@ extension DataManager {
     static func updateMonthlyAdhanStorage(_ prayers: [FirebaseOneDayAdhanTimes]) {
                 
         do {
-            
             try clearMonthlyPrayerEntities()
-            
             for dailyPrayers in prayers {
                 MonthlyPrayerEntities.append(createMonthlyPrayerEntity(dailyPrayers))
             }
@@ -292,11 +295,10 @@ extension DataManager {
      */
     static func handleMonthly() async {
             
-        if MonthlyPrayerEntities.count == 0 || TimeManager.getCurrentMonth() != TimeManager.getMonthofAdhan(MonthlyPrayerEntities) {
+        if MonthlyPrayerEntities.isEmpty || !TimeManager.isCurrentMonth(MonthlyPrayerEntities.first?.date) {
             print("networking for monthly")
             let monthlyTimes = await FirebaseManager.fetchMonthlyAdhanTimes()
             updateMonthlyAdhanStorage(monthlyTimes)
-
         }
     }
     

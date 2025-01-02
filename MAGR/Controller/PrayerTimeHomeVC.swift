@@ -203,54 +203,70 @@ extension PrayerTimeHomeVC {
 extension PrayerTimeHomeVC {
 
     func prayerTouch(dailyPrayer: DailyPrayer) {
-
-        let prayerVC = PrayerNoticeViewController()
-        var inputs: [String] = []
         
-        switch dailyPrayer.name {
-            case K.DailyPrayerDisplayNames.fajr: inputs = [dailyPrayer.name,K.userDefaults.fajr_adhan_notification, K.userDefaults.fajr_iqama_notification]
-            case K.DailyPrayerDisplayNames.dhuhr: inputs = [dailyPrayer.name,K.userDefaults.dhuhr_adhan_notification, K.userDefaults.dhuhr_iqama_notification]
-            case K.DailyPrayerDisplayNames.asr: inputs = [dailyPrayer.name,K.userDefaults.asr_adhan_notification, K.userDefaults.asr_iqama_notification]
-            case K.DailyPrayerDisplayNames.maghrib: inputs = [dailyPrayer.name,K.userDefaults.maghrib_adhan_notification, K.userDefaults.maghrib_iqama_notification]
-            case K.DailyPrayerDisplayNames.isha: inputs = [dailyPrayer.name,K.userDefaults.isha_adhan_notification, K.userDefaults.isha_iqama_notification]
-            default: print()
+        if DataManager.notificationsEnabled {
+            
+            let prayerVC = PrayerNoticeViewController()
+            var inputs: [String] = []
+            
+            switch dailyPrayer.name {
+                case K.DailyPrayerDisplayNames.fajr: inputs = [dailyPrayer.name,K.userDefaults.fajr_adhan_notification, K.userDefaults.fajr_iqama_notification]
+                case K.DailyPrayerDisplayNames.dhuhr: inputs = [dailyPrayer.name,K.userDefaults.dhuhr_adhan_notification, K.userDefaults.dhuhr_iqama_notification]
+                case K.DailyPrayerDisplayNames.asr: inputs = [dailyPrayer.name,K.userDefaults.asr_adhan_notification, K.userDefaults.asr_iqama_notification]
+                case K.DailyPrayerDisplayNames.maghrib: inputs = [dailyPrayer.name,K.userDefaults.maghrib_adhan_notification, K.userDefaults.maghrib_iqama_notification]
+                case K.DailyPrayerDisplayNames.isha: inputs = [dailyPrayer.name,K.userDefaults.isha_adhan_notification, K.userDefaults.isha_iqama_notification]
+                default: print()
+            }
+            
+            prayerVC.inputs = inputs
+            prayerVC.delegate = self
+            
+            DispatchQueue.main.async { [weak self] in
+                self?.navigationController?.pushViewController(prayerVC, animated: true)
+            }
+            
         }
-        
-        prayerVC.inputs = inputs
-        prayerVC.delegate = self
-        
-        DispatchQueue.main.async { [weak self] in
-            self?.navigationController?.pushViewController(prayerVC, animated: true)
+        else {
+            let alert = UIAlertController(
+                title: "Enable Notifications",
+                message: "Please enable notifications in your device settings nad restart the app to use this feature.",
+                preferredStyle: .alert
+            )
+            alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+            present(alert, animated: true)
         }
     }
     
     func initializeAlarmStatuses() {
-        // Initialize Fajr
-        if DataManager.prayer_notification_preferences[K.userDefaults.fajr_adhan_notification] ?? false ||
-            DataManager.prayer_notification_preferences[K.userDefaults.fajr_iqama_notification] ?? false {
-            fajrView.setAlarmStatus(to: true)
-        } else {fajrView.setAlarmStatus(to: false)}
+        if DataManager.notificationsEnabled {
+            
+            if DataManager.prayer_notification_preferences[K.userDefaults.fajr_adhan_notification] ?? false ||
+                DataManager.prayer_notification_preferences[K.userDefaults.fajr_iqama_notification] ?? false {
+                fajrView.setAlarmStatus(to: true)
+            } else {fajrView.setAlarmStatus(to: false)}
+            
+            
+            if DataManager.prayer_notification_preferences[K.userDefaults.dhuhr_adhan_notification] ?? false ||
+                DataManager.prayer_notification_preferences[K.userDefaults.dhuhr_iqama_notification] ?? false {
+                dhuhrView.setAlarmStatus(to: true)
+            } else {dhuhrView.setAlarmStatus(to: false)}
+            
+            if DataManager.prayer_notification_preferences[K.userDefaults.asr_adhan_notification] ?? false ||
+                DataManager.prayer_notification_preferences[K.userDefaults.asr_iqama_notification] ?? false {
+                asrView.setAlarmStatus(to: true)
+            } else {asrView.setAlarmStatus(to: false)}
+            
+            if DataManager.prayer_notification_preferences[K.userDefaults.maghrib_adhan_notification] ?? false ||
+                DataManager.prayer_notification_preferences[K.userDefaults.maghrib_iqama_notification] ?? false {
+                maghribView.setAlarmStatus(to: true)
+            } else {maghribView.setAlarmStatus(to: false)}
+            
+            if DataManager.prayer_notification_preferences[K.userDefaults.isha_adhan_notification] ?? false ||
+                DataManager.prayer_notification_preferences[K.userDefaults.isha_iqama_notification] ?? false {
+                ishaView.setAlarmStatus(to: true)
+            } else {ishaView.setAlarmStatus(to: false)}
+        }
         
-        
-        if DataManager.prayer_notification_preferences[K.userDefaults.dhuhr_adhan_notification] ?? false ||
-            DataManager.prayer_notification_preferences[K.userDefaults.dhuhr_iqama_notification] ?? false {
-            dhuhrView.setAlarmStatus(to: true)
-        } else {dhuhrView.setAlarmStatus(to: false)}
-        
-        if DataManager.prayer_notification_preferences[K.userDefaults.asr_adhan_notification] ?? false ||
-            DataManager.prayer_notification_preferences[K.userDefaults.asr_iqama_notification] ?? false {
-            asrView.setAlarmStatus(to: true)
-        } else {asrView.setAlarmStatus(to: false)}
-        
-        if DataManager.prayer_notification_preferences[K.userDefaults.maghrib_adhan_notification] ?? false ||
-            DataManager.prayer_notification_preferences[K.userDefaults.maghrib_iqama_notification] ?? false {
-            maghribView.setAlarmStatus(to: true)
-        } else {maghribView.setAlarmStatus(to: false)}
-        
-        if DataManager.prayer_notification_preferences[K.userDefaults.isha_adhan_notification] ?? false ||
-            DataManager.prayer_notification_preferences[K.userDefaults.isha_iqama_notification] ?? false {
-            ishaView.setAlarmStatus(to: true)
-        } else {ishaView.setAlarmStatus(to: false)}
     }
 }
 
