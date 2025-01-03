@@ -226,5 +226,24 @@ class TimeManager {
         return Calendar.current.date(from: Datecomponents)
     }
     
+    /// used in checking if should network for month data
+    static func isCurrentMonth(_ dateString: String?) -> Bool {
+        guard let dateString = dateString else { return false }
+        
+        let formatter = DateFormatter()
+        formatter.dateFormat = "yyyy-MM-dd"
+        
+        guard let date = formatter.date(from: dateString) else { return false }
+        
+        let calendar = Calendar.current
+        let currentMonth = calendar.component(.month, from: Date())
+        let currentYear = calendar.component(.year, from: Date())
+        let entityMonth = calendar.component(.month, from: date)
+        let entityYear = calendar.component(.year, from: date)
+        
+        return currentYear == entityYear && currentMonth == entityMonth
+    }
+    
+    
     private init() {}
 }

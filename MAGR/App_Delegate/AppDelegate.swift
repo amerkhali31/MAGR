@@ -17,9 +17,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         
         // Request Permission for Notifications from user
-        UNUserNotificationCenter.current().requestAuthorization(
-          options: [.alert, .sound, .badge],
-          completionHandler: { _, _ in } )
+        UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .sound, .badge]) { granted, _ in
+                DataManager.notificationsEnabled = granted
+                print("Notifications Enabled: \(DataManager.notificationsEnabled)")
+            }
         
         // Keep the console clean
         setenv("GRPC_VERBOSITY", "NONE", 1)
