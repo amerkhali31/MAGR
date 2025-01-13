@@ -50,6 +50,7 @@
 		86F29B042D350C53000DFFE0 /* OtherNotificationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86F29B032D350C53000DFFE0 /* OtherNotificationViewController.swift */; };
 		86F29B062D351C8F000DFFE0 /* JumaaImageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86F29B052D351C8F000DFFE0 /* JumaaImageViewController.swift */; };
 		86F29B082D351CEA000DFFE0 /* JumaaPopupViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86F29B072D351CEA000DFFE0 /* JumaaPopupViewController.swift */; };
+		86F29B0A2D3523FB000DFFE0 /* FeedbackViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86F29B092D3523FB000DFFE0 /* FeedbackViewController.swift */; };
 		86FF4EE52D0B5BC000C67719 /* BaseBackgroundViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86FF4EE42D0B5BC000C67719 /* BaseBackgroundViewController.swift */; };
 		86FF4EE72D0B5D0700C67719 /* AnnouncementVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86FF4EE62D0B5D0700C67719 /* AnnouncementVC.swift */; };
 		86FF4EE92D0B5D1400C67719 /* PrayerTimeHomeVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86FF4EE82D0B5D1400C67719 /* PrayerTimeHomeVC.swift */; };
@@ -120,6 +121,7 @@
 		86F29B032D350C53000DFFE0 /* OtherNotificationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OtherNotificationViewController.swift; sourceTree = "<group>"; };
 		86F29B052D351C8F000DFFE0 /* JumaaImageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JumaaImageViewController.swift; sourceTree = "<group>"; };
 		86F29B072D351CEA000DFFE0 /* JumaaPopupViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JumaaPopupViewController.swift; sourceTree = "<group>"; };
+		86F29B092D3523FB000DFFE0 /* FeedbackViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedbackViewController.swift; sourceTree = "<group>"; };
 		86FF4EE42D0B5BC000C67719 /* BaseBackgroundViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseBackgroundViewController.swift; sourceTree = "<group>"; };
 		86FF4EE62D0B5D0700C67719 /* AnnouncementVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnnouncementVC.swift; sourceTree = "<group>"; };
 		86FF4EE82D0B5D1400C67719 /* PrayerTimeHomeVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrayerTimeHomeVC.swift; sourceTree = "<group>"; };
@@ -172,6 +174,7 @@
 				869D72572D189DAA006454B9 /* ZoomableImageViewController.swift */,
 				86F29B052D351C8F000DFFE0 /* JumaaImageViewController.swift */,
 				86F29B072D351CEA000DFFE0 /* JumaaPopupViewController.swift */,
+				86F29B092D3523FB000DFFE0 /* FeedbackViewController.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -468,6 +471,7 @@
 				86F29AFC2D344CFA000DFFE0 /* SettingsViewController.swift in Sources */,
 				86BC00D72D0B594800F361D9 /* MainTabController.swift in Sources */,
 				867706382D0B68C400E6A89B /* FirebaseManager.swift in Sources */,
+				86F29B0A2D3523FB000DFFE0 /* FeedbackViewController.swift in Sources */,
 				867706342D0B68B000E6A89B /* Constants.swift in Sources */,
 				869AF3072D0E4CA700B323FD /* PrayerChoiceLabel.swift in Sources */,
 				86A2AB292D0FDE3F00288EFF /* apiKeys.swift in Sources */,

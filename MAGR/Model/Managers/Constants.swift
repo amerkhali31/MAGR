@@ -109,6 +109,17 @@ struct K {
                 }
             }
             
+            struct feedbacks {
+                static let collection_name = "feedbacks"
+                
+                struct feedback {
+                    struct fields {
+                        static let feedback = "feedback"
+                        static let timestamp = "timestamp"
+                    }
+                }
+            }
+            
         }
         
     }

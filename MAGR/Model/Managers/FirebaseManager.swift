@@ -179,6 +179,18 @@ class FirebaseManager {
         }
     }
     
+    static func submitFeedback(submit feedback: String) async throws {
+        
+        let feedbackData = [
+            K.FireStore.Collections.feedbacks.feedback.fields.feedback: feedback,
+            K.FireStore.Collections.feedbacks.feedback.fields.timestamp: "\(Date())"
+        ]
+        
+        try await db.collection(K.FireStore.Collections.feedbacks.collection_name)
+            .addDocument(data: feedbackData)
+        
+    }
+    
     
     private init() {}
 }

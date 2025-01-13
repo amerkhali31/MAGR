@@ -41,12 +41,8 @@ class HomeVC: BaseBackgroundViewController {
         setupContentView()
         setupContent()
         shouldPresent()
-
         
     }
-    
-
-
 }
 
 // MARK: Setup the scroll view
@@ -150,8 +146,11 @@ extension HomeVC {
         donationBox.configure(icon: UIImage(systemName: "dollarsign.circle"), topText: "Donate", bottomText: "Increase in charity")
         donationBox.attachTo(parentView: contentView, topAnchor: contactBox.bottomAnchor, topInset: standardSpace, xInset: standardXinset)
         donationBox.onTouch = {self.donateTouched()}
-        donationBox.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -1).isActive = true
         
+        feedbackBox.configure(icon: UIImage(systemName: "text.bubble"), topText: "Feedback", bottomText: "Tell us how to improve")
+        feedbackBox.attachTo(parentView: contentView, topAnchor: donationBox.bottomAnchor)
+        feedbackBox.onTouch = {self.feedbackTouched()}
+        feedbackBox.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -20).isActive = true
     }
     
     /// Will be used to update the label for the prayer time
@@ -238,6 +237,12 @@ extension HomeVC {
         
         if UIApplication.shared.canOpenURL(url) { UIApplication.shared.open(url, options: [:]) }
     }
+    
+    func feedbackTouched() {
+        DispatchQueue.main.async { [weak self] in
+            self?.present(FeedbackViewController(), animated: true, completion: nil)
+        }
+    }
 
     
 }
@@ -250,7 +255,7 @@ extension HomeVC {
         let calendar = Calendar.current
         let weekday = calendar.component(.weekday, from: currentDate) // Sunday = 1, Monday = 2, etc.
 
-        if weekday == 2 { // Check if it's Monday
+        if weekday == 6 { // Check if it's Monday
             presentJumaaAlert()
         }
     }
