@@ -55,12 +55,15 @@ class PrayerTimeHomeVC: BaseBackgroundViewController {
         monthlyLabel.attachTo(parentView: self.view, topAnchor: todayLabel.topAnchor, lead: todayLabel.trailingAnchor)
         monthlyLabel.onTap = {self.monthTapped()}
 
-        configureTodayView()
+        
         configureMonthView()
+
     }
     
     override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
         
+        configureTodayView()
     }
 
 }
@@ -176,12 +179,13 @@ extension PrayerTimeHomeVC {
         ishaView.attachTo(parentView: todayView, topAnchor: maghribView.bottomAnchor)
         ishaView.onTouch = {self.prayerTouch(dailyPrayer: DataManager.ishaToday)}
         
-        khutbaView.configure(icon: UIImage(systemName: "music.mic"), prayer: DataManager.khutbaToday, show: false, jumaa: true)
+        khutbaView.configure(icon: UIImage(systemName: "music.mic"), prayer: DataManager.khutbaToday, show: true, jumaa: true)
         khutbaView.attachTo(parentView: todayView, topAnchor: ishaView.bottomAnchor, topInset: 50)
+        khutbaView.onTouch = {self.prayerTouch(dailyPrayer: DataManager.khutbaToday)}
         
-        jumaaView.configure(icon: UIImage(systemName: "sun.max"), prayer: DataManager.jumaaToday, show: false, jumaa: true)
+        jumaaView.configure(icon: UIImage(systemName: "sun.max"), prayer: DataManager.jumaaToday, show: true, jumaa: true)
         jumaaView.attachTo(parentView: todayView, topAnchor: khutbaView.bottomAnchor)
-        
+        jumaaView.onTouch = {self.prayerTouch(dailyPrayer: DataManager.khutbaToday)}
         highlightCurrentPrayer()
     }
     
@@ -208,18 +212,22 @@ extension PrayerTimeHomeVC {
             
             let prayerVC = PrayerNoticeViewController()
             var inputs: [String] = []
-            
+            var is_jumaa = false
             switch dailyPrayer.name {
                 case K.DailyPrayerDisplayNames.fajr: inputs = [dailyPrayer.name,K.userDefaults.fajr_adhan_notification, K.userDefaults.fajr_iqama_notification]
                 case K.DailyPrayerDisplayNames.dhuhr: inputs = [dailyPrayer.name,K.userDefaults.dhuhr_adhan_notification, K.userDefaults.dhuhr_iqama_notification]
                 case K.DailyPrayerDisplayNames.asr: inputs = [dailyPrayer.name,K.userDefaults.asr_adhan_notification, K.userDefaults.asr_iqama_notification]
                 case K.DailyPrayerDisplayNames.maghrib: inputs = [dailyPrayer.name,K.userDefaults.maghrib_adhan_notification, K.userDefaults.maghrib_iqama_notification]
                 case K.DailyPrayerDisplayNames.isha: inputs = [dailyPrayer.name,K.userDefaults.isha_adhan_notification, K.userDefaults.isha_iqama_notification]
+                case K.DailyPrayerDisplayNames.jumaa_khutba:
+                    inputs = [dailyPrayer.name,K.userDefaults.jumaa_khutba, K.userDefaults.jumaa_salah]
+                    is_jumaa = true
                 default: print()
             }
             
             prayerVC.inputs = inputs
             prayerVC.delegate = self
+            prayerVC.is_jumaa = is_jumaa
             
             DispatchQueue.main.async { [weak self] in
                 self?.navigationController?.pushViewController(prayerVC, animated: true)
@@ -265,6 +273,14 @@ extension PrayerTimeHomeVC {
                 DataManager.prayer_notification_preferences[K.userDefaults.isha_iqama_notification] ?? false {
                 ishaView.setAlarmStatus(to: true)
             } else {ishaView.setAlarmStatus(to: false)}
+            
+            if DataManager.prayer_notification_preferences[K.userDefaults.jumaa_salah] ?? false {
+                jumaaView.setAlarmStatus(to: true)
+            } else { jumaaView.setAlarmStatus(to: false)}
+            
+            if DataManager.prayer_notification_preferences[K.userDefaults.jumaa_khutba] ?? false {
+                khutbaView.setAlarmStatus(to: true)
+            } else { khutbaView.setAlarmStatus(to: false)}
         }
         
     }
@@ -381,6 +397,7 @@ extension PrayerTimeHomeVC: UITableViewDataSource {
 }
 
 extension PrayerTimeHomeVC: PrayerNoticeViewControllerDelegate {
+    
     func updateAlarmStatus(for prayerName: String, isAdhanEnabled: Bool, isIqamaEnabled: Bool) {
         // Determine the new alarm status based on the rules
         let isAlarmOn = isAdhanEnabled || isIqamaEnabled

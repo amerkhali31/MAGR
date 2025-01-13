@@ -120,8 +120,8 @@ class ContactUsViewController: BaseBackgroundViewController {
 
         let label = UILabel()
         label.attributedText = makeUnderlinedText(text)
-        label.textColor = .tintColor
-        label.font = UIFont(name: "Helvetica Neue", size: 24)
+        label.textColor = .black
+        label.font = UIFont(name: "Helvetica Neue", size: 20)
         label.numberOfLines = 0
         label.isUserInteractionEnabled = true
 
@@ -168,7 +168,7 @@ class ContactUsViewController: BaseBackgroundViewController {
         stackView.layer.borderColor = UIColor.black.cgColor
         stackView.layer.borderWidth = 2
         stackView.backgroundColor = .white
-        stackView.layer.cornerRadius = 5
+        stackView.layer.cornerRadius = 10
     }
 
 
@@ -179,6 +179,7 @@ class ContactUsViewController: BaseBackgroundViewController {
         label.addGestureRecognizer(tap)
         objc_setAssociatedObject(label, &actionKey, action, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
     }
+    
     
     @objc private func handleTap(_ sender: UITapGestureRecognizer) {
         if let label = sender.view as? UILabel,

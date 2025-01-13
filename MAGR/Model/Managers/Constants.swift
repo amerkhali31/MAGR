@@ -150,6 +150,10 @@ struct K {
         static let maghrib_iqama_notification = "maghrib_iqama"
         static let isha_iqama_notification = "isha_iqama"
         
+        static let jumaa_khutba = "jumaa_khutba"
+        static let jumaa_salah = "jumaa_salah"
+        static let membership_renewal = "membership_renewal"
+        
         static let pushNoticeTest = "pushTest"
         static let hadithNumber = "hadithNumber"
     }

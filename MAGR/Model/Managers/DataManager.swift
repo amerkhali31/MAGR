@@ -31,6 +31,9 @@ class DataManager {
         K.userDefaults.maghrib_iqama_notification,
         K.userDefaults.isha_adhan_notification,
         K.userDefaults.isha_iqama_notification,
+        K.userDefaults.jumaa_khutba,
+        K.userDefaults.jumaa_salah,
+        K.userDefaults.membership_renewal
     ]
     static var prayer_notification_preferences: [String: Bool] = [:]
     

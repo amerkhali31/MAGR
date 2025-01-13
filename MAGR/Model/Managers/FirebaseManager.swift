@@ -74,6 +74,7 @@ class FirebaseManager {
     ///Fetch the hadith number from firebase
     ///- Returns: Number as a string so Hadith of The Day has a hadith number to call its api with
     static func fetchHadithNumber() async -> String {
+        
         let query = db.collection(K.FireStore.Collections.hadiths.collection_name)
         do {
             

@@ -43,6 +43,13 @@
 		86BC00D72D0B594800F361D9 /* MainTabController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86BC00D62D0B594800F361D9 /* MainTabController.swift */; };
 		86BC00D92D0B59DC00F361D9 /* adhan.wav in Resources */ = {isa = PBXBuildFile; fileRef = 86BC00D82D0B59DC00F361D9 /* adhan.wav */; };
 		86C7F7F72D1B9E5900ACADC3 /* PrayerNoticeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86C7F7F62D1B9E5900ACADC3 /* PrayerNoticeViewController.swift */; };
+		86F29AFC2D344CFA000DFFE0 /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86F29AFB2D344CFA000DFFE0 /* SettingsViewController.swift */; };
+		86F29AFE2D3456F3000DFFE0 /* SettingsBox.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86F29AFD2D3456F3000DFFE0 /* SettingsBox.swift */; };
+		86F29B002D34D85C000DFFE0 /* iqama.wav in Resources */ = {isa = PBXBuildFile; fileRef = 86F29AFF2D34D85C000DFFE0 /* iqama.wav */; };
+		86F29B022D34FB1A000DFFE0 /* NotificationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86F29B012D34FB1A000DFFE0 /* NotificationView.swift */; };
+		86F29B042D350C53000DFFE0 /* OtherNotificationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86F29B032D350C53000DFFE0 /* OtherNotificationViewController.swift */; };
+		86F29B062D351C8F000DFFE0 /* JumaaImageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86F29B052D351C8F000DFFE0 /* JumaaImageViewController.swift */; };
+		86F29B082D351CEA000DFFE0 /* JumaaPopupViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86F29B072D351CEA000DFFE0 /* JumaaPopupViewController.swift */; };
 		86FF4EE52D0B5BC000C67719 /* BaseBackgroundViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86FF4EE42D0B5BC000C67719 /* BaseBackgroundViewController.swift */; };
 		86FF4EE72D0B5D0700C67719 /* AnnouncementVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86FF4EE62D0B5D0700C67719 /* AnnouncementVC.swift */; };
 		86FF4EE92D0B5D1400C67719 /* PrayerTimeHomeVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86FF4EE82D0B5D1400C67719 /* PrayerTimeHomeVC.swift */; };
@@ -106,6 +113,13 @@
 		86BC00D62D0B594800F361D9 /* MainTabController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTabController.swift; sourceTree = "<group>"; };
 		86BC00D82D0B59DC00F361D9 /* adhan.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = adhan.wav; sourceTree = "<group>"; };
 		86C7F7F62D1B9E5900ACADC3 /* PrayerNoticeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrayerNoticeViewController.swift; sourceTree = "<group>"; };
+		86F29AFB2D344CFA000DFFE0 /* SettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
+		86F29AFD2D3456F3000DFFE0 /* SettingsBox.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsBox.swift; sourceTree = "<group>"; };
+		86F29AFF2D34D85C000DFFE0 /* iqama.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = iqama.wav; sourceTree = "<group>"; };
+		86F29B012D34FB1A000DFFE0 /* NotificationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationView.swift; sourceTree = "<group>"; };
+		86F29B032D350C53000DFFE0 /* OtherNotificationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OtherNotificationViewController.swift; sourceTree = "<group>"; };
+		86F29B052D351C8F000DFFE0 /* JumaaImageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JumaaImageViewController.swift; sourceTree = "<group>"; };
+		86F29B072D351CEA000DFFE0 /* JumaaPopupViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JumaaPopupViewController.swift; sourceTree = "<group>"; };
 		86FF4EE42D0B5BC000C67719 /* BaseBackgroundViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseBackgroundViewController.swift; sourceTree = "<group>"; };
 		86FF4EE62D0B5D0700C67719 /* AnnouncementVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnnouncementVC.swift; sourceTree = "<group>"; };
 		86FF4EE82D0B5D1400C67719 /* PrayerTimeHomeVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrayerTimeHomeVC.swift; sourceTree = "<group>"; };
@@ -151,9 +165,13 @@
 				86FF4EEA2D0B5D2200C67719 /* HomeVC.swift */,
 				86FF4EEE2D0B5D3C00C67719 /* LoadVC.swift */,
 				86BC00D62D0B594800F361D9 /* MainTabController.swift */,
+				86F29B032D350C53000DFFE0 /* OtherNotificationViewController.swift */,
 				86C7F7F62D1B9E5900ACADC3 /* PrayerNoticeViewController.swift */,
 				86FF4EE82D0B5D1400C67719 /* PrayerTimeHomeVC.swift */,
+				86F29AFB2D344CFA000DFFE0 /* SettingsViewController.swift */,
 				869D72572D189DAA006454B9 /* ZoomableImageViewController.swift */,
+				86F29B052D351C8F000DFFE0 /* JumaaImageViewController.swift */,
+				86F29B072D351CEA000DFFE0 /* JumaaPopupViewController.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -169,6 +187,8 @@
 				868C822B2D0CA9B100D4DA3F /* PrayerView.swift */,
 				869AF3062D0E4CA700B323FD /* PrayerChoiceLabel.swift */,
 				869AF30C2D0E70A500B323FD /* MonthlyPrayerCell.swift */,
+				86F29AFD2D3456F3000DFFE0 /* SettingsBox.swift */,
+				86F29B012D34FB1A000DFFE0 /* NotificationView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -274,6 +294,7 @@
 			isa = PBXGroup;
 			children = (
 				86BC00D82D0B59DC00F361D9 /* adhan.wav */,
+				86F29AFF2D34D85C000DFFE0 /* iqama.wav */,
 			);
 			path = Sounds;
 			sourceTree = "<group>";
@@ -392,6 +413,7 @@
 			files = (
 				866701252D0A4DAA00D19EAD /* LaunchScreen.storyboard in Resources */,
 				864F84762D0B56AA00FDD081 /* GoogleService-Info.plist in Resources */,
+				86F29B002D34D85C000DFFE0 /* iqama.wav in Resources */,
 				866701222D0A4DAA00D19EAD /* Assets.xcassets in Resources */,
 				86BC00D92D0B59DC00F361D9 /* adhan.wav in Resources */,
 				8667011D2D0A4DA900D19EAD /* Main.storyboard in Resources */,
@@ -425,13 +447,16 @@
 				86A2AB2D2D0FE84E00288EFF /* HadithViewController.swift in Sources */,
 				867706362D0B68BB00E6A89B /* DataManager.swift in Sources */,
 				867706302D0B646F00E6A89B /* FirebaseAnnouncement.swift in Sources */,
+				86F29AFE2D3456F3000DFFE0 /* SettingsBox.swift in Sources */,
 				8671B4852D1FBFD600B5FC58 /* FirebaseDailyPrayerTimes.swift in Sources */,
+				86F29B062D351C8F000DFFE0 /* JumaaImageViewController.swift in Sources */,
 				86A2AB272D0FDD5300288EFF /* HadithApiManager.swift in Sources */,
 				86FF4EEB2D0B5D2200C67719 /* HomeVC.swift in Sources */,
 				869AF30D2D0E70A500B323FD /* MonthlyPrayerCell.swift in Sources */,
 				867706402D0BC84C00E6A89B /* DailyPrayer.swift in Sources */,
 				86A2AB252D0FDBCC00288EFF /* Hadiths.swift in Sources */,
 				86FF4EEF2D0B5D3C00C67719 /* LoadVC.swift in Sources */,
+				86F29B022D34FB1A000DFFE0 /* NotificationView.swift in Sources */,
 				869D72582D189DAA006454B9 /* ZoomableImageViewController.swift in Sources */,
 				866701202D0A4DA900D19EAD /* MAGR.xcdatamodeld in Sources */,
 				866701162D0A4DA900D19EAD /* AppDelegate.swift in Sources */,
@@ -439,6 +464,8 @@
 				8677063C2D0B68E700E6A89B /* PrayerManager.swift in Sources */,
 				86FF4EE52D0B5BC000C67719 /* BaseBackgroundViewController.swift in Sources */,
 				86FF4EE72D0B5D0700C67719 /* AnnouncementVC.swift in Sources */,
+				86F29B042D350C53000DFFE0 /* OtherNotificationViewController.swift in Sources */,
+				86F29AFC2D344CFA000DFFE0 /* SettingsViewController.swift in Sources */,
 				86BC00D72D0B594800F361D9 /* MainTabController.swift in Sources */,
 				867706382D0B68C400E6A89B /* FirebaseManager.swift in Sources */,
 				867706342D0B68B000E6A89B /* Constants.swift in Sources */,
@@ -448,6 +475,7 @@
 				86A2AB2F2D0FF8A100288EFF /* ContactUsViewController.swift in Sources */,
 				868C822A2D0C99CA00D4DA3F /* HomeBox.swift in Sources */,
 				8671B4872D1FC19C00B5FC58 /* FirebaseOneDayAdhanTimes.swift in Sources */,
+				86F29B082D351CEA000DFFE0 /* JumaaPopupViewController.swift in Sources */,
 				8677063E2D0B68EF00E6A89B /* TimeManager.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
