@@ -278,7 +278,7 @@ extension HomeVC {
         alertController.addAction(yesAction)
         alertController.addAction(notNowAction)
 
-        present(alertController, animated: true, completion: nil)
+        AlertManager.shared.addAlert(alertController)
     }
     
     private func presentJumaaImageScreen() {

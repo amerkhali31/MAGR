@@ -313,7 +313,7 @@ extension DataManager {
     static func handleDaily() async {
         
         //Situation where need to network
-        if TodayPrayerEntities == nil || !Calendar.current.isDate(dateOfLastNetwork, inSameDayAs: Date()) {
+        if TodayPrayerEntities == nil || !Calendar.current.isDate(dateOfLastNetwork, equalTo: Date(), toGranularity: .hour) {
             print("Networking for today entities")
             
             let prayerTimes = await FirebaseManager.fetchTodayPrayerTimes()
