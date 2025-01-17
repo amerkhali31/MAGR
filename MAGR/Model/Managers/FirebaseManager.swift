@@ -74,6 +74,7 @@ class FirebaseManager {
     ///Fetch the hadith number from firebase
     ///- Returns: Number as a string so Hadith of The Day has a hadith number to call its api with
     static func fetchHadithNumber() async -> String {
+        
         let query = db.collection(K.FireStore.Collections.hadiths.collection_name)
         do {
             
@@ -176,6 +177,18 @@ class FirebaseManager {
             if let error = error {print("Failed to unsubscripe to \(topic) : \(error)")}
             else {print("Successfully unsubscribed to \(topic)")}
         }
+    }
+    
+    static func submitFeedback(submit feedback: String) async throws {
+        
+        let feedbackData = [
+            K.FireStore.Collections.feedbacks.feedback.fields.feedback: feedback,
+            K.FireStore.Collections.feedbacks.feedback.fields.timestamp: "\(Date())"
+        ]
+        
+        try await db.collection(K.FireStore.Collections.feedbacks.collection_name)
+            .addDocument(data: feedbackData)
+        
     }
     
     

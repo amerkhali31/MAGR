@@ -9,6 +9,8 @@ import UIKit
 
 class HomeVC: BaseBackgroundViewController {
     
+    var onYesTapped: (() -> Void)?
+    
     // Views
     let scrollView = UIScrollView()
     let contentView = UIView()
@@ -30,6 +32,7 @@ class HomeVC: BaseBackgroundViewController {
     let contactBox = HomeBox()
     let donationBox = HomeBox()
     let qiblaBox = HomeBox()
+    let feedbackBox = HomeBox()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -37,11 +40,9 @@ class HomeVC: BaseBackgroundViewController {
         setupScrollView()
         setupContentView()
         setupContent()
+        shouldPresent()
         
     }
-    
-
-
 }
 
 // MARK: Setup the scroll view
@@ -145,8 +146,11 @@ extension HomeVC {
         donationBox.configure(icon: UIImage(systemName: "dollarsign.circle"), topText: "Donate", bottomText: "Increase in charity")
         donationBox.attachTo(parentView: contentView, topAnchor: contactBox.bottomAnchor, topInset: standardSpace, xInset: standardXinset)
         donationBox.onTouch = {self.donateTouched()}
-        donationBox.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -1).isActive = true
         
+        feedbackBox.configure(icon: UIImage(systemName: "text.bubble"), topText: "Feedback", bottomText: "Tell us how to improve")
+        feedbackBox.attachTo(parentView: contentView, topAnchor: donationBox.bottomAnchor)
+        feedbackBox.onTouch = {self.feedbackTouched()}
+        feedbackBox.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -20).isActive = true
     }
     
     /// Will be used to update the label for the prayer time
@@ -233,7 +237,54 @@ extension HomeVC {
         
         if UIApplication.shared.canOpenURL(url) { UIApplication.shared.open(url, options: [:]) }
     }
+    
+    func feedbackTouched() {
+        DispatchQueue.main.async { [weak self] in
+            self?.present(FeedbackViewController(), animated: true, completion: nil)
+        }
+    }
 
     
 }
 
+// MARK: Jumaa Handling
+extension HomeVC {
+    
+    private func shouldPresent() {
+        let currentDate = Date()
+        let calendar = Calendar.current
+        let weekday = calendar.component(.weekday, from: currentDate) // Sunday = 1, Monday = 2, etc.
+
+        if weekday == 6 { // Check if it's Monday
+            presentJumaaAlert()
+        }
+    }
+    
+    private func presentJumaaAlert() {
+        let alertController = UIAlertController(
+            title: "Jumaa Mubarak!",
+            message: "Learn the Jumaa Sunnah",
+            preferredStyle: .alert
+        )
+
+        // "Yes" action
+        let yesAction = UIAlertAction(title: "Yes", style: .default) { [weak self] _ in
+            self?.presentJumaaImageScreen()
+        }
+
+        // "Not Now" action
+        let notNowAction = UIAlertAction(title: "Not Now", style: .cancel, handler: nil)
+
+        alertController.addAction(yesAction)
+        alertController.addAction(notNowAction)
+
+        present(alertController, animated: true, completion: nil)
+    }
+    
+    private func presentJumaaImageScreen() {
+        DispatchQueue.main.async { [weak self] in
+            self?.present(JumaaImageViewController(), animated: true, completion: nil)
+        }
+    }
+
+}

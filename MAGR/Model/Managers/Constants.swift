@@ -109,6 +109,17 @@ struct K {
                 }
             }
             
+            struct feedbacks {
+                static let collection_name = "feedbacks"
+                
+                struct feedback {
+                    struct fields {
+                        static let feedback = "feedback"
+                        static let timestamp = "timestamp"
+                    }
+                }
+            }
+            
         }
         
     }
@@ -149,6 +160,10 @@ struct K {
         static let asr_iqama_notification = "asr_iqama"
         static let maghrib_iqama_notification = "maghrib_iqama"
         static let isha_iqama_notification = "isha_iqama"
+        
+        static let jumaa_khutba = "jumaa_khutba"
+        static let jumaa_salah = "jumaa_salah"
+        static let membership_renewal = "membership_renewal"
         
         static let pushNoticeTest = "pushTest"
         static let hadithNumber = "hadithNumber"

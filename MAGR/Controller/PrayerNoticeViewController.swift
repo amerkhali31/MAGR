@@ -15,22 +15,14 @@ protocol PrayerNoticeViewControllerDelegate {
 class PrayerNoticeViewController: BaseBackgroundViewController {
     
     var delegate: PrayerNoticeViewControllerDelegate?
-    
     var prayerName: String = ""
     var adhan_bool: Bool = false
     var iqama_bool: Bool = false
     var adhan_field_name: String = ""
     var iqama_field_name: String = ""
     
-    var fieldName = ""
-    var isAdhanSwitch: Bool = false
-    var newValue: Bool = false
-    
-    // Passed name of Prayer, Name of Firebase users_to_notify for adhan Document and iqama Document
     var inputs: [String]?
-    
-    private let adhan_switch = UISwitch()
-    private let iqama_switch = UISwitch()
+    var is_jumaa: Bool = false
     
     private let titleLabel: UILabel = {
         let label = UILabel()
@@ -43,26 +35,21 @@ class PrayerNoticeViewController: BaseBackgroundViewController {
     }()
     
     override func viewDidLoad() {
-        
         super.viewDidLoad()
-                
         processInputs()
         setupUI()
-        
-        
     }
     
     private func processInputs() {
+        
         if let safeInputs = inputs {
             
             prayerName = safeInputs[0]
-            
             adhan_field_name = safeInputs[1]
             iqama_field_name = safeInputs[2]
             
             adhan_bool = DataManager.prayer_notification_preferences[adhan_field_name] ?? false
             iqama_bool = DataManager.prayer_notification_preferences[iqama_field_name] ?? false
-            
         }
     }
     
@@ -73,23 +60,37 @@ class PrayerNoticeViewController: BaseBackgroundViewController {
         view.addSubview(titleLabel)
         titleLabel.translatesAutoresizingMaskIntoConstraints = false
         
-        // Create and add Adhan and Iqama views
-        let adhanView = createNotificationView(
-            title: "Adhan Notifications",
-            description: "Set notifications for \(prayerName) adhan.",
-            Switch: adhan_switch
-        )
-        adhan_switch.isOn = adhan_bool
-        adhan_switch.addTarget(self, action: #selector(handleSwitchToggle(_:)), for: .touchUpInside)
+        // Create and add Adhan NotificationView
+        let adhanView = NotificationView()
         
-        let iqamaView = createNotificationView(
-            title: "Iqama Notifications",
-            description: "Set notifications for 15 minutes before \(prayerName) iqama.",
-            Switch: iqama_switch
-        )
-        iqama_switch.isOn = iqama_bool
-        iqama_switch.addTarget(self, action: #selector(handleSwitchToggle(_:)), for: .touchUpInside)
-
+        
+        // Create and add Iqama NotificationView
+        let iqamaView = NotificationView()
+        
+        if is_jumaa {
+            adhanView.titleLabel.text = "Khutba Notifications"
+            adhanView.descriptionLabel.text = "Set Notifcations for 1 Hour before Jumaa Khutba"
+            adhanView.switchControl.isOn = adhan_bool
+            
+            iqamaView.titleLabel.text = "Salah Notifications"
+            iqamaView.descriptionLabel.text = "Set Notifcations for 1 Hour before Jumaa Salah"
+            iqamaView.switchControl.isOn = iqama_bool
+        }
+        else {
+            adhanView.titleLabel.text = "Adhan Notifications"
+            adhanView.descriptionLabel.text = "Set Notifcations for \(prayerName) adhan"
+            adhanView.switchControl.isOn = adhan_bool
+            
+            iqamaView.titleLabel.text = "Iqama Notifications"
+            iqamaView.descriptionLabel.text = "Set Notifcations for 20 Minutes before \(prayerName) iqama"
+            iqamaView.switchControl.isOn = iqama_bool
+        }
+        
+        adhanView.switchValueChanged = { [weak self] isOn in self?.handleSwitchToggle(isAdhanSwitch: true, newValue: isOn) }
+        iqamaView.switchValueChanged = { [weak self] isOn in self?.handleSwitchToggle(isAdhanSwitch: false, newValue: isOn) }
+        
+        
+        // Add views to the hierarchy
         view.addSubview(adhanView)
         view.addSubview(iqamaView)
         
@@ -114,72 +115,16 @@ class PrayerNoticeViewController: BaseBackgroundViewController {
         ])
     }
     
-    @objc private func handleSwitchToggle(_ sender: UISwitch) {
+    private func handleSwitchToggle(isAdhanSwitch: Bool, newValue: Bool) {
+        let fieldName = isAdhanSwitch ? adhan_field_name : iqama_field_name
         
-        // Boolean representing whether sender is adhan switch or not
-        isAdhanSwitch = sender == adhan_switch
+        if newValue {
+            FirebaseManager.subscribeToTopic(topic: fieldName)
+        } else {
+            FirebaseManager.unsubscribeToTopic(topic: fieldName)
+        }
         
-        // set field name to adhan_field_name if sender was adhan switch or iqama_field_name if it wasnt
-        fieldName = isAdhanSwitch ? adhan_field_name : iqama_field_name
-        
-        // Get the value of the switch to give to firebase
-        newValue = sender.isOn
-        
-        if newValue { FirebaseManager.subscribeToTopic(topic: fieldName)}
-        else {FirebaseManager.unsubscribeToTopic(topic: fieldName)}
-        
-        delegate?.updateAlarmStatus(for: prayerName, isAdhanEnabled: adhan_switch.isOn, isIqamaEnabled: iqama_switch.isOn)
+        delegate?.updateAlarmStatus(for: prayerName, isAdhanEnabled: isAdhanSwitch ? newValue : adhan_bool, isIqamaEnabled: isAdhanSwitch ? iqama_bool : newValue)
         DataManager.setSingleUserPreference(fieldName, newValue)
-        //FirebaseManager.updateUsersToNotify(Set: fieldName, To: newValue)
-        
-        
-
     }
-
-    
-    private func createNotificationView(title: String, description: String, Switch: UISwitch) -> UIView {
-        let containerView = UIView()
-        containerView.backgroundColor = .white
-        containerView.layer.cornerRadius = 10
-        containerView.layer.borderColor = UIColor.black.cgColor
-        containerView.layer.borderWidth = 1
-        
-        let titleLabel = UILabel()
-        titleLabel.text = title
-        titleLabel.textAlignment = .center
-        titleLabel.font = UIFont.boldSystemFont(ofSize: 16)
-        titleLabel.textColor = .black
-        
-        let descriptionLabel = UILabel()
-        descriptionLabel.text = description
-        descriptionLabel.textAlignment = .center
-        descriptionLabel.font = UIFont.systemFont(ofSize: 14)
-        descriptionLabel.textColor = .black
-        
-        let switchControl = Switch
-        
-        containerView.addSubview(titleLabel)
-        containerView.addSubview(descriptionLabel)
-        containerView.addSubview(switchControl)
-        
-        titleLabel.translatesAutoresizingMaskIntoConstraints = false
-        descriptionLabel.translatesAutoresizingMaskIntoConstraints = false
-        switchControl.translatesAutoresizingMaskIntoConstraints = false
-        
-        NSLayoutConstraint.activate([
-            titleLabel.topAnchor.constraint(equalTo: containerView.topAnchor, constant: 10),
-            titleLabel.leadingAnchor.constraint(equalTo: containerView.leadingAnchor, constant: 10),
-            titleLabel.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: -10),
-            
-            descriptionLabel.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 5),
-            descriptionLabel.leadingAnchor.constraint(equalTo: containerView.leadingAnchor, constant: 10),
-            descriptionLabel.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: -10),
-            
-            switchControl.topAnchor.constraint(equalTo: descriptionLabel.bottomAnchor, constant: 10),
-            switchControl.centerXAnchor.constraint(equalTo: containerView.centerXAnchor)
-        ])
-        
-        return containerView
-    }
-    
 }
