@@ -18,6 +18,8 @@ class HadithViewController: BaseBackgroundViewController {
     private let narratorLabel = UILabel()
     private let hadithNumberLabel = UILabel()
     private let hadithLabel = UILabel()
+    private let arabicLabel = UILabel() // New label
+
     private let bookLabel = UILabel()
     private let chapterLabel = UILabel()
     private let volumeLabel = UILabel()
@@ -30,6 +32,7 @@ class HadithViewController: BaseBackgroundViewController {
     private var book: String = ""
     private var chapter: String = ""
     private var volume: String = ""
+    private var arabicHadith: String = ""
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -51,6 +54,7 @@ class HadithViewController: BaseBackgroundViewController {
         book = safeHadith?.bookSlug ?? "Book N/A"
         chapter = safeHadith?.chapter?.chapterEnglish ?? "Chapter N/A"
         volume = safeHadith?.volume ?? "Volume N/A"
+        arabicHadith = safeHadith?.hadithArabic ?? "Arabic N/A"
     }
     
     func setupLabels() {
@@ -87,13 +91,30 @@ class HadithViewController: BaseBackgroundViewController {
         hadithLabel.textColor = .white
         contentView.addSubview(hadithLabel)
         
+        // Add the additional label to the content view
+        arabicLabel.text = arabicHadith
+        arabicLabel.numberOfLines = 0 // Allow unlimited lines
+        arabicLabel.translatesAutoresizingMaskIntoConstraints = false
+        arabicLabel.textColor = .white
+        arabicLabel.font = UIFont.systemFont(ofSize: 15)
+        contentView.addSubview(arabicLabel)
+        
+        // Constraints for the hadithLabel
         NSLayoutConstraint.activate([
             hadithLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 10),
             hadithLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 10),
-            hadithLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -10),
-            hadithLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -10)
+            hadithLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -10)
+        ])
+        
+        // Constraints for thearabicLabel
+        NSLayoutConstraint.activate([
+           arabicLabel.topAnchor.constraint(equalTo: hadithLabel.bottomAnchor, constant: 10),
+           arabicLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 10),
+           arabicLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -10),
+           arabicLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -10) // Anchor contentView bottom
         ])
     }
+
     
     func initLabel(_ label: UILabel, _ below: NSLayoutYAxisAnchor, rows: Int = 0, height: CGFloat = 21, yInset: CGFloat = 20) {
         view.addSubview(label)

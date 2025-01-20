@@ -40,6 +40,7 @@ struct Hadith: Codable {
     let volume: String?
     let status: String?
     let chapter: Chapter?
+    let hadithArabic: String?
 }
 
 struct Chapter: Codable {

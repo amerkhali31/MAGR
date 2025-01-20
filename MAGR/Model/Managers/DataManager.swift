@@ -36,6 +36,7 @@ class DataManager {
         K.userDefaults.membership_renewal
     ]
     static var prayer_notification_preferences: [String: Bool] = [:]
+    static var fontSizePreference: String = "Small"
     
     // MARK: Setting Up Persistent Storage
     private static let persistentContianer = (UIApplication.shared.delegate as! AppDelegate).persistentContainer
@@ -313,7 +314,7 @@ extension DataManager {
     static func handleDaily() async {
         
         //Situation where need to network
-        if TodayPrayerEntities == nil || !Calendar.current.isDate(dateOfLastNetwork, inSameDayAs: Date()) {
+        if TodayPrayerEntities == nil || !Calendar.current.isDate(dateOfLastNetwork, equalTo: Date(), toGranularity: .hour) {
             print("Networking for today entities")
             
             let prayerTimes = await FirebaseManager.fetchTodayPrayerTimes()

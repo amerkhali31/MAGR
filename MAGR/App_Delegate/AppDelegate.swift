@@ -13,7 +13,7 @@ import FirebaseMessaging
 
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterDelegate {
-        
+            
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         
         // Request Permission for Notifications from user
@@ -38,6 +38,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         return true
     }
     
+    func applicationDidBecomeActive(_ application: UIApplication) {
+        // Possibly trigger the checkForUpdates() here instead,
+        // ensuring the UI is ready.
+    }
+
     
     // MARK: Push Notice
     

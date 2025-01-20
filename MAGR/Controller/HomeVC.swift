@@ -254,8 +254,13 @@ extension HomeVC {
         let currentDate = Date()
         let calendar = Calendar.current
         let weekday = calendar.component(.weekday, from: currentDate) // Sunday = 1, Monday = 2, etc.
+        let currentHour = calendar.component(.hour, from: currentDate)
+        let currentMinute = calendar.component(.minute, from: currentDate)
+        let rawJumaaTime = TimeManager.createDateFromTime(DataManager.jumaaToday.iqama)
+        let jumaaHour = calendar.component(.hour, from: rawJumaaTime ?? Date())
+        let jumaaMinute = calendar.component(.minute, from: rawJumaaTime ?? Date())
 
-        if weekday == 6 { // Check if it's Monday
+        if weekday == 6 && currentHour <= jumaaHour && currentMinute <= jumaaMinute { // Check if it's Monday
             presentJumaaAlert()
         }
     }
@@ -278,7 +283,7 @@ extension HomeVC {
         alertController.addAction(yesAction)
         alertController.addAction(notNowAction)
 
-        present(alertController, animated: true, completion: nil)
+        AlertManager.shared.addAlert(alertController)
     }
     
     private func presentJumaaImageScreen() {
