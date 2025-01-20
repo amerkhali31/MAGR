@@ -41,7 +41,7 @@ class NotificationView: UIView {
         descriptionLabel.textAlignment = .center
         descriptionLabel.font = UIFont.systemFont(ofSize: 14)
         descriptionLabel.textColor = .black
-        
+        descriptionLabel.adjustsFontSizeToFitWidth = true
         // Configure switchControl
         switchControl.isOn = isSwitchOn
         switchControl.addTarget(self, action: #selector(switchToggled), for: .valueChanged)

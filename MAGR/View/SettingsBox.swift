@@ -51,7 +51,7 @@ class SettingsBox: UIView {
         descriptionLabel.textAlignment = .center
         descriptionLabel.font = UIFont.systemFont(ofSize: 14)
         descriptionLabel.textColor = .black
-        
+        descriptionLabel.adjustsFontSizeToFitWidth = true
         self.addSubview(titleLabel)
         self.addSubview(descriptionLabel)
         

@@ -36,6 +36,7 @@ class DataManager {
         K.userDefaults.membership_renewal
     ]
     static var prayer_notification_preferences: [String: Bool] = [:]
+    static var fontSizePreference: String = "Small"
     
     // MARK: Setting Up Persistent Storage
     private static let persistentContianer = (UIApplication.shared.delegate as! AppDelegate).persistentContainer

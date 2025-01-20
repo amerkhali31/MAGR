@@ -167,6 +167,15 @@ struct K {
         
         static let pushNoticeTest = "pushTest"
         static let hadithNumber = "hadithNumber"
+        
+        static let fontSizePreference = "fontSizePreference"
+        
+    }
+    
+    struct fontSizes {
+        static let smallSize = "small"
+        static let mediumSize = "medium"
+        static let largeSize = "large"
     }
     
     /// Names of images saved to assets

@@ -10,7 +10,7 @@ import UIKit
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     
     var window: UIWindow?
-    
+    var giveChoice: Bool = true
     
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
         // Use this method to optionally configure and attach the UIWindow `window` to the provided UIWindowScene `scene`.
@@ -67,9 +67,14 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             do {
                 if let json = try JSONSerialization.jsonObject(with: data, options: []) as? [String: Any],
                    let results = json["results"] as? [[String: Any]],
-                   let appStoreVersion = results.first?["version"] as? String {
+                   var appStoreVersion = results.first?["version"] as? String {
 
-                    // Compare the current version with the App Store version
+                    let appStoreDouble = Double(appStoreVersion) ?? 10.0
+                    let currentDouble = Double(currentVersion) ?? 20.0
+                    let difference = appStoreDouble - currentDouble
+
+                    if difference >= 1 {self.giveChoice = false }
+
                     if appStoreVersion.compare(currentVersion, options: .numeric) == .orderedDescending {
                         DispatchQueue.main.async {
                             print("Need to update")
@@ -98,7 +103,8 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             }
         })
         
-        alert.addAction(UIAlertAction(title: "Later", style: .cancel))
+        if giveChoice { alert.addAction(UIAlertAction(title: "Later", style: .cancel)) }
+        
         
         AlertManager.shared.addAlert(alert)
     }

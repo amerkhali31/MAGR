@@ -40,10 +40,6 @@ class PrayerView: UIView {
     private func setupView() {
         self.layer.borderWidth = 2
         self.layer.cornerRadius = 20
-        self.layer.shadowColor = UIColor.black.cgColor
-        self.layer.shadowOpacity = 0.5
-        self.layer.shadowOffset = CGSize(width: 4, height: 4)
-        self.layer.shadowRadius = 5
         self.layer.borderColor = UIColor.black.cgColor
         self.backgroundColor = .clear
         self.translatesAutoresizingMaskIntoConstraints = false
